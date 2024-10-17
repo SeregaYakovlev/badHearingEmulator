@@ -36,9 +36,9 @@ body[theme="night"] .theme-icon.moon {
 }
 
 .theme-icon.sun {
-    background-image: url('/images/sun.svg');
+    background-image: url('../images/sun.svg');
 }
 
 .theme-icon.moon {
-    background-image: url('/images/moon.svg');
+    background-image: url('../images/moon.svg');
 }
