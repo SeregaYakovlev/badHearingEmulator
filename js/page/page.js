@@ -8,7 +8,7 @@ class Page {
 
     async init() {
         // Загружаем JSON-файл с переводами
-        let response = await fetch('/languages/translations.json');
+        let response = await fetch('languages/translations.json');
 
         // Проверяем, что ответ был успешным
         if (!response.ok) {
@@ -21,7 +21,7 @@ class Page {
         // Сохраняем переводы в глобальной области window
         window.translations = data.translations;
 
-        let response2 = await fetch('/languages/supported_languages.json');
+        let response2 = await fetch('languages/supported_languages.json');
         if (!response2.ok) {
             throw new Error('Response was not ok');
         }
