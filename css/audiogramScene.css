@@ -1,0 +1,79 @@
+.audiogramScene {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Расстояние между элементами */
+    align-items: center;
+}
+
+.audiogramContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.audiogramCaptionDiv {
+    display: flex;
+    justify-content: center;  /* Центрирование по горизонтали */
+    align-items: center;      /* Центрирование по вертикали */
+    text-align: center;       /* Центрирование текста внутри элемента */
+}
+
+body[theme="day"] .audiogramCaptionDiv {
+    background-color: wheat;
+}
+
+body[theme="night"] .audiogramCaptionDiv {
+    background-color: #5e452b;
+}
+
+body[theme="day"] .audiogramScene p,
+body[theme="day"] .audiogramScene span {
+    color: black;
+}
+
+body[theme="night"] .audiogramScene p,
+body[theme="night"] .audiogramScene span {
+    color: #d3af86;
+}
+
+.audiogramCaptionDiv span {
+    font-size: 18px;
+    font-weight: bold; /* Сделать текст жирным */
+}
+
+.audiogramBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 360px;
+    aspect-ratio: 1;
+}
+
+.audioGramBtnContainer {
+    display: flex;
+    gap: 10px; /* Расстояние между кнопками */
+    justify-content: center; /* Центрируем кнопки по горизонтали */
+    align-items: center; /* Центрируем кнопки по вертикали */
+}
+
+.audiogramScene button {
+    box-sizing: border-box;
+    border: none; /* Убираем границу */
+    padding: 5px 10px; /* Внутренние отступы */
+    border-radius: 5px; /* Скругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    font-size: 15px;
+}
+
+body[theme="day"] .audiogramScene button  {
+    background-color: #6B8E23; /* Цвет фона */
+    color: white; /* Цвет текста */
+}
+
+body[theme="night"] .audiogramScene button {
+    background-color: #362712; /* Цвет фона */
+    color: #d3af86; /* Цвет текста */
+}
+
+.audiogramScene p, .audiogramScene span {
+    font-size: 15px; /* Размер текста */
+}

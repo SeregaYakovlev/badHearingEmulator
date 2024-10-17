@@ -1,0 +1,125 @@
+.mediaPlayerScene {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Расстояние между элементами */
+    align-items: center;
+}
+
+.mediaPlayerBox {
+    width: 100%;
+    height: 100%;
+    max-width: 640px;
+    max-height: 480px;
+}
+
+.mediaPlayerScene .mediaPlayerBox, .mediaPlayerScene .soundVisualizationBox {
+    order: 0;
+}
+
+.mediaPlayerScene .frequencySliderBox {
+    order: 1;
+}
+
+.mediaPlayerScene .actionsBox {
+    order: 2;
+}
+
+.mediaPlayerBtnContainer {
+    display: flex;
+    gap: 10px;
+    /* Расстояние между кнопками */
+    justify-content: center;
+    /* Центрируем кнопки по горизонтали */
+    align-items: center;
+    /* Центрируем кнопки по вертикали */
+}
+
+.mediaPlayerBtnContainer button {
+    box-sizing: border-box;
+    border: none; /* Убираем границу */
+    padding: 5px 10px; /* Внутренние отступы */
+    border-radius: 5px; /* Скругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    font-size: 15px;
+}
+
+body[theme="day"] .mediaPlayerBtnContainer button  {
+    background-color: #6B8E23; /* Цвет фона */
+    color: white; /* Цвет текста */
+}
+
+body[theme="night"] .mediaPlayerBtnContainer button {
+    background-color: #362712; /* Цвет фона */
+    color: #d3af86; /* Цвет текста */
+}
+
+.frequencySliderBox {
+    width: 100%;
+    max-width: 640px;
+}
+
+.frequencySliderBox .frequencyLabel {
+    text-align: center;
+}
+
+body[theme="day"] .frequencySliderBox .frequencyLabel {
+    color: black;
+}
+
+body[theme="night"] .frequencySliderBox .frequencyLabel {
+    color: #d3af86
+}
+
+/* Общий стиль для ползунка (track) */
+.frequencySliderBox .frequencySlider {
+    -webkit-appearance: none; /* Убираем стандартный стиль для WebKit-браузеров */
+    appearance: none; /* Убираем стандартный стиль */
+    width: 100%; /* Ширина ползунка */
+    height: 8px; /* Высота трека ползунка */
+    border-radius: 5px; /* Округление краев трека */
+    background: linear-gradient(to right, #6B8E23 0%, #6B8E23 var(--value), #ddd var(--value), #ddd 100%);
+    outline: none; /* Убираем обводку */
+    cursor: pointer; /* Курсор в виде руки при наведении */
+}
+
+/* Стиль для бегунка (thumb) для WebKit-браузеров (Chrome, Safari) */
+.frequencySliderBox .frequencySlider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Убираем стандартный бегунок */
+    appearance: none;
+    width: 15px; /* Ширина бегунка */
+    height: 15px; /* Высота бегунка */
+    border-radius: 50%; /* Округление бегунка */
+    cursor: pointer; /* Курсор в виде руки */
+    background-color: var(--thumb-color); /* Цвет бегунка */
+}
+
+/* Стиль для бегунка (thumb) для Firefox */
+.frequencySliderBox .frequencySlider::-moz-range-thumb {
+    width: 15px; /* Ширина бегунка */
+    height: 15px; /* Высота бегунка */
+    border-radius: 50%; /* Округление бегунка */
+    cursor: pointer; /* Курсор в виде руки */
+    background-color: var(--thumb-color); /* Цвет бегунка */
+}
+
+/* Дневная тема: зеленый цвет для бегунка */
+body[theme="day"] {
+    --thumb-color: #6B8E23;
+}
+
+/* Ночная тема: бежевый цвет для бегунка */
+body[theme="night"] {
+    --thumb-color: #d3af86;
+}
+
+
+/* Дневная тема: зеленый цвет для полосы слева, серый для полосы справа */
+body[theme="day"] .frequencySliderBox .frequencySlider {
+    background: linear-gradient(to right, #6B8E23 0%, #6B8E23 var(--value), #ddd var(--value), #ddd 100%);
+}
+
+/* Ночная тема: бежевый цвет для полосы слева, темный серый для полосы справа */
+body[theme="night"] .frequencySliderBox .frequencySlider {
+    background: linear-gradient(to right, #d3af86 0%, #d3af86 var(--value), #362712 var(--value), #362712 100%);
+}

@@ -1,0 +1,28 @@
+{
+    "languages": [
+        {
+            "name": "English",
+            "code": "eng"
+        },
+        {
+            "name": "Français",
+            "code": "fra"
+        },
+        {
+            "name": "Español",
+            "code": "esp"
+        },
+        {
+            "name": "中文",
+            "code": "zho"
+        },
+        {
+            "name": "Русский",
+            "code": "rus"
+        },
+        {
+            "name": "عربى",
+            "code": "ara"
+        }
+    ]
+}

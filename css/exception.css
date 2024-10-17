@@ -1,0 +1,129 @@
+/* Основной стиль фона исключения */
+.exception {
+    z-index: 10000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Адаптация под тему */
+body:not([theme]) .exception {
+    background-color: #221a0f;
+}
+
+body[theme="day"] .exception {
+    background-color: #6B8E23;
+}
+
+body[theme="night"] .exception {
+    background-color: #221a0f;
+}
+
+/* Видимость исключения */
+.exception.visible {
+    opacity: 1;
+}
+
+/* Настройка окна исключения */
+.exceptionWindow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 80%;
+    max-height: 80%;
+    overflow: hidden; /* Отключение скролла для окна */
+    text-align: center;
+}
+
+/* Адаптация под тему */
+body:not([theme]) .exceptionWindow {
+    background-color: #5e452b;
+    border: 2px solid #423523; /* Пример границы вокруг контента */
+}
+
+body[theme="day"] .exceptionWindow {
+    background-color: white;
+    border: 2px solid #ccc; /* Пример границы вокруг контента */
+}
+
+body[theme="night"] .exceptionWindow {
+    background-color: #5e452b;
+    border: 2px solid #423523; /* Пример границы вокруг контента */
+}
+
+/* Заголовок исключения */
+.exceptionTitle {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Адаптация под тему */
+body:not([theme]) .exceptionTitle {
+    color: #d3af86;
+}
+
+body[theme="day"] .exceptionTitle {
+    color: black;
+}
+
+body[theme="night"] .exceptionTitle {
+    color: #d3af86;
+}
+
+/* Прокручиваемый контейнер для трассировки стека */
+.stackTraceContainer {
+    max-height: 300px; /* Максимальная высота контейнера */
+    overflow-y: auto; /* Вертикальный скролл */
+    background-color: #1e2125; /* Цвет фона для контейнера */
+    border: 1px solid #444; /* Рамка вокруг контейнера */
+    padding: 10px; /* Отступы внутри контейнера */
+    margin-bottom: 20px; /* Отступ снизу */
+}
+
+/* Стиль трассировки стека */
+.stackTrace {
+    font-size: 14px;
+    color: #c0c0c0;
+    white-space: pre-wrap;
+}
+
+/* Кнопка перезагрузки */
+.reloadButton {
+    transition: background-color 0.3s ease;
+}
+
+/* Адаптация под тему */
+body:not([theme]) .reloadButton {
+    background-color: #362712; /* Цвет фона */
+    color: #d3af86; /* Цвет текста */
+}
+
+body[theme="day"] .reloadButton {
+    background-color: #6B8E23; /* Цвет фона */
+    color: white; /* Цвет текста */
+}
+
+body[theme="night"] .reloadButton {
+    background-color: #362712; /* Цвет фона */
+    color: #d3af86; /* Цвет текста */
+}
+
+.exception button {
+    box-sizing: border-box;
+    border: none; /* Убираем границу */
+    padding: 5px 10px; /* Внутренние отступы */
+    border-radius: 5px; /* Скругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    font-size: 15px;
+}

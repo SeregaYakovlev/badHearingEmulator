@@ -1,0 +1,107 @@
+.language-toggle {
+    position: fixed;
+    top: 1%;
+    left: 1%;
+    width: 40px; /* Ширина переключателя */
+    height: 40px; /* Высота переключателя */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Тень для глубины */
+    z-index: 10;
+    background-color: #f0f0f0; /* Фоновый цвет переключателя */
+    font-size: 16px; /* Размер шрифта для кода языка */
+    font-weight: bold; /* Толщина шрифта */
+    color: #333; /* Цвет текста */
+}
+
+body[theme="day"] .language-toggle {
+    background-color: white;
+}
+
+body[theme="night"] .language-toggle {
+    background-color: #5e452b;
+}
+
+.language-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.language-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body[theme="day"] .language-code {
+    color: black;
+}
+
+body[theme="night"] .language-code {
+    color: #d3af86;
+}
+
+/* Стили для выпадающего списка */
+.language-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border-radius: 4px;
+    z-index: 11;
+    display: none; /* Скрываем список по умолчанию */
+    width: 100px; /* Ширина списка */
+}
+
+.language-item {
+    padding: 8px 16px;
+    cursor: pointer;
+}
+
+body[theme="day"] .language-item{
+    border-bottom: 1px solid #ccc; /* Граница между элементами */
+}
+
+body[theme="night"] .language-item{
+    border-bottom: 1px solid #d3af86; /* Граница между элементами */
+}
+
+body[theme] .language-item:last-child {
+    border-bottom: none; /* Убираем границу у последнего элемента */
+}
+
+body[theme="day"] .language-list{
+    background-color: wheat;
+    border: 2px solid #ccc;
+}
+
+body[theme="night"] .language-list{
+    background-color: #5e452b;
+    border: 2px solid #d3af86;
+}
+
+body[theme="day"] .language-item {
+    background-color: white;
+    color: #333;
+}
+
+body[theme="night"] .language-item {
+    background-color: #5e452b;
+    color: #d3af86;
+}
+
+body[theme="day"] .language-item:hover {
+    background-color: #6B8E23; /* Цвет фона при наведении */
+    color: white;
+}
+
+body[theme="night"] .language-item:hover {
+    background-color: #221a0f; /* Цвет фона при наведении */
+    color: #d3af86;
+}

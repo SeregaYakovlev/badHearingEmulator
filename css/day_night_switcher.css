@@ -1,0 +1,44 @@
+.theme-toggle {
+    position: fixed;
+    top: 1%;
+    right: 1%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: add shadow for depth */
+    z-index: 10;
+}
+
+body[theme="day"] .theme-toggle {
+    background-color: white;
+}
+
+body[theme="night"] .theme-toggle {
+    background-color: #5e452b;
+}
+
+.theme-icon {
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+}
+
+body[theme="day"] .theme-icon.sun {
+    display: none;
+}
+
+body[theme="night"] .theme-icon.moon {
+    display: none;
+}
+
+.theme-icon.sun {
+    background-image: url('/images/sun.svg');
+}
+
+.theme-icon.moon {
+    background-image: url('/images/moon.svg');
+}

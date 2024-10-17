@@ -1,0 +1,364 @@
+{
+    "translations": {
+        "mainScene_mainBox_0": {
+            "rus": "Сайт покажет, что такое плохой слух.",
+            "eng": "The site will show you what bad hearing is.",
+            "fra": "Le site vous montrera ce qu'est une mauvaise audition.",
+            "esp": "El sitio te mostrará qué es la mala audición.",
+            "zho": "该网站将向您展示什么是听力障碍。",
+            "ara": "الموقع سيظهر لك ما هي السمع السيء."
+        },
+        "mainScene_mainBox_1": {
+            "rus": "Для этого нужно всего лишь загрузить аудио/видео (до 1 часа)",
+            "eng": "To do this, you just need to upload audio/video (up to 1 hour)",
+            "fra": "Pour ce faire, il vous suffit de télécharger un audio/vidéo (jusqu'à 1 heure)",
+            "esp": "Para hacerlo, solo necesitas cargar audio/video (hasta 1 hora)",
+            "zho": "要做到这一点，您只需上传音频/视频（最多 1 小时）",
+            "ara": "للقيام بذلك، تحتاج فقط إلى تحميل الصوت/الفيديو (حتى 1 ساعة)"
+        },
+        "LiveChatMode": {
+            "rus": "Режим живой беседы",
+            "eng": "Live chat mode",
+            "fra": "Mode de chat en direct",
+            "esp": "Modo de chat en vivo",
+            "zho": "实时聊天模式",
+            "ara": "وضع الدردشة المباشرة"
+        },
+        "audiogramMode": {
+            "rus": "Режим слуха под аудиограммой",
+            "eng": "Hearing mode based on audiogram",
+            "fra": "Mode d'audition basé sur l'audiogramme",
+            "esp": "Modo de audición basado en audiograma",
+            "zho": "基于听力图的听力模式",
+            "ara": "وضع السمع المستند إلى رسم السمع"
+        },
+        "downloadFile": {
+            "rus": "Загрузить файл",
+            "eng": "Download file",
+            "fra": "Télécharger le fichier",
+            "esp": "Descargar archivo",
+            "zho": "下载文件",
+            "ara": "تحميل الملف"
+        },
+        "filterParameter": {
+            "rus": "Параметр фильтра",
+            "eng": "Filter parameter",
+            "fra": "Paramètre de filtre",
+            "esp": "Parámetro de filtro",
+            "zho": "过滤器参数",
+            "ara": "معامل الفلتر"
+        },
+        "normalHearing": {
+            "rus": "Нормальный слух",
+            "eng": "Normal hearing",
+            "fra": "Audition normale",
+            "esp": "Audición normal",
+            "zho": "正常听力",
+            "ara": "سمع طبيعي"
+        },
+        "anotherFile": {
+            "rus": "Другой файл",
+            "eng": "Another file",
+            "fra": "Un autre fichier",
+            "esp": "Otro archivo",
+            "zho": "另一个文件",
+            "ara": "ملف آخر"
+        },
+        "homePage": {
+            "rus": "На главную",
+            "eng": "Homepage",
+            "fra": "Page d'accueil",
+            "esp": "Página de inicio",
+            "zho": "主页",
+            "ara": "الصفحة الرئيسية"
+        },
+        "liveConversationP0": {
+            "rus": "Режим живой беседы позволяет послушать плохим слухом Ваше окружение.",
+            "eng": "Live conversation mode allows those with hearing impairment to listen to their surroundings.",
+            "fra": "Le mode de conversation en direct permet aux personnes malentendantes d'écouter leur environnement.",
+            "esp": "El modo de conversación en vivo permite a las personas con discapacidad auditiva escuchar su entorno.",
+            "zho": "实时对话模式允许听力受损者聆听他们的环境。",
+            "ara": "وضع المحادثة الحية يسمح لذوي الإعاقات السمعية بالاستماع إلى محيطهم."
+        },
+        "takeSmartphone": {
+            "rus": "Возьмите смартфон",
+            "eng": "Take your smartphone",
+            "fra": "Prenez votre smartphone",
+            "esp": "Toma tu teléfono inteligente",
+            "zho": "拿起你的智能手机",
+            "ara": "خذ هاتفك الذكي"
+        },
+        "putOnHeadphones": {
+            "rus": "Наденьте наушники",
+            "eng": "Put on your headphones",
+            "fra": "Mettez vos écouteurs",
+            "esp": "Póntelos auriculares",
+            "zho": "戴上耳机",
+            "ara": "ارتدي سماعات الرأس"
+        },
+        "talkToSurroundings": {
+            "rus": "Поговорите с Вашим окружением",
+            "eng": "Talk to your surroundings",
+            "fra": "Parlez à votre environnement",
+            "esp": "Habla con tu entorno",
+            "zho": "和周围的人交谈",
+            "ara": "تحدث إلى محيطك"
+        },
+        "enableMicrophone": {
+            "rus": "Включить микрофон",
+            "eng": "Enable microphone",
+            "fra": "Activer le microphone",
+            "esp": "Habilitar micrófono",
+            "zho": "启用麦克风",
+            "ara": "تمكين الميكروفون"
+        },
+        "disableMicrophone": {
+            "rus": "Выключить микрофон",
+            "eng": "Disable microphone",
+            "fra": "Désactiver le microphone",
+            "esp": "Deshabilitar micrófono",
+            "zho": "禁用麦克风",
+            "ara": "تعطيل الميكروفون"
+        },
+        "audiogramScene_mainBox_P0": {
+            "rus": "Сайт покажет, как именно слышит конкретный человек:",
+            "eng": "The website will show how a specific person hears:",
+            "fra": "Le site montrera comment une personne spécifique entend :",
+            "esp": "El sitio web mostrará cómo escucha una persona específica:",
+            "zho": "该网站将展示一个特定的人是如何听到的：",
+            "ara": "سيظهر الموقع كيف يسمع شخص معين:"
+        },
+        "audiogramScene_mainBox_P1": {
+            "rus": "Внесите аудиограммы",
+            "eng": "Submit audiograms",
+            "fra": "Soumettre des audiogrammes",
+            "esp": "Enviar audiogramas",
+            "zho": "提交听力图",
+            "ara": "إرسال مخططات السمع"
+        },
+        "audiogramScene_mainBox_P2": {
+            "rus": "Загрузите аудио/видео (до 10 минут).",
+            "eng": "Upload audio/video (up to 10 minutes).",
+            "fra": "Téléchargez un audio/vidéo (jusqu'à 10 minutes).",
+            "esp": "Sube audio/video (hasta 10 minutos).",
+            "zho": "上传音频/视频（最长 10 分钟）。",
+            "ara": "قم بتحميل الصوت/الفيديو (حتى 10 دقائق)."
+        },
+        "onEachEar": {
+            "rus": "На каждое ухо",
+            "eng": "On each ear",
+            "fra": "Sur chaque oreille",
+            "esp": "En cada oído",
+            "zho": "每只耳朵",
+            "ara": "على كل أذن"
+        },
+        "OnBothEarsOnce": {
+            "rus": "Сразу на оба уха",
+            "eng": "On both ears at once",
+            "fra": "Sur les deux oreilles à la fois",
+            "esp": "En ambas orejas a la vez",
+            "zho": "同时在两只耳朵上",
+            "ara": "على كلا الأذنين مرة واحدة"
+        },
+        "DonnotKnowAboutAudiogram?": {
+            "rus": "Не знаете, что такое аудиограмма?",
+            "eng": "Don't know what an audiogram is?",
+            "fra": "Vous ne savez pas ce qu'est un audiogramme ?",
+            "esp": "¿No sabe qué es un audiograma?",
+            "zho": "不知道什么是听力图吗？",
+            "ara": "لا تعرف ما هو رسم السمع؟"
+        },
+        "SimpleVersion": {
+            "rus": "Простая версия",
+            "eng": "Simple version",
+            "fra": "Version simple",
+            "esp": "Versión simple",
+            "zho": "简单版",
+            "ara": "نسخة بسيطة"
+        },
+        "DeleteAll": {
+            "rus": "Удалить все",
+            "eng": "Delete all",
+            "fra": "Tout supprimer",
+            "esp": "Eliminar todo",
+            "zho": "删除所有",
+            "ara": "حذف الكل"
+        },
+        "DeleteOneByOne": {
+            "rus": "Удалять по одной",
+            "eng": "Delete one by one",
+            "fra": "Supprimer un par un",
+            "esp": "Eliminar uno por uno",
+            "zho": "逐个删除",
+            "ara": "احذف واحداً تلو الآخر"
+        },
+        "LeftEar": {
+            "rus": "Левое ухо",
+            "eng": "Left ear",
+            "fra": "Oreille gauche",
+            "esp": "Oreja izquierda",
+            "zho": "左耳",
+            "ara": "الأذن اليسرى"
+        },
+        "RightEar": {
+            "rus": "Правое ухо",
+            "eng": "Right ear",
+            "fra": "Oreille droite",
+            "esp": "Oreja derecha",
+            "zho": "右耳",
+            "ara": "الأذن اليمنى"
+        },
+        "BothEars": {
+            "rus": "Оба уха",
+            "eng": "Both ears",
+            "fra": "Les deux oreilles",
+            "esp": "Ambas orejas",
+            "zho": "双耳",
+            "ara": "كلا الأذنين"
+        },
+        "Next": {
+            "rus": "Далее",
+            "eng": "Next",
+            "fra": "Suivant",
+            "esp": "Siguiente",
+            "zho": "下一个",
+            "ara": "التالي"
+        },
+        "GoodHearing": {
+            "rus": "Хороший слух",
+            "eng": "Good hearing",
+            "fra": "Bonne audition",
+            "esp": "Buena audición",
+            "zho": "良好的听力",
+            "ara": "سمع جيد"
+        },
+        "BadHearing": {
+            "rus": "Плохой слух",
+            "eng": "Bad hearing",
+            "fra": "Mauvaise audition",
+            "esp": "Mala audición",
+            "zho": "差的听力",
+            "ara": "سمع سيء"
+        },
+        "DownloadSound": {
+            "rus": "Скачать звук",
+            "eng": "Download sound",
+            "fra": "Télécharger le son",
+            "esp": "Descargar sonido",
+            "zho": "下载声音",
+            "ara": "تحميل الصوت"
+        },
+        "FewSeconds...": {
+            "rus": "Несколько секунд...",
+            "eng": "A few seconds...",
+            "fra": "Quelques secondes...",
+            "esp": "Unos segundos...",
+            "zho": "几秒钟...",
+            "ara": "بضع ثوانٍ..."
+        },
+        "FrequencySpectrum": {
+            "rus": "Частотный спектр",
+            "eng": "Frequency spectrum",
+            "fra": "Spectre de fréquence",
+            "esp": "Espectro de frecuencia",
+            "zho": "频率谱",
+            "ara": "طيف التردد"
+        },
+        "ShowVideo": {
+            "rus": "Показать видео",
+            "eng": "Show Video",
+            "fra": "Montrer la vidéo",
+            "esp": "Mostrar video",
+            "zho": "显示视频",
+            "ara": "عرض الفيديو"
+        },
+        "FileDownloading...": {
+            "rus": "Загрузка файла...",
+            "eng": "Loading file...",
+            "fra": "Chargement du fichier...",
+            "esp": "Cargando archivo...",
+            "zho": "加载文件中...",
+            "ara": "جارٍ تحميل الملف..."
+        },
+        "FileUploaded": {
+            "rus": "Файл загружен",
+            "eng": "File uploaded",
+            "fra": "Fichier téléchargé",
+            "esp": "Archivo subido",
+            "zho": "文件已上传",
+            "ara": "تم رفع الملف"
+        },
+        "ReadingSamplesFromFile": {
+            "rus": "Чтение сэмплов из файла",
+            "eng": "Reading samples from file...",
+            "fra": "Lecture des échantillons depuis le fichier...",
+            "esp": "Leyendo muestras del archivo...",
+            "zho": "从文件中读取样本...",
+            "ara": "جارٍ قراءة العينات من الملف..."
+        },
+        "SamplesFromFileRead": {
+            "rus": "Сэмплы из файла прочитаны",
+            "eng": "Samples from file read",
+            "fra": "Échantillons du fichier lus",
+            "esp": "Muestras del archivo leídas",
+            "zho": "文件中的样本已读取",
+            "ara": "تم قراءة العينات من الملف"
+        },
+        "PerformingDirectFFT": {
+            "rus": "Выполнение прямого БПФ...",
+            "eng": "Performing a direct FFT...",
+            "fra": "Exécution d'une FFT directe...",
+            "esp": "Realizando una FFT directa...",
+            "zho": "正在执行直接FFT...",
+            "ara": "يتم تنفيذ تحويل فورييه السريع المباشر..."
+        },
+        "ApplicationAttenuationFactors": {
+            "rus": "Применение коэффициентов ослабления...",
+            "eng": "Application of attenuation factors...",
+            "fra": "Application des facteurs d'atténuation...",
+            "esp": "Aplicación de factores de atenuación...",
+            "zho": "应用衰减系数...",
+            "ara": "تطبيق عوامل التوهين..."
+        },
+        "PerformingInverseFFT": {
+            "rus": "Выполнение обратного БПФ...",
+            "eng": "Performing Inverse FFT...",
+            "fra": "Exécution d'une FFT inverse...",
+            "esp": "Realizando una FFT inversa...",
+            "zho": "正在执行逆FFT...",
+            "ara": "يتم تنفيذ تحويل فورييه السريع العكسي..."
+        },
+        "FileHandled": {
+            "rus": "Файл обработан",
+            "eng": "File handled",
+            "fra": "Fichier traité",
+            "esp": "Archivo procesado",
+            "zho": "文件已处理",
+            "ara": "تم معالجة الملف"
+        },
+        "ConvertingSoundToMonoFormat": {
+            "rus": "Конвертация аудио в моно-формат...",
+            "eng": "Converting audio to mono format...",
+            "fra": "Conversion de l'audio au format mono...",
+            "esp": "Convierte el audio a formato mono...",
+            "zho": "将音频转换为单声道格式...",
+            "ara": "جارٍ تحويل الصوت إلى تنسيق مونو..."
+        },
+        "ConvertingSoundToStereoFormat": {
+            "rus": "Конвертация аудио в стерео-формат...",
+            "eng": "Converting audio to stereo format...",
+            "fra": "Conversion de l'audio au format stéréo...",
+            "esp": "Convierte el audio a formato estéreo...",
+            "zho": "将音频转换为立体声格式...",
+            "ara": "جارٍ تحويل الصوت إلى تنسيق استيريو..."
+        },
+        "siteTitle": {
+            "rus": "Что такое плохой слух",
+            "eng": "What is bad hearing",
+            "fra": "Qu'est-ce que la mauvaise audition",
+            "esp": "Qué es la mala audición",
+            "zho": "什么是听力障碍",
+            "ara": "ما هو السمع السيء"
+        }
+    }
+}

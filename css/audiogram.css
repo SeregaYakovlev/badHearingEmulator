@@ -1,0 +1,160 @@
+.audiogramContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    /* Центрирование по горизонтали */
+    align-items: center;
+    /* Центрирование по вертикали */
+}
+
+body[theme="day"] .audiogramContainer {
+    background-color: wheat;
+}
+
+body[theme="night"] .audiogramContainer {
+    background-color: #5e452b;
+}
+
+.audiogram {
+    position: relative;
+    height: 83.3%;
+    width: 83.3%;
+}
+
+body[theme="day"] .audiogram {
+    background-color: wheat;
+}
+
+body[theme="night"] .audiogram {
+    background-color: #5e452b;
+}
+
+.levelLine {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 1px;
+}
+
+body[theme="day"] .levelLine {
+    background-color: black;
+}
+
+body[theme="night"] .levelLine {
+    background-color: #d3af86;
+}
+
+.frequencyLine {
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 100%;
+}
+
+body[theme="day"] .frequencyLine {
+    background-color: black;
+}
+
+body[theme="night"] .frequencyLine {
+    background-color: #d3af86;
+}
+
+
+.frequencyLine .caption {
+    position: absolute;
+    top: calc(-1.25em); 
+    /* Расположить надпись снизу */
+    left: 50%;
+    /* Расположить по центру относительно частотной линии */
+    transform: translateX(-50%);
+    /* Сдвинуть влево на половину ширины надписи */
+}
+
+.levelLine .caption {
+    position: absolute;
+    top: 50%;
+    /* Расположить по центру относительно уровневой линии */
+    transform: translateY(-50%);
+    /* Сдвинуть вверх на половину высоты надписи */
+}
+
+.audiogramPoint {
+    position: absolute;
+    width: 2%;
+    height: 2%;
+    border-radius: 50%;
+}
+
+body[theme="day"] .audiogramPoint {
+    background-color: black;
+}
+
+body[theme="night"] .audiogramPoint {
+    background-color: white;
+}
+
+.audiogramLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    stroke-width: 2;
+}
+
+body[theme="day"] .audiogramLine {
+    stroke: black;
+}
+
+body[theme="night"] .audiogramLine {
+    stroke: white;
+}
+
+body[theme="day"] .audiogram.left_ear .audiogramPoint {
+    background-color: blue;
+}
+
+body[theme="day"] .audiogram.right_ear .audiogramPoint {
+    background-color: red;
+}
+
+body[theme="day"] .audiogram.binaural .audiogramPoint {
+    background-color: indigo;
+}
+
+body[theme="day"] .audiogram.left_ear .audiogramLine {
+    stroke: blue;
+}
+
+body[theme="day"] .audiogram.right_ear .audiogramLine {
+    stroke: red;
+}
+
+body[theme="day"] .audiogram.binaural .audiogramLine {
+    stroke: indigo;
+}
+
+body[theme="night"] .audiogram.left_ear .audiogramPoint {
+    background-color: #64dfed; /* Cornflower Blue */
+}
+
+body[theme="night"] .audiogram.right_ear .audiogramPoint {
+    background-color: orange; /* Tomato Red */
+}
+
+body[theme="night"] .audiogram.binaural .audiogramPoint {
+    background-color: pink; /* Indigo */
+}
+
+body[theme="night"] .audiogram.left_ear .audiogramLine {
+    stroke: #64dfed; /* Cornflower Blue */
+}
+
+body[theme="night"] .audiogram.right_ear .audiogramLine {
+    stroke: orange; /* Tomato Red */
+}
+
+body[theme="night"] .audiogram.binaural .audiogramLine {
+    stroke: pink; /* Indigo */
+}
