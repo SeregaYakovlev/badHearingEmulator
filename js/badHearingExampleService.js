@@ -29,7 +29,7 @@ class BadHearingExampleService{
         let currentLanguage = this.page.getCurrentLanguage();
         let languageCode = currentLanguage.getCode();
 
-        return `../bad_hearing_examples/${languageCode}/video.mp4`;
+        return `bad_hearing_examples/${languageCode}/video.mp4`;
     }
 
     _reloadService(){

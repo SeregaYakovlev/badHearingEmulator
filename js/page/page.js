@@ -57,10 +57,10 @@ class Page {
     _setFavicon() {
         let icon = document.getElementById("favicon");
         if (this.isDay()) {
-            icon.href = "../images/favicon-day.svg";
+            icon.href = "images/favicon-day.svg";
         }
         else {
-            icon.href = "../images/favicon-night.svg";
+            icon.href = "images/favicon-night.svg";
         }
     }
 
