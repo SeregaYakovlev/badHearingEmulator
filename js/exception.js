@@ -4,6 +4,9 @@ class Exp {
     }
 
     show() {
+        let page = window.page;
+        page.clearToBlankState();
+
         let exceptionElem = document.createElement("div");
         exceptionElem.classList.add("exception");
 

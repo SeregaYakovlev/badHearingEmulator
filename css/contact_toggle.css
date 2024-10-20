@@ -1,0 +1,38 @@
+.contact-toggle {
+    position: fixed;
+    bottom: 1%;
+    left: 1%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+/* Стили для светлой темы */
+body[theme="day"] .contact-toggle {
+    background-color: white;
+}
+
+/* Стили для темной темы */
+body[theme="night"] .contact-toggle {
+    background-color: #5e452b;
+}
+
+.contact-icon {
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+}
+
+body[theme="day"] .contact-icon {
+    background-image: url('../images/mail-day.svg'); /* Иконка конверта */
+}
+
+body[theme="night"] .contact-icon {
+    background-image: url('../images/mail-night.svg'); /* Иконка конверта */
+}

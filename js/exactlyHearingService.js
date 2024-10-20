@@ -41,30 +41,23 @@ class ExactlyHearingService {
         b.addElement(welcomElem);
 
         let div = document.createElement("div");
-        div.classList.add("mainSceneBtnContainer");
+        div.classList.add("exactlyServiceBtnContainer");
 
         div.appendChild(separateEarsBtn);
         div.appendChild(binauralBtn);
 
         b.addElement(div);
 
-        let tipBox = scene.createBox();
-        tipBox.addClassName("tipBox");
+        let box2 = scene.createBox();
+        box2.addClassName("exactlyServiceBtnContainer");
 
-        let tip = document.createElement("p");
-
-        let tipLink = document.createElement("a");
-        tipLink.innerHTML = setTSTR("SimpleVersion");
-        tipLink.href = "#";
-        tipLink.onclick = () => {
+        let homePageBtn = document.createElement("button");
+        homePageBtn.innerHTML = setTSTR("homePage");
+        homePageBtn.addEventListener("click", () => {
             this.page.showRoot();
-            return false; // предотвращаем переход по ссылке
-        }
+        });
 
-        tip.innerHTML = `${setTSTR("DonnotKnowAboutAudiogram?")} `;
-        tip.appendChild(tipLink);
-
-        tipBox.addElement(tip);
+        box2.addElement(homePageBtn);
         scene.show();
     }
 

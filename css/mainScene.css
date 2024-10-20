@@ -2,13 +2,6 @@
     gap: 10px;
 }
 
-.mainSceneBtnContainer {
-    display: flex;
-    gap: 10px; /* Расстояние между кнопками */
-    justify-content: space-evenly;
-    align-items: center; /* Центрируем кнопки по вертикали */
-}
-
 body[theme="day"] .mainScene p {
     color: black;
 }
@@ -17,29 +10,17 @@ body[theme="night"] .mainScene p {
     color: #d3af86;
 }
 
-.mainScene button {
-    box-sizing: border-box;
-    border: none; /* Убираем границу */
-    padding: 5px 10px; /* Внутренние отступы */
-    border-radius: 5px; /* Скругленные углы */
-    cursor: pointer; /* Указатель при наведении */
-    font-size: 15px;
-}
-
-body[theme="day"] .mainScene button  {
-    background-color: #6B8E23; /* Цвет фона */
-    color: white; /* Цвет текста */
-}
-
-body[theme="night"] .mainScene button {
-    background-color: #362712; /* Цвет фона */
-    color: #d3af86; /* Цвет текста */
-}
-
-.mainScene p, .mainScene span {
+.mainScene p {
     font-size: 15px; /* Размер текста */
 }
 
 .tipBox p {
     margin: 0;
+}
+
+.bad_hearing_example_video {
+    width: 100%;
+    height: 100%;
+    max-width: 320px;
+    max-height: 240px;
 }

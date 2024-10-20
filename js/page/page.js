@@ -1,9 +1,20 @@
 class Page {
     constructor() {
+        this.languageChangingListeners = [];
     }
 
-    showRoot(){
+    showRoot() {
         this._runRootService();
+    }
+
+    subscribeOnLanguageChangingEvent(listener){
+        this.languageChangingListeners.push(listener);
+    }
+
+    _triggerLanguageChangingEvent(){
+        for(let listener of this.languageChangingListeners){
+            listener.onLanguageChanged();
+        }
     }
 
     async init() {
@@ -30,42 +41,85 @@ class Page {
 
         document.title = getTSTR("siteTitle");
 
-        this._initTheme();
+        this._setTheme();
         this._addLanguageSwitcher();
-        this._addDayNightSwitcher();
+        this._addThemeSwitcher();
         this._addGithub();
+        this._addContactLink();
 
         this._runRootService(this);
+    }
+
+    isDay() {
+        return document.body.getAttribute("theme") === "day";
+    }
+
+    _setFavicon() {
+        let icon = document.getElementById("favicon");
+        if (this.isDay()) {
+            icon.href = "../images/favicon-day.svg";
+        }
+        else {
+            icon.href = "../images/favicon-night.svg";
+        }
     }
 
     _addGithub() {
         // Создаем новый div элемент для кнопки GitHub
         let githubDiv = document.createElement("div");
-    
+
         // Добавляем классы стилей
         githubDiv.classList.add("github-toggle");
-    
+
         // Создаем элемент ссылки <a>
         let githubLink = document.createElement("a");
-    
+
         // Устанавливаем ссылку на репозиторий GitHub
         githubLink.href = "https://github.com/SeregaYakovlev/badHearingEmulator"; // Замените ссылку на свою
-    
+
         // Открывать в новой вкладке
         githubLink.target = "_blank";
-    
+
         // Добавляем иконку GitHub
         let githubIcon = document.createElement("div");
         githubIcon.classList.add("github-icon");
-        
+
         // Вкладываем иконку в ссылку, а ссылку в див
         githubLink.appendChild(githubIcon);
         githubDiv.appendChild(githubLink);
-    
+
         // Добавляем на страницу (например, в body)
         document.body.appendChild(githubDiv);
     }
-    
+
+    _addContactLink() {
+        // Создаем новый div элемент для кнопки GitHub
+        let contactDiv = document.createElement("div");
+
+        // Добавляем классы стилей
+        contactDiv.classList.add("contact-toggle");
+
+        // Создаем элемент ссылки <a>
+        let contactLink = document.createElement("a");
+
+        // Устанавливаем ссылку на репозиторий GitHub
+        contactLink.href = "https://t.me/badhearingemulator"; // Замените ссылку на свою
+
+        // Открывать в новой вкладке
+        contactLink.target = "_blank";
+
+        // Добавляем иконку GitHub
+        let githubIcon = document.createElement("div");
+        githubIcon.classList.add("contact-icon");
+
+        // Вкладываем иконку в ссылку, а ссылку в див
+        contactLink.appendChild(githubIcon);
+        contactDiv.appendChild(contactLink);
+
+        // Добавляем на страницу (например, в body)
+        document.body.appendChild(contactDiv);
+    }
+
 
     getCurrentLanguage() {
         let languageCode = localStorage.getItem("language");
@@ -137,7 +191,7 @@ class Page {
         });
     }
 
-    _addDayNightSwitcher() {
+    _addThemeSwitcher() {
         // Создаем переключатель тем
         let switchWrapper = document.createElement('div');
         switchWrapper.className = 'theme-toggle';
@@ -163,17 +217,25 @@ class Page {
         });
     }
 
-    _initTheme() {
-        // Устанавливаем текущую тему
-        let currentTheme = localStorage.getItem('theme') || 'day';
-        document.body.setAttribute('theme', currentTheme);
-        return currentTheme;
-    }
-
     _setTheme(theme) {
+        if (!theme) {
+            // Проверяем, сохранённую тему в localStorage
+            theme = localStorage.getItem('theme');
+            if (!theme) {
+                // Проверяем, предпочитает ли пользователь тёмную тему
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = 'night';
+                } else {
+                    theme = 'day';
+                }
+            }
+        }
+
         document.body.setAttribute('theme', theme);
         localStorage.setItem("theme", theme);
+        this._setFavicon();
     }
+
 
     _setLanguage(language) {
         localStorage.setItem("language", language.getCode());
@@ -190,9 +252,15 @@ class Page {
         this._onLanguageChanged(language);
     }
 
+    clearToBlankState(){
+        document.body.innerHTML = "";
+    }
+
     _onLanguageChanged(language) {
         let currentLanguage = language;
         this.languageCodeElem.textContent = currentLanguage.getCode(); // Устанавливаем текущий язык
+
+        this._triggerLanguageChangingEvent();
     }
 
     runExactlyHearingService() {
@@ -205,12 +273,12 @@ class Page {
         liveConversationService.show();
     }
 
-    runRealtimeFileService(){
+    runRealtimeFileService() {
         let realtimeFileService = new RealtimeFileService(this);
         realtimeFileService.run();
     }
 
-    _runRootService(){
+    _runRootService() {
         let rootService = new RootService(this);
         rootService.show();
     }

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <!-- Фон -->
+  <rect width="64" height="64" fill="#6B8E23"/> <!-- черный фон -->
+  
+  <!-- Оси X и Y -->
+  <line x1="6" y1="56" x2="56" y2="56" stroke="#FFFFFF" stroke-width="4"/> <!-- белая ось X -->
+  <line x1="8" y1="8" x2="8" y2="56" stroke="#FFFFFF" stroke-width="4"/> <!-- белая ось Y -->
+  
+  <!-- Аудиограмма -->
+  <path d="M12,40 L20,30 L28,24 L36,34 L44,20 L52,40"
+        stroke="#FFFFFF"
+        stroke-width="4"
+        fill="none"/>
+</svg>

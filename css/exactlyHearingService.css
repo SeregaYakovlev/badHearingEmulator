@@ -1,0 +1,28 @@
+.exactlyServiceBtnContainer {
+    display: flex;
+    gap: 10px;
+    /* Расстояние между кнопками */
+    justify-content: center;
+    /* Центрируем кнопки по горизонтали */
+    align-items: center;
+    /* Центрируем кнопки по вертикали */
+}
+
+.exactlyServiceBtnContainer button {
+    box-sizing: border-box;
+    border: none; /* Убираем границу */
+    padding: 5px 10px; /* Внутренние отступы */
+    border-radius: 5px; /* Скругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    font-size: 15px;
+}
+
+body[theme="day"] .exactlyServiceBtnContainer button  {
+    background-color: #6B8E23; /* Цвет фона */
+    color: white; /* Цвет текста */
+}
+
+body[theme="night"] .exactlyServiceBtnContainer button {
+    background-color: #362712; /* Цвет фона */
+    color: #d3af86; /* Цвет текста */
+}

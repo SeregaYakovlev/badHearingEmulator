@@ -1,5 +1,21 @@
 {
     "translations": {
+        "InVideoExampleBadHearing": {
+            "rus": "В этом видео пример плохого слуха",
+            "eng": "Here is an example of bad hearing",
+            "fra": "Voici un exemple de mauvaise audition",
+            "esp": "Aquí tienes un ejemplo de mala audición",
+            "zho": "这是一个听力不好的例子",
+            "ara": "هنا مثال على السمع السيء"
+        },
+        "ListenYourFile": {
+            "rus": "Послушать Ваш файл",
+            "eng": "Listen your file",
+            "fra": "Écoutez votre fichier",
+            "esp": "Escucha tu archivo",
+            "zho": "听你的文件",
+            "ara": "استمع إلى ملفك"
+        },
         "mainScene_mainBox_0": {
             "rus": "Сайт покажет, что такое плохой слух.",
             "eng": "The site will show you what bad hearing is.",

@@ -28,5 +28,12 @@ body[theme="night"] .github-toggle {
     width: 24px;
     height: 24px;
     background-size: cover;
-    background-image: url('../images/github-mark.svg'); /* Иконка GitHub */
+}
+
+body[theme="day"] .github-icon {
+    background-image: url('../images/github-mark-day.svg'); /* Иконка GitHub */
+}
+
+body[theme="night"] .github-icon {
+    background-image: url('../images/github-mark-night.svg'); /* Иконка GitHub */
 }

@@ -43,6 +43,10 @@ class MyPlayer {
         this.file = file;
     }
 
+    setFileLink(fileLink){
+        this.fileLink = fileLink;
+    }
+
     setCallback(callback) {
         this.callback = callback;
     }
@@ -84,12 +88,17 @@ class MyPlayer {
         }
     }
 
-    async install(scene) {
-        if (!this.file) {
+    async install(scene){
+        let box = scene.createBox();
+        return this.installInBox(box);
+    }
+
+    async installInBox(box) {
+        if (!this.file && !this.fileLink) {
             throw new Error("File is not loaded");
         }
 
-        let mediaPlayerBox = scene.createBox();
+        let mediaPlayerBox = box;
         mediaPlayerBox.setName("mediaPlayerBox");
         mediaPlayerBox.addClassName("mediaPlayerBox");
 
@@ -113,10 +122,20 @@ class MyPlayer {
 
         this.setVolume(0);
 
-        videoPlayer.src({
-            type: "video/mp4",
-            src: URL.createObjectURL(this.file)
-        });
+        if (this.file) {
+            videoPlayer.src({
+                type: "video/mp4",
+                src: URL.createObjectURL(this.file)
+            });
+        }
+
+        if(this.fileLink){
+            videoPlayer.src({
+                type: "video/mp4",
+                src: this.fileLink
+            });
+        }
+
 
         videoPlayer.addClass("vjs-big-play-centered");
 
@@ -138,6 +157,22 @@ class MyPlayer {
         videoPlayer.on('ended', () => {
             this._onEnded();
         });
+    }
+
+    replaceVideo(){
+        if (this.file) {
+            this.videoPlayer.src({
+                type: "video/mp4",
+                src: URL.createObjectURL(this.file)
+            });
+        }
+
+        if(this.fileLink){
+            this.videoPlayer.src({
+                type: "video/mp4",
+                src: this.fileLink
+            });
+        }
     }
 
     _playAudioBuffer(positionInSeconds) {
@@ -166,11 +201,11 @@ class MyPlayer {
         }
     }
 
-    show(){
+    show() {
         this.mediaPlayerBox.reveal();
     }
 
-    hide(){
+    hide() {
         this.mediaPlayerBox.hide();
     }
 }

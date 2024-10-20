@@ -45,7 +45,7 @@ body[theme="day"] .language-code {
 }
 
 body[theme="night"] .language-code {
-    color: #d3af86;
+    color: white;
 }
 
 /* Стили для выпадающего списка */
