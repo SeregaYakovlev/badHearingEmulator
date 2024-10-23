@@ -273,6 +273,11 @@ class Page {
         liveConversationService.show();
     }
 
+    runListenYourselfService(){
+        let listenYourselfService = new ListenYourselfService(this);
+        listenYourselfService.show();
+    }
+
     runRealtimeFileService() {
         let realtimeFileService = new RealtimeFileService(this);
         realtimeFileService.run();

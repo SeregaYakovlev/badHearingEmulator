@@ -16,21 +16,29 @@
             "zho": "听你的文件",
             "ara": "استمع إلى ملفك"
         },
-        "mainScene_mainBox_0": {
-            "rus": "Сайт покажет, что такое плохой слух.",
-            "eng": "The site will show you what bad hearing is.",
-            "fra": "Le site vous montrera ce qu'est une mauvaise audition.",
-            "esp": "El sitio te mostrará qué es la mala audición.",
-            "zho": "该网站将向您展示什么是听力障碍。",
-            "ara": "الموقع سيظهر لك ما هي السمع السيء."
+        "ListenYourself": {
+            "rus": "Послушать себя",
+            "eng": "Listen yourself",
+            "fra": "Écoutez-vous",
+            "esp": "Escúchate",
+            "zho": "听你自己",
+            "ara": "استمع إلى نفسك"
         },
-        "mainScene_mainBox_1": {
-            "rus": "Для этого нужно всего лишь загрузить аудио/видео (до 1 часа)",
-            "eng": "To do this, you just need to upload audio/video (up to 1 hour)",
-            "fra": "Pour ce faire, il vous suffit de télécharger un audio/vidéo (jusqu'à 1 heure)",
-            "esp": "Para hacerlo, solo necesitas cargar audio/video (hasta 1 hora)",
-            "zho": "要做到这一点，您只需上传音频/视频（最多 1 小时）",
-            "ara": "للقيام بذلك، تحتاج فقط إلى تحميل الصوت/الفيديو (حتى 1 ساعة)"
+        "StartMicrophoneRecord": {
+            "rus": "Начать запись",
+            "eng": "Start recording",
+            "fra": "Commencer l'enregistrement",
+            "esp": "Comenzar a grabar",
+            "zho": "开始录音",
+            "ara": "ابدأ التسجيل"
+        },
+        "StopMicrophoneRecord": {
+            "rus": "Остановить запись",
+            "eng": "Stop recording",
+            "fra": "Arrêter l'enregistrement",
+            "esp": "Detener la grabación",
+            "zho": "停止录音",
+            "ara": "أوقف التسجيل"
         },
         "LiveChatMode": {
             "rus": "Режим живой беседы",

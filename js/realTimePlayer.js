@@ -30,7 +30,7 @@ class RealTimePlayer {
     }
 
     async loadFile(file) {
-        this.player.loadFile(file);
+        this.player.setFile(file);
         this.file = file;
         await this.realtimeFilter.loadFile(file);
     }
@@ -55,8 +55,12 @@ class RealTimePlayer {
         this.realtimeFilter.stopProcessing();
     }
 
+    async installInBox(box){
+        await this.player.installInBox(box);
+    }
+
     async install(scene) {
-        this.player.install(scene);
+        await this.player.install(scene);
     }
 
     show(){

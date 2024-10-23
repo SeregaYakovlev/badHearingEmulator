@@ -31,8 +31,8 @@ class LiveConversation {
         mainBox.addElement(p3);
 
         this._addMicrophoneBtn(mainBox);
-        this._addFrequencySpectrum(scene);
         this._addFrequencySlider(scene);
+        this._addFrequencySpectrum(scene);
         this._addMainPageBtn(scene);
 
         scene.show();

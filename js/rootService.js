@@ -9,6 +9,7 @@ class RootService {
 
         this._addExampleService(scene);
         this._addRealtimeFileService(scene);
+        this._addListenYourselfService(scene);
         this._addLiveChatService(scene);
         this._addAudiogramHearingService(scene);
         scene.show();
@@ -31,6 +32,26 @@ class RootService {
         serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
         serviceLink.onclick = () => {
             this.page.runRealtimeFileService(); // Обработчик события на клик
+        };
+
+        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
+
+        // Добавляем описание в созданный блок
+        serviceBox.addElement(serviceDescription);
+    }
+
+    _addListenYourselfService(scene){
+        let serviceBox = scene.createBox();
+        serviceBox.addClassName("tipBox");
+
+        let serviceDescription = document.createElement("p");
+
+        // Создание ссылки
+        let serviceLink = document.createElement("a");
+        serviceLink.innerHTML = setTSTR("ListenYourself");
+        serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
+        serviceLink.onclick = () => {
+            this.page.runListenYourselfService(); // Обработчик события на клик
         };
 
         serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание

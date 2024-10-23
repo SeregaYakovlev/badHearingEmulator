@@ -6,6 +6,10 @@ class MyBinaryButton {
         });
     }
 
+    addClassName(className){
+        this.btn.classList.add(className);
+    }
+
     asHTMLElement() {
         return this.btn;
     }

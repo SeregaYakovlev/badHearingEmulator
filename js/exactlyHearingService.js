@@ -138,7 +138,7 @@ class ExactlyHearingService {
         scene.addClassName("mediaPlayerScene");
 
         let player = new MyPlayer(this.page, null);
-        player.loadFile(originalFile);
+        player.setFile(originalFile);
         player.setCustomAudioBuffer(handledAudioBuffer);
         player.install(scene);
 

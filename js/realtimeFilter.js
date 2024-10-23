@@ -41,7 +41,6 @@ class RealTimeFilter {
 
     async loadFile(file) {
         this.file = file;
-
         // Чтение аудиофайла
         let arrayBuffer = await file.arrayBuffer();
         let audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);

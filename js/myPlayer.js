@@ -4,6 +4,10 @@ class MyPlayer {
         this.callback = callback;
     }
 
+    addClassName(className){
+        this.mediaPlayerBox.addClassName(className);
+    }
+
     getAudioContext() {
         return this.audioContext;
     }
@@ -39,7 +43,7 @@ class MyPlayer {
         return !this.videoPlayer.paused();
     }
 
-    loadFile(file) {
+    setFile(file) {
         this.file = file;
     }
 
@@ -94,10 +98,6 @@ class MyPlayer {
     }
 
     async installInBox(box) {
-        if (!this.file && !this.fileLink) {
-            throw new Error("File is not loaded");
-        }
-
         let mediaPlayerBox = box;
         mediaPlayerBox.setName("mediaPlayerBox");
         mediaPlayerBox.addClassName("mediaPlayerBox");
