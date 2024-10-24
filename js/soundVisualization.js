@@ -135,7 +135,8 @@ class SoundVisualization {
 
         // Добавляем обработчик события touchmove
         this.overlayCanvas.addEventListener('touchmove', (moveEvent) => {
-            if(this._isHorizontalScrollWithOneFinger(this.overlayCanvas.touchStartEvent, moveEvent)){
+            if(this.overlayCanvas.touchStartEvent &&
+                this._isHorizontalScrollWithOneFinger(this.overlayCanvas.touchStartEvent, moveEvent)){
                 // предотвращаем прокрутку, если горизонтальный скролл одним пальцем
                 // это нужно для функции корректного наведения ползунка частоты на визулизации
                 moveEvent.preventDefault();
@@ -145,6 +146,11 @@ class SoundVisualization {
             this._onMouseMove(moveEvent.touches[0].clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
         }, { passive: false });
+
+        // Добавляем обработчик события touchend, чтобы стереть начальные координаты касания
+        this.overlayCanvas.addEventListener('touchend', (event) => {
+            this.overlayCanvas.touchStartEvent = null;
+        });
 
         this.drawFrequencies(cssCanvasWidth);
 
