@@ -128,19 +128,48 @@ class SoundVisualization {
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
         });
 
+        // Добавляем обработчик события touchstart, чтобы запомнить начальные координаты касания
+        this.overlayCanvas.addEventListener('touchstart', (event) => {
+            this.overlayCanvas.touchStartEvent = event;
+        });
+
         // Добавляем обработчик события touchmove
-        this.overlayCanvas.addEventListener('touchmove', (event) => {
-            // Предотвращаем стандартное поведение (прокрутку)
-            event.preventDefault();
+        this.overlayCanvas.addEventListener('touchmove', (moveEvent) => {
+            if(this._isHorizontalScrollWithOneFinger(this.overlayCanvas.touchStartEvent, moveEvent)){
+                // предотвращаем прокрутку, если горизонтальный скролл одним пальцем
+                // это нужно для функции корректного наведения ползунка частоты на визулизации
+                moveEvent.preventDefault();
+            }
 
             // Вызываем обработчик движения и рисования
-            this._onMouseMove(event.touches[0].clientX);
+            this._onMouseMove(moveEvent.touches[0].clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
         }, { passive: false });
 
         this.drawFrequencies(cssCanvasWidth);
 
         draw();
+    }
+
+    _isHorizontalScrollWithOneFinger(startEvent, moveEvent){
+        if (moveEvent.touches.length != 1) {
+            // пользователь увеличивает/уменьшает экран двумя пальцами, все ок
+            return false;
+        }
+
+        let startX = startEvent.touches[0].clientX;
+        let startY = startEvent.touches[0].clientY;
+
+        let currentX = moveEvent.touches[0].clientX;
+        let currentY = moveEvent.touches[0].clientY;
+
+        let diffX = Math.abs(currentX - startX);
+        let diffY = Math.abs(currentY - startY);
+
+        if (diffX > diffY) {
+            // прокрутка горизонтальная одним пальцем
+            return true;
+        }
     }
 
 
