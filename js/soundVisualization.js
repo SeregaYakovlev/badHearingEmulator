@@ -130,10 +130,13 @@ class SoundVisualization {
 
         // Добавляем обработчик события touchmove
         this.overlayCanvas.addEventListener('touchmove', (event) => {
+            // Предотвращаем стандартное поведение (прокрутку)
+            event.preventDefault();
+
+            // Вызываем обработчик движения и рисования
             this._onMouseMove(event.touches[0].clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
-        }, { passive: true});
-
+        }, { passive: false });
 
         this.drawFrequencies(cssCanvasWidth);
 
