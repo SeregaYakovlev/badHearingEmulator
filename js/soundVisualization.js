@@ -130,53 +130,15 @@ class SoundVisualization {
 
         // Добавляем обработчик события touchmove
         this.overlayCanvas.addEventListener('touchmove', (moveEvent) => {
-            // здесь this.overlayCanvas.moveEvent - это предыдущее moveEvent
-            if(this.overlayCanvas.moveEvent && this._isHorizontalScrollWithOneFinger(this.overlayCanvas.moveEvent, moveEvent)){
-                // предотвращаем прокрутку, если горизонтальный скролл одним пальцем
-                // это нужно для функции корректного наведения ползунка частоты на визулизации
-                moveEvent.preventDefault();
-            }
-
-            // мы должны помнить предыдущее moveEvent
-            this.overlayCanvas.moveEvent = moveEvent;
-
             // Вызываем обработчик движения и рисования
             this._onMouseMove(moveEvent.touches[0].clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
-        }, { passive: false });
-
-        // Добавляем обработчик события touchend, чтобы стереть координаты касания
-        this.overlayCanvas.addEventListener('touchend', (event) => {
-            this.overlayCanvas.moveEvent = null;
-        });
+        }, { passive: true });
 
         this.drawFrequencies(cssCanvasWidth);
 
         draw();
     }
-
-    _isHorizontalScrollWithOneFinger(previousMoveEvent, moveEvent){
-        if (moveEvent.touches.length != 1) {
-            // пользователь увеличивает/уменьшает экран двумя пальцами, все ок
-            return false;
-        }
-
-        let startX = previousMoveEvent.touches[0].clientX;
-        let startY = previousMoveEvent.touches[0].clientY;
-
-        let currentX = moveEvent.touches[0].clientX;
-        let currentY = moveEvent.touches[0].clientY;
-
-        let diffX = Math.abs(currentX - startX);
-        let diffY = Math.abs(currentY - startY);
-
-        if (diffX > diffY) {
-            // прокрутка горизонтальная одним пальцем
-            return true;
-        }
-    }
-
-
 
     // Метод для отрисовки частот
     drawFrequencies(cssCanvasWidth) {
