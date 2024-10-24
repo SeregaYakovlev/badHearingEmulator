@@ -57,59 +57,28 @@ class ListenYourselfService {
         let box = scene.createBox();
         box.addClassName("listenYourselfBox");
 
-        // Создаем элемент аудиопроигрывателя
-        let audioPlayer = document.createElement("audio");
-        audioPlayer.controls = true; // Добавляем элементы управления (воспроизведение, пауза и т.д.)
-        audioPlayer.volume = 0.0; // Устанавливаем начальную громкость
-
-        // Функция для загрузки аудиофайла
-        audioPlayer.loadFile = (file) => {
-            audioPlayer.src = URL.createObjectURL(file); // Создаем URL для аудиофайла
-            audioPlayer.load(); // Загружаем новый источник
-        };
-
-        // Обработчики событий
-        audioPlayer.addEventListener('play', () => {
-            this._onPlay(audioPlayer.currentTime); // Передаем текущую позицию
-        });
-
-        audioPlayer.addEventListener('pause', () => {
-            this._onPause();
-        });
-
-        audioPlayer.addEventListener('seeked', () => {
-            this._onSeek(audioPlayer.currentTime); // Передаем новую позицию
-        });
-
-        audioPlayer.addEventListener('ended', () => {
-            this._onEnded();
-        });
-
-        // Добавляем элемент аудиопроигрывателя в box
-        box.addElement(audioPlayer);
+        let audioPlayer = new MyAudioPlayer();
+        audioPlayer.muteSound();
+        audioPlayer.setCallback(this);
+        audioPlayer.installInBox(box);
+        this.audioPlayer = audioPlayer;
 
         // Событие, когда запись начата
         box.onRecordStarted = () => {
-            // Создаем пустой файл
-            let emptyBlob = new Blob([], { type: 'audio/webm' }); // Укажите нужный MIME-тип
-            let emptyFile = new File([emptyBlob], "emptyFile.webm", { type: 'audio/webm' });
-
-            audioPlayer.loadFile(emptyFile); // Сбрасываем источник при начале записи
+            audioPlayer.clear();
         };
 
 
         // Событие, когда запись завершена
-        box.onRecordEnded = async (audioChunks) => {
+        box.onRecordEnded = (audioChunks) => {
             // Создаем объект Blob из записанных данных
             let audioBlob = new Blob(audioChunks, { type: 'audio/webm' }); // Укажите правильный MIME-тип
             let audioFile = new File([audioBlob], "recordedAudio.webm", { type: 'audio/webm' }); // Создайте файл с именем и типом
 
             audioPlayer.loadFile(audioFile); // Загружаем файл в аудиоплеер
             this.realtimeFilter.setHearingFrequency(this.hearingFrequency);
-            await this.realtimeFilter.loadFile(audioFile); // Загружаем файл в фильтр
+            this.realtimeFilter.loadFile(audioFile); // Загружаем файл в фильтр
         };
-
-
 
         this.listenYourselfBox = box;
         this.audioPlayer = audioPlayer;
@@ -145,32 +114,29 @@ class ListenYourselfService {
         this.listenYourselfBox.onRecordEnded(audioChunks);
     }
 
-    _onPause() {
+    onStop() {
         this.realtimeFilter.stopProcessing();
         this.soundVisualization.stopProcessing();
     }
 
-    _onPlay(position) {
+    onPlay(position) {
         this.realtimeFilter.startProcessingFromFile(position);
         this.soundVisualization.startProcessing();
     }
 
-    _onSeek(position) {
+    onSeek(position) {
         this.realtimeFilter.stopProcessing();
+        this.soundVisualization.stopProcessing();
 
-        if (this.isPlaying()) {
+        if (this.audioPlayer.isPlaying()) {
             this.realtimeFilter.startProcessingFromFile(position);
             this.soundVisualization.startProcessing();
         }
     }
 
-    _onEnded() {
+    onEnded() {
         this.realtimeFilter.stopProcessing();
         this.soundVisualization.stopProcessing();
-    }
-
-    isPlaying() {
-        return !this.audioPlayer.paused; // Возвращает true, если плеер воспроизводит звук, иначе false
     }
 
 

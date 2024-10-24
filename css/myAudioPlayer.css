@@ -1,0 +1,78 @@
+.myAudioPlayer {
+    display: flex;
+    box-sizing: border-box;
+    align-items: center; /* Центрирование по вертикали */
+    justify-content: center; /* Центрирование по горизонтали */
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+/* Если атрибут fileIsLoaded не задан, отключить кнопки воспроизведения и паузы */
+.myAudioPlayer:not([fileIsLoaded]) .playButton,
+.myAudioPlayer:not([fileIsLoaded]) .pauseButton {
+    pointer-events: none; /* Отключить кликабельность */
+    opacity: 0.5; /* Сделать кнопки полупрозрачными для индикации отключения */
+    cursor: not-allowed; /* Изменить курсор на запретный */
+}
+
+.myAudioPlayer .playButton,
+.myAudioPlayer .pauseButton {
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    display: block; /* Должны быть видимы */
+    margin: 0 auto; /* Центрирование внутри блока */
+}
+
+/* Стили для кнопки воспроизведения */
+body[theme="day"] .myAudioPlayer .playButton {
+    background-image: url("../images/myAudioPlayer/playButton-day.svg");
+}
+
+body[theme="day"] .myAudioPlayer .pauseButton {
+    background-image: url("../images/myAudioPlayer/pauseButton-day.svg");
+}
+
+body[theme="night"] .myAudioPlayer .playButton {
+    background-image: url("../images/myAudioPlayer/playButton-night.svg");
+}
+
+body[theme="night"] .myAudioPlayer .pauseButton {
+    background-image: url("../images/myAudioPlayer/pauseButton-night.svg");
+}
+
+/* Показать кнопку воспроизведения, если атрибут playing не задан */
+.myAudioPlayer:not([playing]) .playButton {
+    display: block;
+}
+
+/* Скрыть кнопку воспроизведения, если атрибут playing равен true */
+.myAudioPlayer[playing="true"] .playButton {
+    display: none;
+}
+
+/* Скрыть кнопку паузы, если атрибут playing не задан  */
+.myAudioPlayer:not([playing]) .pauseButton {
+    display: none;
+}
+
+/* Показать кнопку паузы, если атрибут playing равен true */
+.myAudioPlayer[playing="true"] .pauseButton {
+    display: block;
+}
+
+/* Цвет фона для дневного и ночного режимов */
+body[theme="day"] .myAudioPlayer {
+    background-color: #6B8E23;
+}
+
+body[theme="night"] .myAudioPlayer {
+    background-color: #362712;
+}

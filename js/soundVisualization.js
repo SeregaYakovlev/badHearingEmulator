@@ -124,9 +124,16 @@ class SoundVisualization {
 
         // Добавляем обработчик события mousemove
         this.overlayCanvas.addEventListener('mousemove', (event) => {
-            this._onMouseMove(event);
+            this._onMouseMove(event.clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
         });
+
+        // Добавляем обработчик события touchmove
+        this.overlayCanvas.addEventListener('touchmove', (event) => {
+            this._onMouseMove(event.touches[0].clientX);
+            this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
+        }, { passive: true});
+
 
         this.drawFrequencies(cssCanvasWidth);
 
@@ -154,7 +161,7 @@ class SoundVisualization {
             let frequency = frequencyRange[0] + (frequencyRange[1] - frequencyRange[0]) * ((i + 0.5) / frequencies);
 
             // Форматируем частоту
-            let formattedFrequency = frequency >= 1000 ? (frequency / 1000).toFixed(1) + 'k' : Math.round(frequency);
+            let formattedFrequency = frequency >= 1000 ? Math.round((frequency / 1000)) + 'k' : Math.round(frequency);
 
             // Подпись частоты в верхней части канваса
             this.mainCanvasCtx.fillText(formattedFrequency, ((i + 0.5) / frequencies) * cssCanvasWidth, SoundVisualization.FONT_SIZE); // Позиция Y 8 пикселей от верхней границы
@@ -199,10 +206,10 @@ class SoundVisualization {
         return ctx;
     }
 
-    _onMouseMove(event) {
+    _onMouseMove(mouseX) {
         // Запоминаем положение указателя мыши
         let rect = this.overlayCanvas.getBoundingClientRect();
-        this.mouseX = event.clientX - rect.left;
+        this.mouseX = mouseX - rect.left;
     }
 
     _drawMouseFrequency(cssCanvasWidth, cssCanvasHeight) {
@@ -219,7 +226,7 @@ class SoundVisualization {
             // Преобразуем частоту в удобный текстовый формат (Гц или кГц)
             let frequencyText = frequency >= 1_000
                 ? (frequency / 1_000).toFixed(1) + ' kHz'
-                : frequency.toFixed(1) + ' Hz';
+                : Math.round(frequency) + ' Hz';
 
             // Рисуем вертикальную линию на месте курсора
             this.overlayCanvasCtx.strokeStyle = 'white';
