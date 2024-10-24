@@ -128,28 +128,26 @@ class SoundVisualization {
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
         });
 
-        // Добавляем обработчик события touchstart, чтобы запомнить начальные координаты касания
-        this.overlayCanvas.addEventListener('touchstart', (event) => {
-            this.overlayCanvas.touchStartEvent = event;
-        });
-
         // Добавляем обработчик события touchmove
         this.overlayCanvas.addEventListener('touchmove', (moveEvent) => {
-            if(this.overlayCanvas.touchStartEvent &&
-                this._isHorizontalScrollWithOneFinger(this.overlayCanvas.touchStartEvent, moveEvent)){
+            // здесь this.overlayCanvas.moveEvent - это предыдущее moveEvent
+            if(this.overlayCanvas.moveEvent && this._isHorizontalScrollWithOneFinger(this.overlayCanvas.moveEvent, moveEvent)){
                 // предотвращаем прокрутку, если горизонтальный скролл одним пальцем
                 // это нужно для функции корректного наведения ползунка частоты на визулизации
                 moveEvent.preventDefault();
             }
+
+            // мы должны помнить предыдущее moveEvent
+            this.overlayCanvas.moveEvent = moveEvent;
 
             // Вызываем обработчик движения и рисования
             this._onMouseMove(moveEvent.touches[0].clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
         }, { passive: false });
 
-        // Добавляем обработчик события touchend, чтобы стереть начальные координаты касания
+        // Добавляем обработчик события touchend, чтобы стереть координаты касания
         this.overlayCanvas.addEventListener('touchend', (event) => {
-            this.overlayCanvas.touchStartEvent = null;
+            this.overlayCanvas.moveEvent = null;
         });
 
         this.drawFrequencies(cssCanvasWidth);
@@ -157,14 +155,14 @@ class SoundVisualization {
         draw();
     }
 
-    _isHorizontalScrollWithOneFinger(startEvent, moveEvent){
+    _isHorizontalScrollWithOneFinger(previousMoveEvent, moveEvent){
         if (moveEvent.touches.length != 1) {
             // пользователь увеличивает/уменьшает экран двумя пальцами, все ок
             return false;
         }
 
-        let startX = startEvent.touches[0].clientX;
-        let startY = startEvent.touches[0].clientY;
+        let startX = previousMoveEvent.touches[0].clientX;
+        let startY = previousMoveEvent.touches[0].clientY;
 
         let currentX = moveEvent.touches[0].clientX;
         let currentY = moveEvent.touches[0].clientY;
