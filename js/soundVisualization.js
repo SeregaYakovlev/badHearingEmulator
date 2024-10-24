@@ -130,10 +130,6 @@ class SoundVisualization {
 
         // Добавляем обработчик события touchmove
         this.overlayCanvas.addEventListener('touchmove', (moveEvent) => {
-            if(moveEvent.touches.length != 1){
-                // юзер уменьшает-увеличивает экран
-                return;
-            }
             // Вызываем обработчик движения и рисования
             this._onMouseMove(moveEvent.touches[0].clientX);
             this._drawMouseFrequency(cssCanvasWidth, cssCanvasHeight);
