@@ -1,5 +1,6 @@
 class MyAudioPlayer {
-    constructor() {
+    constructor(scene) {
+        this.scene = scene;
         this.audioPlayer = document.createElement("audio");
         this._addUI();
         this._addEventListeners();

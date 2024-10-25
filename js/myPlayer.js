@@ -1,30 +1,25 @@
 class MyPlayer {
-    constructor(page, callback) {
-        this.page = page;
+    constructor(scene, callback) {
+        this.scene = scene;
         this.callback = callback;
+        this.speaker = new MySpeaker();
     }
 
-    addClassName(className){
+    addClassName(className) {
         this.mediaPlayerBox.addClassName(className);
     }
 
     getAudioContext() {
-        return this.audioContext;
+        return this.speaker.getAudioContext();
     }
 
     getSoundSource() {
-        if (this.currentBufferSource) {
-            return this.currentBufferSource;
-        }
-        else {
-            throw new Error("No sound source");
-        }
+        return this.speaker.getSoundSource();
     }
 
     setCustomAudioBuffer(audioBuffer) {
         this.customAudioSource = true;
         this.audioBuffer = audioBuffer;
-        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
 
     setFullVolume() {
@@ -47,7 +42,7 @@ class MyPlayer {
         this.file = file;
     }
 
-    setFileLink(fileLink){
+    setFileLink(fileLink) {
         this.fileLink = fileLink;
     }
 
@@ -60,7 +55,7 @@ class MyPlayer {
             this.callback.onStop();
         }
         if (this.customAudioSource) {
-            this._stopAudioBuffer();
+            this._stopCustomSound();
         }
     }
 
@@ -69,7 +64,7 @@ class MyPlayer {
             this.callback.onPlay(position);
         }
         if (this.customAudioSource) {
-            this._playAudioBuffer(position);
+            this._playCustomSound(position);
         }
     }
 
@@ -78,8 +73,8 @@ class MyPlayer {
             this.callback.onSeek(position);
         }
         if (this.isPlaying() && this.customAudioSource) {
-            this._stopAudioBuffer();
-            this._playAudioBuffer(position);
+            this._stopCustomSound();
+            this._playCustomSound(position);
         }
     }
 
@@ -88,11 +83,24 @@ class MyPlayer {
             this.callback.onEnded();
         }
         if (this.customAudioSource) {
-            this._stopAudioBuffer();
+            this._stopCustomSound();
         }
     }
 
-    async install(scene){
+    _onDestroyed() {
+        if (this.callback) {
+            this.callback.onDestroyed();
+        }
+        if (this.customAudioSource) {
+            this._stopCustomSound();
+        }
+    }
+
+    onSceneClosed(){
+        this._onDestroyed();
+    }
+
+    async install(scene) {
         let box = scene.createBox();
         return this.installInBox(box);
     }
@@ -129,7 +137,7 @@ class MyPlayer {
             });
         }
 
-        if(this.fileLink){
+        if (this.fileLink) {
             videoPlayer.src({
                 type: "video/mp4",
                 src: this.fileLink
@@ -157,9 +165,12 @@ class MyPlayer {
         videoPlayer.on('ended', () => {
             this._onEnded();
         });
+
+        this.scene.subscribeToSceneClosing(this);
     }
 
-    replaceVideo(){
+
+    replaceVideo() {
         if (this.file) {
             this.videoPlayer.src({
                 type: "video/mp4",
@@ -167,7 +178,7 @@ class MyPlayer {
             });
         }
 
-        if(this.fileLink){
+        if (this.fileLink) {
             this.videoPlayer.src({
                 type: "video/mp4",
                 src: this.fileLink
@@ -175,30 +186,12 @@ class MyPlayer {
         }
     }
 
-    _playAudioBuffer(positionInSeconds) {
-        if (!this.audioBuffer) {
-            throw new Error("AudioBuffer is not set.");
-        }
-
-        // Получаем частоту дискретизации
-        let sampleRate = this.audioBuffer.sampleRate;
-
-        // Вычисляем смещение в аудиобуфере, соответствующее позиции видео
-        let startOffset = positionInSeconds * sampleRate;
-
-        this.currentBufferSource = this.audioContext.createBufferSource();
-        this.currentBufferSource.buffer = this.audioBuffer;
-        this.currentBufferSource.connect(this.audioContext.destination);
-
-        // Устанавливаем начальное положение в аудиобуфере
-        this.currentBufferSource.start(0, startOffset / sampleRate);
+    _playCustomSound(position) {
+        this.speaker.playBuffer(this.audioBuffer, position);
     }
 
-    _stopAudioBuffer() {
-        if (this.currentBufferSource) {
-            this.currentBufferSource.stop(); // Останавливаем текущий источник
-            this.currentBufferSource = null;
-        }
+    _stopCustomSound() {
+        this.speaker.stop();
     }
 
     show() {

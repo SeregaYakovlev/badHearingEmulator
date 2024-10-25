@@ -1,7 +1,7 @@
 class RealTimeFilter {
     constructor() {
-        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
+        this.speaker = new MySpeaker();
+        this.audioContext = this.speaker.getAudioContext();
         this.filters = [];
         for (let i = 0; i < 3; i++) {
             let filter = this._createFilter();
@@ -57,13 +57,8 @@ class RealTimeFilter {
             throw new Error("No hearing frequency parameter");
         }
 
-        // Если аудио уже проигрывается, остановите его
-        this.stopProcessing();
-
-        // Создаем новый источник для микрофонного потока
-        this.inputSource = this.audioContext.createMediaStreamSource(stream);
-
-        this._connectFiltersToInputAndOutput(this.filters, this.inputSource, this.audioContext.destination);
+        this.speaker.setFilters(this.filters);
+        this.speaker.playStream(stream);
     }
 
     startProcessingFromFile(position) {
@@ -74,30 +69,13 @@ class RealTimeFilter {
         if (this.hearingFrequency == null) { // Проверяет на null и undefined, ноль допустим
             throw new Error("No hearing frequency parameter");
         }
-        // Если аудио уже проигрывается, остановите его
-        this.stopProcessing();
 
-        this.inputSource = this.audioContext.createBufferSource();
-        this.inputSource.buffer = this._audioBuffer;
-
-        // Вычисляем смещение в аудиобуфере, соответствующее позиции видео
-        let sampleRate = this._audioBuffer.sampleRate;
-        let startOffset = position * sampleRate;
-
-        this._connectFiltersToInputAndOutput(this.filters, this.inputSource, this.audioContext.destination);
-
-        // Устанавливаем начальное положение в аудиобуфере
-        this.inputSource.start(0, startOffset / sampleRate);
+        this.speaker.setFilters(this.filters);
+        this.speaker.playBuffer(this._audioBuffer, position);
     }
 
     stopProcessing() {
-        if (this.inputSource) {
-            this.inputSource.disconnect();
-            this.inputSource = null;
-        }
-        if (this._processor) {
-            this._processor.disconnect();
-        }
+        this.speaker.stop();
 
         for (let filter of this.filters) {
             filter.disconnect();
@@ -109,18 +87,4 @@ class RealTimeFilter {
         filter.type = "lowpass";
         return filter;
     }
-
-    _connectFiltersToInputAndOutput(filters, input, output) {
-        // Соединяем фильтры последовательно
-        input.connect(filters[0]); // Подключаем источник к первому фильтру
-        for (let i = 1; i < filters.length; i++) {
-            filters[i - 1].connect(filters[i]); // Подключаем фильтры друг к другу
-        }
-        filters[filters.length - 1].connect(output); // Последний фильтр к выходу
-    }
-
-    static _getNextPowerOfTwo(integer) {
-        return Math.pow(2, Math.ceil(Math.log2(integer)));
-    }
-
 }

@@ -57,7 +57,7 @@ class ListenYourselfService {
         let box = scene.createBox();
         box.addClassName("listenYourselfBox");
 
-        let audioPlayer = new MyAudioPlayer();
+        let audioPlayer = new MyAudioPlayer(scene);
         audioPlayer.muteSound();
         audioPlayer.setCallback(this);
         audioPlayer.installInBox(box);

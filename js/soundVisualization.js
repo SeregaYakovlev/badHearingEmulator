@@ -54,13 +54,22 @@ class SoundVisualization {
             try {
                 soundSource.disconnect(this.analyser);
             } catch (e) {
-                console.log("Некритичная ошибка: " + e);
+
             }
         }
     }
 
-    show() {
+    async show() {
         this.soundVisualizationBox.reveal();
+
+        return new Promise((resolve) => {
+            // Запрашиваем обновление интерфейса
+            requestAnimationFrame(() => {
+                this._initDisplay(); // Инициализируем отображение в следующем кадре
+
+                resolve(); // Разрешаем промис после обновления
+            });
+        });
     }
 
     startProcessing() {
@@ -76,51 +85,13 @@ class SoundVisualization {
         this.soundVisualizationBox.hide();
     }
 
-    _startVisualization() {
+    _initDisplay() {
         let rect = this.mainCanvas.getBoundingClientRect();
         let cssCanvasWidth = rect.width;
         let cssCanvasHeight = rect.height;
 
         this.mainCanvasCtx = this._setUpHiResCanvas(this.mainCanvas);
         this.overlayCanvasCtx = this._setUpHiResCanvas(this.overlayCanvas);
-
-        let draw = () => {
-            requestAnimationFrame(draw);
-
-            // Получаем данные частотного спектра
-            this.analyser.getByteFrequencyData(this.dataArray);
-            let fftArray = this.dataArray;
-
-            // Очищаем canvas
-            this.mainCanvasCtx.clearRect(0, SoundVisualization.FONT_SIZE, cssCanvasWidth, cssCanvasHeight);
-
-            let maxValue = Math.max(...fftArray);
-            let minFrequency = SoundVisualization.FREQUENCY_RANGE[0];
-            let maxFrequency = SoundVisualization.FREQUENCY_RANGE[1];
-
-            for (let pixelIndex = 0; pixelIndex < cssCanvasWidth; pixelIndex++) {
-
-                // Рассчитываем частоту на основе положения мыши и заданного диапазона частот
-                let frequency = minFrequency + (pixelIndex / cssCanvasWidth) * (maxFrequency - minFrequency);
-
-                let sampleRate = this.analyser.context.sampleRate; // Частота дискретизации
-                let nyquist = sampleRate / 2; // Частота Найквиста
-
-                let barHeight;
-                // Вычисляем индекс для этой частоты
-                let fftIndex = Math.floor((frequency / nyquist) * (fftArray.length));
-                barHeight = fftArray[fftIndex] || 0;
-
-                let normalizedBarHeight = (barHeight / maxValue) * (cssCanvasHeight - SoundVisualization.FONT_SIZE - 1);
-
-                // Определяем цвет по высоте
-                let color = this.getColor(barHeight);
-
-                // Отрисовка полосы
-                this.mainCanvasCtx.fillStyle = color;
-                this.mainCanvasCtx.fillRect(pixelIndex, cssCanvasHeight - normalizedBarHeight, 1, normalizedBarHeight); // Используем 1 пиксель в ширину
-            }
-        }
 
         // Добавляем обработчик события mousemove
         this.overlayCanvas.addEventListener('mousemove', (event) => {
@@ -136,8 +107,52 @@ class SoundVisualization {
         }, { passive: true });
 
         this.drawFrequencies(cssCanvasWidth);
+    }
 
-        draw();
+    _drawSpectrum(cssCanvasWidth, cssCanvasHeight) {
+        requestAnimationFrame(() => this._drawSpectrum(cssCanvasWidth, cssCanvasHeight));
+
+        // Получаем данные частотного спектра
+        this.analyser.getByteFrequencyData(this.dataArray);
+        let fftArray = this.dataArray;
+
+        // Очищаем canvas
+        this.mainCanvasCtx.clearRect(0, SoundVisualization.FONT_SIZE, cssCanvasWidth, cssCanvasHeight);
+
+        let maxValue = Math.max(...fftArray);
+        let minFrequency = SoundVisualization.FREQUENCY_RANGE[0];
+        let maxFrequency = SoundVisualization.FREQUENCY_RANGE[1];
+
+        for (let pixelIndex = 0; pixelIndex < cssCanvasWidth; pixelIndex++) {
+
+            // Рассчитываем частоту на основе положения мыши и заданного диапазона частот
+            let frequency = minFrequency + (pixelIndex / cssCanvasWidth) * (maxFrequency - minFrequency);
+
+            let sampleRate = this.analyser.context.sampleRate; // Частота дискретизации
+            let nyquist = sampleRate / 2; // Частота Найквиста
+
+            let barHeight;
+            // Вычисляем индекс для этой частоты
+            let fftIndex = Math.floor((frequency / nyquist) * (fftArray.length));
+            barHeight = fftArray[fftIndex] || 0;
+
+            let normalizedBarHeight = (barHeight / maxValue) * (cssCanvasHeight - SoundVisualization.FONT_SIZE - 1);
+
+            // Определяем цвет по высоте
+            let color = this.getColor(barHeight);
+
+            // Отрисовка полосы
+            this.mainCanvasCtx.fillStyle = color;
+            this.mainCanvasCtx.fillRect(pixelIndex, cssCanvasHeight - normalizedBarHeight, 1, normalizedBarHeight); // Используем 1 пиксель в ширину
+        }
+    }
+
+    _startVisualization() {
+        let rect = this.mainCanvas.getBoundingClientRect();
+        let cssCanvasWidth = rect.width;
+        let cssCanvasHeight = rect.height;
+
+        this._drawSpectrum(cssCanvasWidth, cssCanvasHeight);
     }
 
     // Метод для отрисовки частот

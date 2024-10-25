@@ -17,7 +17,7 @@ class BadHearingExampleService{
 
         let fileLink =this._getFileLink();
 
-        let player = new MyPlayer(this.page, null);
+        let player = new MyPlayer(scene, null);
         player.setFileLink(fileLink);
         player.installInBox(videoBox);
         player.setFullVolume();

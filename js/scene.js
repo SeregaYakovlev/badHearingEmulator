@@ -5,6 +5,8 @@ class Scene {
         this.scene.classList.add("scene");
         this.boxes = [];
         this.storage = new VariableStorage();
+
+        this.sceneClosingListeners = [];
     }
 
     setVariable(variableName, variableValue) {
@@ -37,6 +39,10 @@ class Scene {
 
     close() {
         this.scene.remove();
+
+        for(let sceneClosingListener of this.sceneClosingListeners){
+            sceneClosingListener.onSceneClosed();
+        }
     }
 
     displayAt(htmlElement) {
@@ -65,5 +71,9 @@ class Scene {
 
         oldBox.hide();
         newBox.reveal();
+    }
+
+    subscribeToSceneClosing(obj){
+        this.sceneClosingListeners.push(obj);
     }
 }

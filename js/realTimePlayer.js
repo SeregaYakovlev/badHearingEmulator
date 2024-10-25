@@ -1,9 +1,9 @@
 class RealTimePlayer {
-    constructor(page, hearingFrequency) {
-        this.page = page;
+    constructor(scene, hearingFrequency) {
+        this.scene = scene;
         this.hearingFrequency = hearingFrequency;
         this.realtimeFilter = new RealTimeFilter();
-        this.player = new MyPlayer(page, this);
+        this.player = new MyPlayer(this.scene, this);
         this._currentOffset = 0;
 
     }
@@ -52,6 +52,10 @@ class RealTimePlayer {
     }
 
     onEnded() {
+        this.realtimeFilter.stopProcessing();
+    }
+
+    onDestroyed(){
         this.realtimeFilter.stopProcessing();
     }
 

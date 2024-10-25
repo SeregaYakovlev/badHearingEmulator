@@ -39,7 +39,7 @@ class RealtimeFileService {
         let scene = new Scene(this.page);
         scene.addClassName("mediaPlayerScene");
 
-        let realtimePlayer = new RealTimePlayer(this, hearingFrequency);
+        let realtimePlayer = new RealTimePlayer(scene, hearingFrequency);
         realtimePlayer.setHearingFrequency(hearingFrequency);
         await realtimePlayer.loadFile(originalFile);
         realtimePlayer.install(scene);
@@ -72,9 +72,9 @@ class RealtimeFileService {
         let soundVisualizationBtn = new MyBinaryButton();
         let soundVisualization = new SoundVisualization(scene, realtimePlayer);
 
-        soundVisualizationBtn.setState1("FrequencySpectrum", () => {
+        soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
             realtimePlayer.hide();
-            soundVisualization.show();
+            await soundVisualization.show();
             soundVisualization.startProcessing();
         });
 

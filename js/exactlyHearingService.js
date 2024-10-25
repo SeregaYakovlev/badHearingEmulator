@@ -137,7 +137,7 @@ class ExactlyHearingService {
         let scene = new Scene(this.page);
         scene.addClassName("mediaPlayerScene");
 
-        let player = new MyPlayer(this.page, null);
+        let player = new MyPlayer(scene, null);
         player.setFile(originalFile);
         player.setCustomAudioBuffer(handledAudioBuffer);
         player.install(scene);
@@ -164,9 +164,9 @@ class ExactlyHearingService {
 
         let soundVisualization = new SoundVisualization(scene, player);
 
-        soundVisualizationBtn.setState1("FrequencySpectrum", () => {
+        soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
             player.hide();
-            soundVisualization.show();
+            await soundVisualization.show();
             soundVisualization.startProcessing();
         });
 
