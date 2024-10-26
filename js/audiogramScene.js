@@ -1,5 +1,5 @@
 class AudiogramScene {
-    constructor(page, service, audiogramType){
+    constructor(page, service, audiogramType) {
         this.page = page;
         this.service = service;
         this.scene = new Scene(page);
@@ -10,30 +10,31 @@ class AudiogramScene {
         this.audiogramBox = this._createAudiogramBox(this.scene);
         this._createAudiogramCaption(this.audiogram, this.audiogramBox);
         this.nextActionBox = this._createNextActionBox(this.scene);
+        this._createGoToMainPageBox(this.scene);
         this.audiogram.show(this.audiogramBox.asHTMLElement());
     }
 
-    getAudiogram(){
+    getAudiogram() {
         return this.audiogram;
     }
 
-    show(){
+    show() {
         this.scene.show();
     }
 
-    isLeftEar(){
+    isLeftEar() {
         return this.audiogramType === Audiogram.Types.LEFT_EAR;
     }
 
-    isRightEar(){
+    isRightEar() {
         return this.audiogramType === Audiogram.Types.RIGHT_EAR;
     }
 
-    isBinaural(){
+    isBinaural() {
         return this.audiogramType === Audiogram.Types.BINAURAL;
     }
 
-    _createAudiogramCaption(audiogram, audiogramBox){
+    _createAudiogramCaption(audiogram, audiogramBox) {
         let captionDiv = document.createElement("div");
         captionDiv.classList.add("audiogramCaptionDiv");
         let captionSpan = document.createElement("span");
@@ -44,7 +45,7 @@ class AudiogramScene {
         return captionDiv;
     }
 
-    _createAudiogramControlsBox(scene, audiogram){
+    _createAudiogramControlsBox(scene, audiogram) {
         let audiogramControlsBox = scene.createBox();
         audiogramControlsBox.addClassName("audiogramControlsBox");
 
@@ -58,22 +59,28 @@ class AudiogramScene {
         return audiogramControlsBox;
     }
 
-    _createAudiogramBox(scene){
+    _createAudiogramBox(scene) {
         let audiogramBox = scene.createBox();
         audiogramBox.addClassName("audiogramBox");
         return audiogramBox;
     }
 
-    setNextActionBtnText(btnText){
+    setNextActionBtnText(btnText) {
         this.nextActionBox.nextActionBtn.textContent = btnText;
     }
 
-    _createNextActionBox(scene){
+    _createNextActionBox(scene) {
         let nextActionBox = scene.createBox();
         nextActionBox.addClassName("nextActionBox");
 
         let nextActionBtn = document.createElement("button");
-        nextActionBtn.innerHTML = setTSTR("Next");
+
+        if (this.isLeftEar()) {
+            nextActionBtn.innerHTML = setTSTR("Next");
+        }
+        else if(this.isRightEar() || this.isBinaural()){
+            nextActionBtn.innerHTML = setTSTR("downloadFile");
+        }
 
         nextActionBtn.addEventListener("click", () => {
             this.service.onAudiogramSceneInputed(this);
@@ -85,21 +92,36 @@ class AudiogramScene {
         return nextActionBox;
     }
 
-    _getMyNeighbour(){
+    _createGoToMainPageBox(scene) {
+        let box = scene.createBox();
+        box.addClassName("GoToMainPageBox");
+
+        let btn = document.createElement("button");
+        btn.innerHTML = setTSTR("homePage");
+
+        btn.addEventListener("click", () => {
+            this.page.showRoot();
+        })
+
+        box.addElement(btn);
+        return box;
+    }
+
+    _getMyNeighbour() {
         return this.myNeighbour;
     }
 
-    knowYourNeighbour(audiogramScene){
+    knowYourNeighbour(audiogramScene) {
         this.myNeighbour = audiogramScene;
     }
 
-    getServerTask(){
-        if(this.isBinaural()){
+    getServerTask() {
+        if (this.isBinaural()) {
             let serverTask = new ServerTask();
             serverTask.setBinauralAudiogram(this.getAudiogram());
             return serverTask;
         }
-        else if(this.isRightEar()){
+        else if (this.isRightEar()) {
             let myNeighbour = this._getMyNeighbour();
             let leftEarAudiogram = myNeighbour.getAudiogram();
 
@@ -108,14 +130,14 @@ class AudiogramScene {
             serverTask.setRightEarAudiogram(this.getAudiogram())
             return serverTask;
         }
-        else if(this.isLeftEar()){
+        else if (this.isLeftEar()) {
             throw new Error("Algorithm error");
         }
     }
 
 
 
-    _addClearAllBtn(audiogram, btnContainer){
+    _addClearAllBtn(audiogram, btnContainer) {
         let clearAllBtn = document.createElement("button");
         clearAllBtn.innerHTML = setTSTR("DeleteAll");
         clearAllBtn.addEventListener("click", () => {
@@ -125,7 +147,7 @@ class AudiogramScene {
         btnContainer.appendChild(clearAllBtn);
     }
 
-    _addClearLastDrawnPointBtn(audiogram, btnContainer){
+    _addClearLastDrawnPointBtn(audiogram, btnContainer) {
         let clearLastDrawnPointBtn = document.createElement("button");
         clearLastDrawnPointBtn.innerHTML = setTSTR("DeleteOneByOne");
         clearLastDrawnPointBtn.addEventListener("click", () => {

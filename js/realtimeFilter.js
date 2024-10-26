@@ -47,7 +47,6 @@ class RealTimeFilter {
         this._audioBuffer = audioBuffer;
     }
 
-
     startProcessingFromMicrophone(stream) {
         if (!stream) {
             throw new Error("Invalid argument: no stream");
