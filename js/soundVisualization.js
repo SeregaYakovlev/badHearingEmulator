@@ -119,7 +119,6 @@ class SoundVisualization {
         // Очищаем canvas
         this.mainCanvasCtx.clearRect(0, SoundVisualization.FONT_SIZE, cssCanvasWidth, cssCanvasHeight);
 
-        let maxValue = Math.max(...fftArray);
         let minFrequency = SoundVisualization.FREQUENCY_RANGE[0];
         let maxFrequency = SoundVisualization.FREQUENCY_RANGE[1];
 
@@ -136,8 +135,7 @@ class SoundVisualization {
             let fftIndex = Math.floor((frequency / nyquist) * (fftArray.length));
             barHeight = fftArray[fftIndex] || 0;
 
-            let normalizedBarHeight = (barHeight / maxValue) * (cssCanvasHeight - SoundVisualization.FONT_SIZE - 1);
-
+            let normalizedBarHeight = (barHeight / 255) * (cssCanvasHeight - SoundVisualization.FONT_SIZE - 1);
             // Определяем цвет по высоте
             let color = this.getColor(barHeight);
 
@@ -145,6 +143,26 @@ class SoundVisualization {
             this.mainCanvasCtx.fillStyle = color;
             this.mainCanvasCtx.fillRect(pixelIndex, cssCanvasHeight - normalizedBarHeight, 1, normalizedBarHeight); // Используем 1 пиксель в ширину
         }
+    }
+
+    // Функция для получения цвета в зависимости от высоты
+    getColor(value) {
+        let maxHeight = 255; // Максимальная высота
+        let normalizedValue = Math.min(value, maxHeight); // Ограничиваем значение до maxHeight
+
+        let red, green;
+
+        if (normalizedValue < maxHeight / 2) {
+            // Переход от зеленого к желтому
+            red = Math.floor((normalizedValue / (maxHeight / 2)) * 255); // Красный возрастает
+            green = 255; // Зеленый максимален
+        } else {
+            // Переход от желтого к красному
+            red = 255; // Красный максимален
+            green = Math.floor(((maxHeight - normalizedValue) / (maxHeight / 2)) * 255); // Зеленый убывает
+        }
+
+        return `rgb(${red}, ${green}, 0)`; // Синий компонент остается 0
     }
 
     _startVisualization() {
@@ -179,26 +197,6 @@ class SoundVisualization {
             // Подпись частоты в верхней части канваса
             this.mainCanvasCtx.fillText(formattedFrequency, ((i + 0.5) / frequencies) * cssCanvasWidth, SoundVisualization.FONT_SIZE); // Позиция Y 8 пикселей от верхней границы
         }
-    }
-
-    // Функция для получения цвета в зависимости от высоты
-    getColor(value) {
-        let maxHeight = 255; // Максимальная высота
-        let normalizedValue = Math.min(value, maxHeight); // Ограничиваем значение до maxHeight
-
-        let red, green;
-
-        if (normalizedValue < maxHeight / 2) {
-            // Переход от зеленого к желтому
-            red = Math.floor((normalizedValue / (maxHeight / 2)) * 255); // Красный возрастает
-            green = 255; // Зеленый максимален
-        } else {
-            // Переход от желтого к красному
-            red = 255; // Красный максимален
-            green = Math.floor(((maxHeight - normalizedValue) / (maxHeight / 2)) * 255); // Зеленый убывает
-        }
-
-        return `rgb(${red}, ${green}, 0)`; // Синий компонент остается 0
     }
 
     _setUpHiResCanvas(canvas) {
