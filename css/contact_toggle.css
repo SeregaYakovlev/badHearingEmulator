@@ -15,12 +15,12 @@
 
 /* Стили для светлой темы */
 body[theme="day"] .contact-toggle {
-    background-color: white;
+    background-color: var(--day-color-2);
 }
 
 /* Стили для темной темы */
 body[theme="night"] .contact-toggle {
-    background-color: #5e452b;
+    background-color: var(--night-color-3);
 }
 
 .contact-icon {

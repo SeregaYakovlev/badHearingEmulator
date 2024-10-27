@@ -18,11 +18,11 @@
 }
 
 body[theme="day"] .language-toggle {
-    background-color: white;
+    background-color: var(--day-color-2);
 }
 
 body[theme="night"] .language-toggle {
-    background-color: #5e452b;
+    background-color: var(--night-color-3);
 }
 
 .language-circle {
@@ -41,11 +41,11 @@ body[theme="night"] .language-toggle {
 }
 
 body[theme="day"] .language-code {
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .language-code {
-    color: white;
+    color: var(--night-color-6);
 }
 
 /* Стили для выпадающего списка */
@@ -65,11 +65,11 @@ body[theme="night"] .language-code {
 }
 
 body[theme="day"] .language-item{
-    border-bottom: 1px solid #ccc; /* Граница между элементами */
+    border-bottom: 1px solid var(--day-color-4); /* Граница между элементами */
 }
 
 body[theme="night"] .language-item{
-    border-bottom: 1px solid #d3af86; /* Граница между элементами */
+    border-bottom: 1px solid var(--night-color-5); /* Граница между элементами */
 }
 
 body[theme] .language-item:last-child {
@@ -77,31 +77,31 @@ body[theme] .language-item:last-child {
 }
 
 body[theme="day"] .language-list{
-    background-color: wheat;
-    border: 2px solid #ccc;
+    background-color: var(--day-color-2);
+    border: 2px solid var(--day-color-4);
 }
 
 body[theme="night"] .language-list{
-    background-color: #5e452b;
-    border: 2px solid #d3af86;
+    background-color: var(--night-color-3);
+    border: 2px solid var(--night-color-5);
 }
 
 body[theme="day"] .language-item {
-    background-color: white;
-    color: #333;
+    background-color: var(--day-color-2);
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .language-item {
-    background-color: #5e452b;
-    color: #d3af86;
+    background-color: var(--night-color-3);
+    color: var(--night-color-5);
 }
 
 body[theme="day"] .language-item:hover {
-    background-color: #6B8E23; /* Цвет фона при наведении */
-    color: white;
+    background-color: var(--day-color-8); /* Цвет фона при наведении */
+    color: var(--day-color-2);
 }
 
 body[theme="night"] .language-item:hover {
-    background-color: #221a0f; /* Цвет фона при наведении */
-    color: #d3af86;
+    background-color: var(--night-color-1); /* Цвет фона при наведении */
+    color: var(--night-color-5);
 }

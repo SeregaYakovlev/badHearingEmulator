@@ -11,11 +11,11 @@
 }
 
 body[theme="day"] .box {
-    background-color: white;
-    border: 2px solid #ccc; /* Пример границы вокруг контента */
+    background-color: var(--day-color-2);
+    border: 2px solid var(--day-color-4); /* Пример границы вокруг контента */
 }
 
 body[theme="night"] .box {
-    background-color: #5e452b;
-    border: 2px solid #423523; /* Пример границы вокруг контента */
+    background-color: var(--night-color-3);
+    border: 2px solid var(--night-color-4); /* Пример границы вокруг контента */
 }

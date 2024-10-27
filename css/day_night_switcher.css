@@ -14,11 +14,11 @@
 }
 
 body[theme="day"] .theme-toggle {
-    background-color: white;
+    background-color: var(--day-color-2);
 }
 
 body[theme="night"] .theme-toggle {
-    background-color: #5e452b;
+    background-color: var(--night-color-3);
 }
 
 .theme-icon {

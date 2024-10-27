@@ -1,5 +1,21 @@
 {
     "translations": {
+        "Close": {
+            "rus": "Закрыть",
+            "eng": "Close",
+            "fra": "Fermer",
+            "esp": "Cerrar",
+            "zho": "关闭",
+            "ara": "إغلاق"
+        },
+        "What_is_it?": {
+            "rus": "О чём сайт?",
+            "eng": "What is this website about?",
+            "fra": "De quoi s'agit-il sur ce site?",
+            "esp": "¿De qué trata este sitio web?",
+            "zho": "这个网站是关于什么的？",
+            "ara": "ماذا عن هذا الموقع؟"
+        },
         "InVideoExampleBadHearing": {
             "rus": "В этом видео пример плохого слуха",
             "eng": "Here is an example of bad hearing",
@@ -49,12 +65,12 @@
             "ara": "تحدث مع الأشخاص من حولك"
         },
         "audiogramMode": {
-            "rus": "Режим для профессионалов",
-            "eng": "Professional mode",
-            "fra": "Mode professionnel",
-            "esp": "Modo profesional",
-            "zho": "专业模式",
-            "ara": "وضع للمحترفين"
+            "rus": "Режим для специалистов",
+            "eng": "Mode for specialists",
+            "fra": "Mode pour les spécialistes",
+            "esp": "Modo para especialistas",
+            "zho": "专为专家模式",
+            "ara": "وضع للمختصين"
         },
         "downloadFile": {
             "rus": "Загрузить файл",
@@ -201,20 +217,20 @@
             "ara": "نسخة بسيطة"
         },
         "DeleteAll": {
-            "rus": "Удалить все",
-            "eng": "Delete all",
-            "fra": "Tout supprimer",
-            "esp": "Eliminar todo",
-            "zho": "删除所有",
-            "ara": "حذف الكل"
+            "rus": "Стереть все",
+            "eng": "Erase all",
+            "fra": "Tout effacer",
+            "esp": "Borrar todo",
+            "zho": "擦除所有",
+            "ara": "مسح الكل"
         },
         "DeleteOneByOne": {
-            "rus": "Удалять по одной",
-            "eng": "Delete one by one",
-            "fra": "Supprimer un par un",
-            "esp": "Eliminar uno por uno",
-            "zho": "逐个删除",
-            "ara": "احذف واحداً تلو الآخر"
+            "rus": "Стирать по одной",
+            "eng": "Erase one by one",
+            "fra": "Effacer un par un",
+            "esp": "Borrar uno por uno",
+            "zho": "逐个擦除",
+            "ara": "امسح واحداً تلو الآخر"
         },
         "LeftEar": {
             "rus": "Левое ухо",

@@ -9,11 +9,11 @@
 }
 
 body[theme="day"] .audiogramContainer {
-    background-color: wheat;
+    background-color: var(--day-color-6);
 }
 
 body[theme="night"] .audiogramContainer {
-    background-color: #5e452b;
+    background-color: var(--night-color-3);
 }
 
 .audiogram {
@@ -23,11 +23,11 @@ body[theme="night"] .audiogramContainer {
 }
 
 body[theme="day"] .audiogram {
-    background-color: wheat;
+    background-color: var(--day-color-6);
 }
 
 body[theme="night"] .audiogram {
-    background-color: #5e452b;
+    background-color: var(--night-color-3);
 }
 
 .levelLine {
@@ -38,11 +38,11 @@ body[theme="night"] .audiogram {
 }
 
 body[theme="day"] .levelLine {
-    background-color: black;
+    background-color: var(--day-color-3);
 }
 
 body[theme="night"] .levelLine {
-    background-color: #d3af86;
+    background-color: var(--night-color-5);
 }
 
 .frequencyLine {
@@ -53,11 +53,11 @@ body[theme="night"] .levelLine {
 }
 
 body[theme="day"] .frequencyLine {
-    background-color: black;
+    background-color: var(--day-color-3);
 }
 
 body[theme="night"] .frequencyLine {
-    background-color: #d3af86;
+    background-color: var(--night-color-5);
 }
 
 
@@ -87,11 +87,11 @@ body[theme="night"] .frequencyLine {
 }
 
 body[theme="day"] .audiogramPoint {
-    background-color: black;
+    background-color: var(--day-color-3);
 }
 
 body[theme="night"] .audiogramPoint {
-    background-color: white;
+    background-color: var(--night-color-6);
 }
 
 .audiogramLine {
@@ -104,11 +104,11 @@ body[theme="night"] .audiogramPoint {
 }
 
 body[theme="day"] .audiogramLine {
-    stroke: black;
+    stroke: var(--day-color-3);
 }
 
 body[theme="night"] .audiogramLine {
-    stroke: white;
+    stroke: var(--night-color-6);
 }
 
 body[theme="day"] .audiogram.left_ear .audiogramPoint {

@@ -1,0 +1,100 @@
+.introductionScene {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Расстояние между элементами */
+    align-items: center;
+}
+
+.introductionBox {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: 640px;
+    gap: 5px;
+}
+
+.introduction {
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    /* Цвет фона для удобства чтения */
+    padding: 10px;
+    /* Внутренний отступ для текста */
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* Полоса прокрутки по вертикали */
+    resize: none;
+    /* Отключить возможность изменения размера */
+}
+
+body[theme="day"] .introduction {
+    border: 1px solid var(--day-color-1);
+    background-color: var(--day-color-6);
+}
+
+body[theme="night"] .introduction {
+    border: 1px solid var(--night-color-4);
+    background-color: var(--night-color-1);
+}
+
+.introduction * {
+    font-size: 15px;
+}
+
+body[theme="day"] .introduction * {
+    color: var(--day-color-3);
+}
+
+body[theme="night"] .introduction * {
+    color: var(--night-color-5);
+}
+
+/* Стилизация полосы прокрутки */
+.introduction::-webkit-scrollbar {
+    width: 4px; /* ширина полосы прокрутки */
+}
+
+.introduction::-webkit-scrollbar-track {
+    background: transparent; /* цвет фона трека */
+}
+
+.introduction::-webkit-scrollbar-thumb {
+    border-radius: 4px; /* скругление углов полосы */
+}
+
+body[theme="day"] .introduction::-webkit-scrollbar-thumb {
+    background-color: var(--day-color-8); /* цвет полосы прокрутки */
+    
+}
+
+body[theme="day"] .introduction::-webkit-scrollbar-thumb:hover {
+    background-color: var(--day-color-8); /* изменение цвета полосы при наведении */
+}
+
+body[theme="night"] .introduction::-webkit-scrollbar-thumb {
+    background-color: var(--night-color-5); /* цвет полосы прокрутки */
+}
+
+body[theme="night"] .introduction::-webkit-scrollbar-thumb:hover {
+    background-color: var(--night-color-5); /* изменение цвета полосы при наведении */
+}
+
+.introductionScene button {
+    box-sizing: border-box;
+    border: none; /* Убираем границу */
+    padding: 5px 10px; /* Внутренние отступы */
+    border-radius: 5px; /* Скругленные углы */
+    cursor: pointer; /* Указатель при наведении */
+    font-size: 15px;
+}
+
+body[theme="day"] .introductionScene button  {
+    background-color: var(--day-color-8); /* Цвет фона */
+    color: var(--day-color-2); /* Цвет текста */
+}
+
+body[theme="night"] .introductionScene button {
+    background-color: var(--night-color-2); /* Цвет фона */
+    color: var(--night-color-5); /* Цвет текста */
+}

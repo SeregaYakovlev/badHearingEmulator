@@ -7,12 +7,33 @@ class RootService {
         let scene = new Scene(this.page);
         scene.addClassName("mainScene");
 
+        this._addIntroductionService(scene);
         this._addExampleService(scene);
         this._addRealtimeFileService(scene);
         this._addListenYourselfService(scene);
         this._addLiveChatService(scene);
         this._addAudiogramHearingService(scene);
         scene.show();
+    }
+
+    _addIntroductionService(scene){
+        let serviceBox = scene.createBox();
+        serviceBox.addClassName("tipBox");
+
+        let serviceDescription = document.createElement("p");
+
+        // Создание ссылки
+        let serviceLink = document.createElement("a");
+        serviceLink.innerHTML = setTSTR("What_is_it?");
+        serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
+        serviceLink.onclick = () => {
+            this.page.runIntroductionService(); // Обработчик события на клик
+        };
+
+        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
+
+        // Добавляем описание в созданный блок
+        serviceBox.addElement(serviceDescription);
     }
 
     _addExampleService(scene){

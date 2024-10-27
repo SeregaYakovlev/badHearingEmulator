@@ -23,12 +23,16 @@ class LiveConversation {
         p2.innerHTML = `2) ${setTSTR("putOnHeadphones")}`;
 
         let p3 = document.createElement("p");
-        p3.innerHTML = `3) ${setTSTR("talkToSurroundings")}`;
+        p3.innerHTML = `3) ${setTSTR("enableMicrophone")}`;
+
+        let p4 = document.createElement("p");
+        p4.innerHTML = `4) ${setTSTR("talkToSurroundings")}`;
 
         mainBox.addElement(p0);
         mainBox.addElement(p1);
         mainBox.addElement(p2);
         mainBox.addElement(p3);
+        mainBox.addElement(p4);
 
         this._addMicrophoneBtn(mainBox);
         this._addFrequencySlider(scene);

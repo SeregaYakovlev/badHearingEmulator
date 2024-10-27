@@ -3,11 +3,11 @@
 }
 
 body[theme="day"] .mainScene p {
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .mainScene p {
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 .mainScene p {
@@ -23,4 +23,20 @@ body[theme="night"] .mainScene p {
     height: 100%;
     max-width: 320px;
     max-height: 240px;
+}
+
+body[theme="day"] a {
+    color: var(--day-color-7);
+}
+
+body[theme="day"] a:visited {
+    color: var(--day-color-7);
+}
+
+body[theme="night"] a {
+    color: var(--night-color-5);
+}
+
+body[theme="night"] a:visited {
+    color: var(--night-color-5);
 }

@@ -40,21 +40,21 @@
 }
 
 body[theme="day"] .logs {
-    border: 1px solid #6B8E23;
+    border: 1px solid var(--day-color-1);
     background-color: wheat;
 }
 
 body[theme="night"] .logs {
-    border: 1px solid #423523;
-    background-color: #221a0f;
+    border: 1px solid var(--night-color-4);
+    background-color: var(--night-color-1);
 }
 
 body[theme="day"] .logs span {
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .logs span {
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 .logs span {
@@ -83,20 +83,20 @@ body[theme="night"] .logs span.exception {
 }
 
 body[theme="day"] .logs::-webkit-scrollbar-thumb {
-    background-color: #6B8E23; /* цвет полосы прокрутки */
+    background-color: var(--day-color-1); /* цвет полосы прокрутки */
     
 }
 
 body[theme="day"] .logs::-webkit-scrollbar-thumb:hover {
-    background-color: #6B8E23; /* изменение цвета полосы при наведении */
+    background-color: var(--day-color-1); /* изменение цвета полосы при наведении */
 }
 
 body[theme="night"] .logs::-webkit-scrollbar-thumb {
-    background-color: #5e452b; /* цвет полосы прокрутки */
+    background-color: var(--night-color-3); /* цвет полосы прокрутки */
 }
 
 body[theme="night"] .logs::-webkit-scrollbar-thumb:hover {
-    background-color: #5e452b; /* изменение цвета полосы при наведении */
+    background-color: var(--night-color-3); /* изменение цвета полосы при наведении */
 }
 
 .fileHandlingScene button {
@@ -109,13 +109,13 @@ body[theme="night"] .logs::-webkit-scrollbar-thumb:hover {
 }
 
 body[theme="day"] .fileHandlingScene button  {
-    background-color: #6B8E23; /* Цвет фона */
-    color: white; /* Цвет текста */
+    background-color: var(--day-color-1); /* Цвет фона */
+    color: var(--day-color-2); /* Цвет текста */
 }
 
 body[theme="night"] .fileHandlingScene button {
-    background-color: #362712; /* Цвет фона */
-    color: #d3af86; /* Цвет текста */
+    background-color: var(--night-color-2); /* Цвет фона */
+    color: var(--night-color-5); /* Цвет текста */
 }
 
 .fileHandlingScene p, .fileHandlingScene span {

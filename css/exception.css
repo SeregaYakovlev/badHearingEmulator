@@ -16,15 +16,15 @@
 
 /* Адаптация под тему */
 body:not([theme]) .exception {
-    background-color: #221a0f;
+    background-color: var(--night-color-1);
 }
 
 body[theme="day"] .exception {
-    background-color: #6B8E23;
+    background-color: var(--day-color-1);
 }
 
 body[theme="night"] .exception {
-    background-color: #221a0f;
+    background-color: var(--night-color-1);
 }
 
 /* Видимость исключения */
@@ -48,18 +48,18 @@ body[theme="night"] .exception {
 
 /* Адаптация под тему */
 body:not([theme]) .exceptionWindow {
-    background-color: #5e452b;
-    border: 2px solid #423523; /* Пример границы вокруг контента */
+    background-color: var(--night-color-3);
+    border: 2px solid var(--night-color-4); /* Пример границы вокруг контента */
 }
 
 body[theme="day"] .exceptionWindow {
-    background-color: white;
-    border: 2px solid #ccc; /* Пример границы вокруг контента */
+    background-color: var(--day-color-2);
+    border: 2px solid var(--day-color-4); /* Пример границы вокруг контента */
 }
 
 body[theme="night"] .exceptionWindow {
-    background-color: #5e452b;
-    border: 2px solid #423523; /* Пример границы вокруг контента */
+    background-color: var(--night-color-3);
+    border: 2px solid var(--night-color-4); /* Пример границы вокруг контента */
 }
 
 /* Заголовок исключения */
@@ -70,15 +70,15 @@ body[theme="night"] .exceptionWindow {
 
 /* Адаптация под тему */
 body:not([theme]) .exceptionTitle {
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 body[theme="day"] .exceptionTitle {
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .exceptionTitle {
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 /* Прокручиваемый контейнер для трассировки стека */
@@ -105,18 +105,18 @@ body[theme="night"] .exceptionTitle {
 
 /* Адаптация под тему */
 body:not([theme]) .reloadButton {
-    background-color: #362712; /* Цвет фона */
-    color: #d3af86; /* Цвет текста */
+    background-color: var(--night-color-2); /* Цвет фона */
+    color: var(--night-color-5); /* Цвет текста */
 }
 
 body[theme="day"] .reloadButton {
-    background-color: #6B8E23; /* Цвет фона */
-    color: white; /* Цвет текста */
+    background-color: var(--day-color-8); /* Цвет фона */
+    color: var(--day-color-2); /* Цвет текста */
 }
 
 body[theme="night"] .reloadButton {
-    background-color: #362712; /* Цвет фона */
-    color: #d3af86; /* Цвет текста */
+    background-color: var(--night-color-2); /* Цвет фона */
+    color: var(--night-color-5); /* Цвет текста */
 }
 
 .exception button {

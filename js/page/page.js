@@ -283,6 +283,11 @@ class Page {
         realtimeFileService.run();
     }
 
+    runIntroductionService(){
+        let introductionService = new IntroductionService(this);
+        introductionService.show();
+    }
+
     _runRootService() {
         let rootService = new RootService(this);
         rootService.show();

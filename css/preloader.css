@@ -37,27 +37,26 @@
 /* Стиль для текста под крутящимся элементом */
 .preloaderCaption {
     margin-top: 10px;
-    color: white;
     font-size: 16px;
     text-align: center;
 }
 
 body[theme="day"] .preloaderCaption{
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .preloaderCaption{
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 /* Дневная тема */
 body[theme="day"] .preloader {
     border: 5px solid rgba(0, 0, 0, 0.1);  /* Легкий черный для видимости на светлом фоне */
-    border-top: 5px solid #6B8E23;        /* Оливковый цвет для акцента */
+    border-top: 5px solid var(--day-color-8);        /* Оливковый цвет для акцента */
 }
 
 /* Ночная тема */
 body[theme="night"] .preloader {
     border: 5px solid rgba(255, 255, 255, 0.2);  /* Белый для контраста на темном фоне */
-    border-top: 5px solid #d3af86;              /* Теплый бежевый оттенок */
+    border-top: 5px solid var(--night-color-5);              /* Теплый бежевый оттенок */
 }

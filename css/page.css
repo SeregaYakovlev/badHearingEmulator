@@ -6,30 +6,17 @@ html, body {
     display: flex;
     justify-content: center; /* Центрируем содержимое по горизонтали */
     align-items: center; /* Центрируем содержимое по вертикали */
-    
 }
 
 body[theme="day"]{
-    background-color: #6B8E23; /* Цвет фона */
+    background-color: var(--day-color-1); /* Цвет фона */
 }
 
 
 body[theme="night"] {
-    background-color: #221a0f;
+    background-color: var(--night-color-1);
 }
 
-body[theme="day"] a {
-    color: #6B8E23;
-}
-
-body[theme="day"] a:visited {
-    color: #6B8E23;
-}
-
-body[theme="night"] a {
-    color: #d3af86;
-}
-
-body[theme="night"] a:visited {
-    color: #d3af86;
+* {
+    font-family: Arial, sans-serif; /* Задаем шрифт Arial для всего документа */
 }

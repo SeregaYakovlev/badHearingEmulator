@@ -18,21 +18,21 @@
 }
 
 body[theme="day"] .audiogramCaptionDiv {
-    background-color: wheat;
+    background-color: var(--day-color-6);
 }
 
 body[theme="night"] .audiogramCaptionDiv {
-    background-color: #5e452b;
+    background-color: var(--night-color-3);
 }
 
 body[theme="day"] .audiogramScene p,
 body[theme="day"] .audiogramScene span {
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .audiogramScene p,
 body[theme="night"] .audiogramScene span {
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 .audiogramCaptionDiv span {
@@ -65,13 +65,13 @@ body[theme="night"] .audiogramScene span {
 }
 
 body[theme="day"] .audiogramScene button  {
-    background-color: #6B8E23; /* Цвет фона */
-    color: white; /* Цвет текста */
+    background-color: var(--day-color-8); /* Цвет фона */
+    color: var(--day-color-2); /* Цвет текста */
 }
 
 body[theme="night"] .audiogramScene button {
-    background-color: #362712; /* Цвет фона */
-    color: #d3af86; /* Цвет текста */
+    background-color: var(--night-color-2); /* Цвет фона */
+    color: var(--night-color-5); /* Цвет текста */
 }
 
 .audiogramScene p, .audiogramScene span {

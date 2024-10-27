@@ -1,0 +1,17 @@
+:root {
+    --day-color-1: #6B8E23;
+    --day-color-2: white;
+    --day-color-3: black;
+    --day-color-4: #ccc;
+    --day-color-5: #ddd;
+    --day-color-6: wheat;
+    --day-color-7: indigo;
+    --day-color-8: #2e6cab;
+
+    --night-color-1: #221a0f;
+    --night-color-2: #362712;
+    --night-color-3: #5e452b;
+    --night-color-4: #423523;
+    --night-color-5: #d3af86;
+    --night-color-6: white;
+}

@@ -70,9 +70,9 @@ body[theme="night"] .myAudioPlayer .pauseButton {
 
 /* Цвет фона для дневного и ночного режимов */
 body[theme="day"] .myAudioPlayer {
-    background-color: #6B8E23;
+    background-color: var(--day-color-8);
 }
 
 body[theme="night"] .myAudioPlayer {
-    background-color: #362712;
+    background-color: var(--night-color-2);
 }

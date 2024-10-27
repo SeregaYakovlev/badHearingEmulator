@@ -16,21 +16,21 @@
 }
 
 body[theme="day"] .listenYourselfScene button  {
-    background-color: #6B8E23; /* Цвет фона */
-    color: white; /* Цвет текста */
+    background-color: var(--day-color-8); /* Цвет фона */
+    color: var(--day-color-2); /* Цвет текста */
 }
 
 body[theme="night"] .listenYourselfScene button {
-    background-color: #362712; /* Цвет фона */
-    color: #d3af86; /* Цвет текста */
+    background-color: var(--night-color-2); /* Цвет фона */
+    color: var(--night-color-5); /* Цвет текста */
 }
 
 body[theme="day"] .listenYourselfScene p {
-    color: black;
+    color: var(--day-color-3);
 }
 
 body[theme="night"] .listenYourselfScene p {
-    color: #d3af86;
+    color: var(--night-color-5);
 }
 
 body[theme="day"] .microphoneRecordBtn[microphone-enabled="true"] {
