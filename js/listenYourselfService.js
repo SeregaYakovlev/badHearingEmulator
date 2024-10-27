@@ -141,7 +141,7 @@ class ListenYourselfService {
 
 
     _addFrequencySlider(scene) {
-        let frequencySlider = new FrequencySlider(scene, this.hearingFrequency, 0, 8_000);
+        let frequencySlider = new FrequencySlider(scene, this.hearingFrequency, 0, 8_000, this.realtimeFilter);
         frequencySlider.setFrequencyCallback((frequency) => {
             this._setHearingFrequency(frequency);
         });

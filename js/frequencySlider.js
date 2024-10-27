@@ -1,29 +1,34 @@
 class FrequencySlider {
-    constructor(scene, initialFrequency, minFrequency, maxFrequency) {
+
+
+    constructor(scene, initialFrequency, minFrequency, maxFrequency, realtimeFilter) {
         this.scene = scene;
         this.minFrequency = minFrequency;
         this.maxFrequency = maxFrequency;
         this.initialFrequency = initialFrequency;
         this.normalHearingValue = -138;
+        this.realtimeFilter = realtimeFilter;
+        this.hearingFrequency = this.initialFrequency;
 
         this.createSlider();
     }
 
-    // Преобразование частоты в значение для ползунка
-    frequencyToSliderValue(frequency) {
-        if (frequency >= this.maxFrequency) {
-            return 1; // Значение для "Нормального слуха"
-        }
-        return (Math.log(frequency / this.minFrequency) / Math.log(this.maxFrequency / this.minFrequency));
-    }
+    _invertSlider() {
 
-    // Преобразование значения ползунка обратно в частоту
-    sliderValueToFrequency(value) {
-        if (value >= 1) {
-            return this.normalHearingValue; // Значение для "Нормального слуха"
-        }
-        let freq = this.minFrequency * Math.pow(this.maxFrequency / this.minFrequency, value);
-        return freq.toFixed(0);
+        let sliderValue = this.frequencySlider.value;
+        let isLowPassFilter = this.realtimeFilter.isLowPassFilter();
+        let invertedBool = !isLowPassFilter;
+        let invertedFrequency = this._convertSliderValueToFrequency(sliderValue, invertedBool);
+        this.onFrequencyChange(invertedFrequency);
+        this.realtimeFilter.invertFilter();
+
+        let event = new Event('input', {
+            bubbles: true, // Опционально, если хотите, чтобы событие всплывало
+            cancelable: true // Опционально, если хотите, чтобы событие можно было отменить
+        });
+        
+        // Триггерим событие
+        this.frequencySlider.dispatchEvent(event);
     }
 
     createSlider() {
@@ -34,7 +39,6 @@ class FrequencySlider {
         this.frequencySlider = document.createElement("input");
         this.frequencySlider.type = "range";
 
-        // Устанавливаем диапазон ползунка от 0 до 1
         this.frequencySlider.min = this.minFrequency;
         this.frequencySlider.max = this.maxFrequency + 1;
         this.frequencySlider.step = 1; // Шаг для ползунка
@@ -50,18 +54,27 @@ class FrequencySlider {
 
         this.frequencySlider.addEventListener("input", (event) => {
             let value = parseInt(event.target.value);
-            if (value !== parseInt(this.frequencySlider.max)) {
-                this.updateFrequencyLabel(value);
+            let frequency = this._convertSliderValueToFrequency(value, this.realtimeFilter.isLowPassFilter());
+            if (!this._isNormalHearing(frequency)) {
+                this.updateFrequencyLabel(frequency);
             }
             else {
                 this.updateLabel(setTSTR("normalHearing"));
             }
 
-            this.onFrequencyChange(value);
+            this.onFrequencyChange(frequency);
         });
+
+        let invertionButton = document.createElement("button");
+        invertionButton.classList.add("invertionButton");
+        invertionButton.innerHTML = setTSTR("InvertFilter");
+        invertionButton.addEventListener("click", () => {
+            this._invertSlider();
+        })
 
         this.frequencySliderBox.addElement(this.frequencySlider);
         this.frequencySliderBox.addElement(this.frequencyLabel);
+        this.frequencySliderBox.addElement(invertionButton);
 
         this._paintSlider();
         this.frequencySlider.addEventListener('input', () => {
@@ -69,10 +82,24 @@ class FrequencySlider {
         });
     }
 
+    _convertSliderValueToFrequency(sliderValue, isLowPassFilter) {
+        if (!isLowPassFilter) {
+            // Для высокочастотного фильтра
+            let maxValue = parseFloat(this.frequencySlider.max);
+            let invertedValue = maxValue - sliderValue;
+    
+            // Преобразуем инвертированное значение ползунка в частоту
+            return invertedValue;
+        } else {
+            // Для низкочастотного фильтра
+            return sliderValue;
+        }
+    }    
+
     _paintSlider() {
         let value = (this.frequencySlider.value - this.frequencySlider.min) / (this.frequencySlider.max - this.frequencySlider.min) * 100;
         this.frequencySlider.style.setProperty('--value', value + '%');
-    }    
+    }
 
     updateFrequencyLabel(frequency) {
         // Функция для форматирования числа с разделением тысяч
@@ -90,21 +117,32 @@ class FrequencySlider {
         this.updateLabel(`${setTSTR("filterParameter")}: ${formattedFrequency}`);
     }
 
+    _isNormalHearing(frequency){
+        if(this.realtimeFilter.isLowPassFilter()){
+            return frequency === parseInt(this.frequencySlider.max);
+        }
+        else if(this.realtimeFilter.isHighPassFilter()){
+            return frequency === 0;
+        }
+        else {
+            throw new Error("Algorithm error");
+        }
+    }
+
     updateLabel(text) {
         this.frequencyLabel.innerHTML = text;
-        // Not implemented
     }
 
     onFrequencyChange(frequency) {
-        frequency = parseInt(frequency);
         if (typeof this.frequencyCallback === "function") {
-            if (frequency === parseInt(this.frequencySlider.max)) {
-                this.frequencyCallback(this.normalHearingValue);
+            if (this._isNormalHearing(frequency)) {
+                this.hearingFrequency = this.normalHearingValue;
             }
             else {
-                this.frequencyCallback(frequency);
+                this.hearingFrequency = frequency;
             }
 
+            this.frequencyCallback(this.hearingFrequency);
         }
     }
 

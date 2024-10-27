@@ -54,53 +54,6 @@ body[theme="night"] .mediaPlayerBtnContainer button {
     color: var(--night-color-5); /* Цвет текста */
 }
 
-.frequencySliderBox {
-    width: 100%;
-    max-width: 640px;
-}
-
-.frequencySliderBox .frequencyLabel {
-    text-align: center;
-}
-
-body[theme="day"] .frequencySliderBox .frequencyLabel {
-    color: var(--day-color-3);
-}
-
-body[theme="night"] .frequencySliderBox .frequencyLabel {
-    color: var(--night-color-5)
-}
-
-/* Общий стиль для ползунка (track) */
-.frequencySliderBox .frequencySlider {
-    -webkit-appearance: none; /* Убираем стандартный стиль для WebKit-браузеров */
-    appearance: none; /* Убираем стандартный стиль */
-    width: 100%; /* Ширина ползунка */
-    height: 8px; /* Высота трека ползунка */
-    border-radius: 5px; /* Округление краев трека */
-    outline: none; /* Убираем обводку */
-    cursor: pointer; /* Курсор в виде руки при наведении */
-}
-
-.frequencySliderBox .frequencySlider::-webkit-slider-thumb {
-    -webkit-appearance: none; /* Убираем стандартный бегунок */
-    appearance: none;
-    width: 16px; /* Ширина бегунка */
-    height: 16px; /* Высота бегунка */
-    border-radius: 50%; /* Округление бегунка */
-    cursor: pointer; /* Курсор в виде руки */
-    background-color: var(--thumb-color); /* Цвет бегунка */
-}
-
-/* Стиль для бегунка (thumb) для Firefox */
-.frequencySliderBox .frequencySlider::-moz-range-thumb {
-    width: 16px; /* Ширина бегунка */
-    height: 16px; /* Высота бегунка */
-    border-radius: 50%; /* Округление бегунка */
-    cursor: pointer; /* Курсор в виде руки */
-    background-color: var(--thumb-color); /* Цвет бегунка */
-}
-
 /* Дневная тема: зеленый цвет для бегунка */
 body[theme="day"] {
     --thumb-color: var(--day-color-8);
@@ -109,15 +62,4 @@ body[theme="day"] {
 /* Ночная тема: бежевый цвет для бегунка */
 body[theme="night"] {
     --thumb-color: var(--night-color-5);
-}
-
-
-/* Дневная тема: зеленый цвет для полосы слева, серый для полосы справа */
-body[theme="day"] .frequencySliderBox .frequencySlider {
-    background: linear-gradient(to right, var(--thumb-color) 0%, var(--thumb-color) var(--value), var(--day-color-5) var(--value), var(--day-color-5) 100%);
-}
-
-/* Ночная тема: бежевый цвет для полосы слева, темный серый для полосы справа */
-body[theme="night"] .frequencySliderBox .frequencySlider {
-    background: linear-gradient(to right, var(--thumb-color) 0%, var(--thumb-color) var(--value), var(--night-color-2) var(--value), var(--night-color-2) 100%);
 }

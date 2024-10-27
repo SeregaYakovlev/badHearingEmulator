@@ -13,13 +13,23 @@ class IntroductionService {
         let projectDescription = document.createElement("div");
         projectDescription.classList.add("introduction");
 
+        this.projectDescription = projectDescription;
+
         box.addElement(projectDescription);
 
-        await this._loadIntroduction("rus", projectDescription);
+        let currentLanguage = this.page.getCurrentLanguage();
+
+        await this._loadIntroduction(currentLanguage.getCode(), projectDescription);
 
         this._addCloseBtn(box);
 
+        this.page.subscribeOnLanguageChangingEvent(this);
+
         scene.show();
+    }
+
+    onLanguageChanged(language){
+        this._loadIntroduction(language.getCode(), this.projectDescription);
     }
 
     _addCloseBtn(box){
@@ -32,13 +42,13 @@ class IntroductionService {
         box.addElement(btn);
     }
 
-    async _loadIntroduction(languageCode, projectDescriptionElem) {
-        let response = await fetch(`../projectIntroduction/${languageCode}/introduction.md`);
+    async _loadIntroduction(languageCode, projectDescription) {
+        let response = await fetch(`projectIntroduction/${languageCode}/introduction.md`);
 
         let text = await response.text();
 
         let html = marked.parse(text);
 
-        projectDescriptionElem.innerHTML = html;
+        projectDescription.innerHTML = html;
     }
 }

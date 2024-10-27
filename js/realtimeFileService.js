@@ -44,7 +44,7 @@ class RealtimeFileService {
         await realtimePlayer.loadFile(originalFile);
         realtimePlayer.install(scene);
 
-        let frequencySlider = new FrequencySlider(scene, hearingFrequency, 0, 8_000);
+        let frequencySlider = new FrequencySlider(scene, hearingFrequency, 0, 8_000, realtimePlayer.getRealTimeFilter());
         frequencySlider.setFrequencyCallback((frequency) => {
             realtimePlayer.setHearingFrequency(frequency);
         });

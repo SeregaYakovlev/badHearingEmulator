@@ -1,5 +1,13 @@
 {
     "translations": {
+        "InvertFilter": {
+            "rus": "Инвертировать",
+            "eng": "Invert",
+            "fra": "Inverser",
+            "esp": "Invertir",
+            "zho": "反转",
+            "ara": "عكس"
+        },
         "Close": {
             "rus": "Закрыть",
             "eng": "Close",
@@ -17,12 +25,12 @@
             "ara": "ماذا عن هذا الموقع؟"
         },
         "InVideoExampleBadHearing": {
-            "rus": "В этом видео пример плохого слуха",
-            "eng": "Here is an example of bad hearing",
-            "fra": "Voici un exemple de mauvaise audition",
-            "esp": "Aquí tienes un ejemplo de mala audición",
-            "zho": "这是一个听力不好的例子",
-            "ara": "هنا مثال على السمع السيء"
+            "rus": "В этом видео пример высокочастотной потери слуха при остаточной сохранности низких частот",
+            "eng": "This video shows an example of high-frequency hearing loss with retained low-frequency hearing",
+            "fra": "Cette vidéo montre un exemple de perte auditive à haute fréquence avec préservation des basses fréquences",
+            "esp": "Este video muestra un ejemplo de pérdida auditiva de alta frecuencia con conservación de las bajas frecuencias",
+            "zho": "该视频展示了高频听力损失但低频仍保留的示例",
+            "ara": "يظهر هذا الفيديو مثالاً لفقدان السمع في الترددات العالية مع بقاء السمع في الترددات المنخفضة"
         },
         "ListenYourFile": {
             "rus": "Послушать Ваш файл",

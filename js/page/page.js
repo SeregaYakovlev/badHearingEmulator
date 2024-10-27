@@ -11,9 +11,9 @@ class Page {
         this.languageChangingListeners.push(listener);
     }
 
-    _triggerLanguageChangingEvent(){
+    _triggerLanguageChangingEvent(language){
         for(let listener of this.languageChangingListeners){
-            listener.onLanguageChanged();
+            listener.onLanguageChanged(language);
         }
     }
 
@@ -260,7 +260,7 @@ class Page {
         let currentLanguage = language;
         this.languageCodeElem.textContent = currentLanguage.getCode(); // Устанавливаем текущий язык
 
-        this._triggerLanguageChangingEvent();
+        this._triggerLanguageChangingEvent(language);
     }
 
     runExactlyHearingService() {
