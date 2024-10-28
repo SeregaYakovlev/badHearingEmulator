@@ -26,7 +26,7 @@ class FrequencySlider {
             bubbles: true, // Опционально, если хотите, чтобы событие всплывало
             cancelable: true // Опционально, если хотите, чтобы событие можно было отменить
         });
-        
+
         // Триггерим событие
         this.frequencySlider.dispatchEvent(event);
     }
@@ -44,7 +44,7 @@ class FrequencySlider {
         this.frequencySlider.step = 1; // Шаг для ползунка
 
         // Устанавливаем начальное значение
-        this.frequencySlider.value = this.initialFrequency;
+        this.frequencySlider.value = this._convertSliderValueToFrequency(this.initialFrequency, this.realtimeFilter.isLowPassFilter());
         this.frequencySlider.classList.add("frequencySlider");
 
         // Добавляем метку
@@ -65,21 +65,38 @@ class FrequencySlider {
             this.onFrequencyChange(frequency);
         });
 
-        let invertionButton = document.createElement("button");
-        invertionButton.classList.add("invertionButton");
-        invertionButton.innerHTML = setTSTR("InvertFilter");
-        invertionButton.addEventListener("click", () => {
-            this._invertSlider();
-        })
-
         this.frequencySliderBox.addElement(this.frequencySlider);
         this.frequencySliderBox.addElement(this.frequencyLabel);
-        this.frequencySliderBox.addElement(invertionButton);
+
+        this._addFilterInvertionBtn(this.frequencySliderBox);
 
         this._paintSlider();
+
         this.frequencySlider.addEventListener('input', () => {
             this._paintSlider();
         });
+    }
+
+    _addFilterInvertionBtn(box) {
+        let btn = new MyBinaryButton();
+        btn.addClassName("invertionButton");
+
+        btn.setState1("EnableHighPassFilter", () => {
+            this._invertSlider();
+        });
+
+        btn.setState2("EnableLowPassFilter", () => {
+            this._invertSlider();
+        })
+
+        if (this.realtimeFilter.isLowPassFilter()) {
+            btn.applyFirstState();
+        }
+        else if(this.realtimeFilter.isHighPassFilter()){
+            btn.applySecondState();
+        }
+
+        box.addElement(btn.asHTMLElement());
     }
 
     _convertSliderValueToFrequency(sliderValue, isLowPassFilter) {
@@ -87,14 +104,14 @@ class FrequencySlider {
             // Для высокочастотного фильтра
             let maxValue = parseFloat(this.frequencySlider.max);
             let invertedValue = maxValue - sliderValue;
-    
+
             // Преобразуем инвертированное значение ползунка в частоту
             return invertedValue;
         } else {
             // Для низкочастотного фильтра
             return sliderValue;
         }
-    }    
+    }
 
     _paintSlider() {
         let value = (this.frequencySlider.value - this.frequencySlider.min) / (this.frequencySlider.max - this.frequencySlider.min) * 100;
@@ -117,11 +134,11 @@ class FrequencySlider {
         this.updateLabel(`${setTSTR("filterParameter")}: ${formattedFrequency}`);
     }
 
-    _isNormalHearing(frequency){
-        if(this.realtimeFilter.isLowPassFilter()){
+    _isNormalHearing(frequency) {
+        if (this.realtimeFilter.isLowPassFilter()) {
             return frequency === parseInt(this.frequencySlider.max);
         }
-        else if(this.realtimeFilter.isHighPassFilter()){
+        else if (this.realtimeFilter.isHighPassFilter()) {
             return frequency === 0;
         }
         else {

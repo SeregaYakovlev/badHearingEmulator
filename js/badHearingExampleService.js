@@ -19,6 +19,7 @@ class BadHearingExampleService{
 
         let player = new MyPlayer(scene, null);
         player.setFileLink(fileLink);
+        player.setFileType("video/webm");
         player.installInBox(videoBox);
         player.setFullVolume();
 
@@ -29,7 +30,7 @@ class BadHearingExampleService{
         let currentLanguage = this.page.getCurrentLanguage();
         let languageCode = currentLanguage.getCode();
 
-        return `bad_hearing_examples/${languageCode}/video`;
+        return `bad_hearing_examples/${languageCode}/video.webm`;
     }
 
     _reloadService(){

@@ -1,12 +1,6 @@
 class MySpeaker {
-    constructor(audioContext) {
-        if (!audioContext) {
-            this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        else {
-            this.audioContext = audioContext;
-        }
-
+    constructor() {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.soundSources = [];
         this.playingSoundSources = []; // Хранит активные звуковые источники
     }
@@ -41,7 +35,7 @@ class MySpeaker {
         this.playingSoundSources.push(streamSource);
 
         if (this.filters) {
-            this._connectFilters(streamSource, this.filters);
+            this._connectFiltersToOutput(streamSource, this.filters);
         }
         else {
             // на данный момент динамик еще не подключен
@@ -70,7 +64,7 @@ class MySpeaker {
         };
 
         if (this.filters) {
-            this._connectFilters(bufferSource, this.filters);
+            this._connectFiltersToOutput(bufferSource, this.filters);
         }
         else {
             // на данный момент динамик еще не подключен
@@ -106,7 +100,7 @@ class MySpeaker {
         return this.playingSoundSources[0];
     }
 
-    _connectFilters(soundSource, filters) {
+    _connectFiltersToOutput(soundSource, filters) {
         this._connectFiltersToInputAndOutput(filters, soundSource, this.audioContext.destination);
     }
 

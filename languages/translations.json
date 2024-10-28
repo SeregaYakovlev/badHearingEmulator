@@ -1,5 +1,21 @@
 {
     "translations": {
+        "EnableHighPassFilter": {
+            "rus": "Подавлять от низких частот",
+            "eng": "Suppress from Low Frequencies",
+            "fra": "Supprimer à partir des basses fréquences",
+            "esp": "Suprimir desde frecuencias bajas",
+            "zho": "从低频开始抑制",
+            "ara": "قمع من الترددات المنخفضة"
+        },
+        "EnableLowPassFilter": {
+            "rus": "Подавлять от высоких частот",
+            "eng": "Suppress from High Frequencies",
+            "fra": "Supprimer à partir des hautes fréquences",
+            "esp": "Suprimir desde frecuencias altas",
+            "zho": "从高频开始抑制",
+            "ara": "قمع من الترددات العالية"
+        },
         "InvertFilter": {
             "rus": "Инвертировать",
             "eng": "Invert",
@@ -401,12 +417,12 @@
             "ara": "جارٍ تحويل الصوت إلى تنسيق استيريو..."
         },
         "siteTitle": {
-            "rus": "Что такое плохой слух",
-            "eng": "What is bad hearing",
-            "fra": "Qu'est-ce que la mauvaise audition",
-            "esp": "Qué es la mala audición",
-            "zho": "什么是听力障碍",
-            "ara": "ما هو السمع السيء"
+            "rus": "Эмулятор потери слуха",
+            "eng": "Hearing Loss Emulator",
+            "fra": "Émulateur de perte auditive",
+            "esp": "Emulador de pérdida auditiva",
+            "zho": "听力损失模拟器",
+            "ara": "محاكي فقدان السمع"
         }
     }
 }

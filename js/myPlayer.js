@@ -46,6 +46,10 @@ class MyPlayer {
         this.fileLink = fileLink;
     }
 
+    setFileType(fileType){
+        this.fileType = fileType;
+    }
+
     setCallback(callback) {
         this.callback = callback;
     }
@@ -132,14 +136,14 @@ class MyPlayer {
 
         if (this.file) {
             videoPlayer.src({
-                type: "video/mp4",
+                type: (this.fileType) ? this.fileType : "video/mp4",
                 src: URL.createObjectURL(this.file)
             });
         }
 
         if (this.fileLink) {
             videoPlayer.src({
-                type: "video/mp4",
+                type: (this.fileType) ? this.fileType : "video/mp4",
                 src: this.fileLink
             });
         }
@@ -173,14 +177,14 @@ class MyPlayer {
     replaceVideo() {
         if (this.file) {
             this.videoPlayer.src({
-                type: "video/mp4",
+                type: (this.fileType) ? this.fileType : "video/mp4",
                 src: URL.createObjectURL(this.file)
             });
         }
 
         if (this.fileLink) {
             this.videoPlayer.src({
-                type: "video/mp4",
+                type: (this.fileType) ? this.fileType : "video/mp4",
                 src: this.fileLink
             });
         }

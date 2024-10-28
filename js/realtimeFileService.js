@@ -15,6 +15,9 @@ class RealtimeFileService {
             hiddenInput.type = "file";
             hiddenInput.style.display = "none"; // Скрываем элемент
 
+            // Ограничиваем выбор файлов только аудио и видео
+            hiddenInput.accept = "audio/*,video/*"; // Выбираем все аудио и видео файлы
+
             // Обработчик события выбора файла
             hiddenInput.addEventListener('change', () => {
                 let file = hiddenInput.files[0]; // Получаем первый выбранный файл
