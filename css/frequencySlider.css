@@ -3,26 +3,29 @@
     max-width: 640px;
 }
 
-.frequencySliderBox button {
+.frequencySliderBox .invertionButton {
     box-sizing: border-box;
     border: none; /* Убираем границу */
     padding: 5px 10px; /* Внутренние отступы */
     border-radius: 5px; /* Скругленные углы */
     cursor: pointer; /* Указатель при наведении */
     font-size: 15px;
+    align-self: center;
+    order: 2;
 }
 
-body[theme="day"] .frequencySliderBox button  {
+body[theme="day"] .frequencySliderBox .invertionButton  {
     background-color: var(--day-color-8); /* Цвет фона */
     color: var(--day-color-2); /* Цвет текста */
 }
 
-body[theme="night"] .frequencySliderBox button {
+body[theme="night"] .frequencySliderBox .invertionButton {
     background-color: var(--night-color-2); /* Цвет фона */
     color: var(--night-color-5); /* Цвет текста */
 }
 
 .frequencySliderBox .frequencyLabel {
+    order: 1;
     text-align: center;
 }
 
@@ -36,6 +39,7 @@ body[theme="night"] .frequencySliderBox .frequencyLabel {
 
 /* Общий стиль для ползунка (track) */
 .frequencySliderBox .frequencySlider {
+    order: 0;
     -webkit-appearance: none; /* Убираем стандартный стиль для WebKit-браузеров */
     appearance: none; /* Убираем стандартный стиль */
     width: 100%; /* Ширина ползунка */
