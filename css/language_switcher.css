@@ -46,60 +46,60 @@ body[theme="night"] .language-code {
     color: white;
 }
 
+.language-list:not([data-visible]),
+.language-list[data-visible="false"] {
+    display: none; /* Скрываем по умолчанию */
+}
+
+.language-list[data-visible="true"] {
+    display: grid; /* Показываем, если атрибут установлен в 'true' */
+}
+
 /* Стили для выпадающего списка */
 .language-list {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: 50%; /* Центрируем по горизонтали */
+    transform: translateX(-50%); /* Сдвигаем влево на 50% своей ширины */
     border-radius: 4px;
     z-index: 11;
-    display: none; /* Скрываем список по умолчанию */
-    width: 100px; /* Ширина списка */
+    display: grid; /* Используем грид */
+    grid-template-columns: repeat(3, 1fr); /* Одна колонка */
 }
 
 .language-item {
     padding: 8px 16px;
     cursor: pointer;
+    display: flex; /* Для центрирования текста внутри элемента */
+    justify-content: center; /* Центрируем по горизонтали */
+    align-items: center; /* Центрируем по вертикали */
+    border: 1px solid white; /* Прозрачная граница по умолчанию для создания эффекта при наведении */
 }
 
-body[theme="day"] .language-item{
-    border-bottom: 1px solid var(--day-color-4); /* Граница между элементами */
+body[theme="day"] .language-list {
+    border: 2px solid white;
 }
 
-body[theme="night"] .language-item{
-    border-bottom: 1px solid var(--night-color-5); /* Граница между элементами */
-}
-
-body[theme] .language-item:last-child {
-    border-bottom: none; /* Убираем границу у последнего элемента */
-}
-
-body[theme="day"] .language-list{
-    background-color: var(--day-color-2);
-    border: 2px solid var(--day-color-4);
-}
-
-body[theme="night"] .language-list{
-    background-color: var(--night-color-3);
-    border: 2px solid var(--night-color-5);
+body[theme="night"] .language-list {
+    border: 2px solid white;
 }
 
 body[theme="day"] .language-item {
-    background-color: var(--day-color-2);
-    color: var(--day-color-3);
+    background-color: #2e6cab;
+    color: white;
 }
 
 body[theme="night"] .language-item {
-    background-color: var(--night-color-3);
-    color: var(--night-color-5);
+    background-color: #2a547c;
+    color: white;
 }
 
 body[theme="day"] .language-item:hover {
-    background-color: var(--day-color-8); /* Цвет фона при наведении */
-    color: var(--day-color-2);
+    background-color: white; /* Цвет фона при наведении */
+    color: #2e6cab;
 }
 
 body[theme="night"] .language-item:hover {
-    background-color: var(--night-color-1); /* Цвет фона при наведении */
-    color: var(--night-color-5);
+    background-color: white; /* Цвет фона при наведении */
+    color: #2a547c;
 }

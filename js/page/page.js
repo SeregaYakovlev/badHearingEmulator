@@ -7,12 +7,12 @@ class Page {
         this._runRootService();
     }
 
-    subscribeOnLanguageChangingEvent(listener){
+    subscribeOnLanguageChangingEvent(listener) {
         this.languageChangingListeners.push(listener);
     }
 
-    _triggerLanguageChangingEvent(language){
-        for(let listener of this.languageChangingListeners){
+    _triggerLanguageChangingEvent(language) {
+        for (let listener of this.languageChangingListeners) {
             listener.onLanguageChanged(language);
         }
     }
@@ -133,7 +133,7 @@ class Page {
         return new Language(languageCode);
     }
 
-    _add_what_is_it_btn(){
+    _add_what_is_it_btn() {
         let what_is_it_btn = document.createElement('div');
         what_is_it_btn.className = 'what-is-it-btn';
 
@@ -149,7 +149,7 @@ class Page {
         });
     }
 
-    _addHomepageBtn(){
+    _addHomepageBtn() {
         let homepageBtn = document.createElement('div');
         homepageBtn.className = 'homepage-btn';
 
@@ -189,7 +189,6 @@ class Page {
         // Создаем выпадающий список языков
         let languageListDiv = document.createElement('div');
         languageListDiv.className = 'language-list';
-        languageListDiv.style.display = 'none'; // Скрываем список по умолчанию
 
         let languageList = window.languages;
 
@@ -210,17 +209,18 @@ class Page {
 
         // Обработчик события для отображения/скрытия списка языков
         switchWrapper.addEventListener('click', () => {
-            if (languageListDiv.style.display === 'none') {
-                languageListDiv.style.display = 'block'; // Показываем список
-            } else {
-                languageListDiv.style.display = 'none'; // Скрываем список
-            }
+            const isVisible = languageListDiv.getAttribute('data-visible') === 'true';
+
+            // Меняем значение атрибута data-visible
+            languageListDiv.setAttribute('data-visible', !isVisible); // Инвертируем значение
         });
+
 
         // Закрытие списка при клике вне переключателя
         document.addEventListener('click', (event) => {
             if (!switchWrapper.contains(event.target)) {
-                languageListDiv.style.display = 'none'; // Скрываем список, если клик вне переключателя
+                // Меняем значение атрибута data-visible
+                languageListDiv.setAttribute('data-visible', false); // Инвертируем значение
             }
         });
     }
@@ -286,7 +286,7 @@ class Page {
         this._onLanguageChanged(language);
     }
 
-    clearToBlankState(){
+    clearToBlankState() {
         document.body.innerHTML = "";
     }
 
@@ -308,7 +308,7 @@ class Page {
         liveConversationService.show();
     }
 
-    runListenYourselfService(){
+    runListenYourselfService() {
         let listenYourselfService = new ListenYourselfService(this);
         listenYourselfService.show();
     }
@@ -318,7 +318,7 @@ class Page {
         realtimeFileService.run();
     }
 
-    runIntroductionService(){
+    runIntroductionService() {
         let introductionService = new IntroductionService(this);
         introductionService.show();
     }
