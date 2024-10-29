@@ -42,7 +42,9 @@ class Page {
         document.title = getTSTR("siteTitle");
 
         this._setTheme();
+        this._add_what_is_it_btn();
         this._addLanguageSwitcher();
+        this._addHomepageBtn();
         this._addThemeSwitcher();
         this._addGithub();
         this._addContactLink();
@@ -131,6 +133,38 @@ class Page {
         return new Language(languageCode);
     }
 
+    _add_what_is_it_btn(){
+        let what_is_it_btn = document.createElement('div');
+        what_is_it_btn.className = 'what-is-it-btn';
+
+        let what_is_it_icon = document.createElement('div');
+        what_is_it_icon.className = 'what-is-it-icon';
+
+        what_is_it_btn.appendChild(what_is_it_icon);
+
+        document.body.appendChild(what_is_it_btn);
+
+        what_is_it_btn.addEventListener('click', () => {
+            this.runIntroductionService();
+        });
+    }
+
+    _addHomepageBtn(){
+        let homepageBtn = document.createElement('div');
+        homepageBtn.className = 'homepage-btn';
+
+        let homePageIcon = document.createElement('div');
+        homePageIcon.className = 'homepage-icon';
+
+        homepageBtn.appendChild(homePageIcon);
+
+        document.body.appendChild(homepageBtn);
+
+        homepageBtn.addEventListener('click', () => {
+            this.showRoot();
+        });
+    }
+
     async _addLanguageSwitcher() {
         // Создаем переключатель языков
         let switchWrapper = document.createElement('div');
@@ -145,7 +179,7 @@ class Page {
         languageCode.className = 'language-code';
 
         let currentLanguage = this.getCurrentLanguage();
-        languageCode.textContent = currentLanguage.getCode(); // Устанавливаем текущий язык
+        languageCode.textContent = currentLanguage.getSelfCode(); // Устанавливаем текущий язык
 
         this.languageCodeElem = languageCode;
 
@@ -258,7 +292,8 @@ class Page {
 
     _onLanguageChanged(language) {
         let currentLanguage = language;
-        this.languageCodeElem.textContent = currentLanguage.getCode(); // Устанавливаем текущий язык
+        let languageSelfCode = currentLanguage.getSelfCode();
+        this.languageCodeElem.textContent = languageSelfCode; // Устанавливаем текущий язык
 
         this._triggerLanguageChangingEvent(language);
     }

@@ -47,17 +47,7 @@ class ExactlyHearingService {
         div.appendChild(binauralBtn);
 
         b.addElement(div);
-
-        let box2 = scene.createBox();
-        box2.addClassName("exactlyServiceBtnContainer");
-
-        let homePageBtn = document.createElement("button");
-        homePageBtn.innerHTML = setTSTR("homePage");
-        homePageBtn.addEventListener("click", () => {
-            this.page.showRoot();
-        });
-
-        box2.addElement(homePageBtn);
+        
         scene.show();
     }
 
@@ -162,13 +152,6 @@ class ExactlyHearingService {
         soundVisualizationBtn.applyFirstState();
 
         btnContainer.appendChild(soundVisualizationBtn.asHTMLElement());
-
-        let mainSceneBtn = document.createElement("button");
-        mainSceneBtn.innerHTML = setTSTR("homePage");
-        mainSceneBtn.addEventListener("click", () => {
-            this.page.showRoot();
-        });
-        btnContainer.appendChild(mainSceneBtn);
 
         scene.show();
     }

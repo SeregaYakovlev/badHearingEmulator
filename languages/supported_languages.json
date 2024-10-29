@@ -2,27 +2,33 @@
     "languages": [
         {
             "name": "English",
-            "code": "eng"
+            "code": "eng",
+            "self_code": "eng"
         },
         {
             "name": "Français",
-            "code": "fra"
+            "code": "fra",
+            "self_code": "fra"
         },
         {
             "name": "Español",
-            "code": "esp"
+            "code": "esp",
+            "self_code": "esp"
         },
         {
             "name": "中文",
-            "code": "zho"
+            "code": "zho",
+            "self_code": "中文"
         },
         {
             "name": "Русский",
-            "code": "rus"
+            "code": "rus",
+            "self_code": "руc"
         },
         {
             "name": "عربى",
-            "code": "ara"
+            "code": "ara",
+            "self_code": "عرب"
         }
     ]
 }

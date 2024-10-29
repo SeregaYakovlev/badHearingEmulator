@@ -104,13 +104,21 @@
             "zho": "下载文件",
             "ara": "تحميل الملف"
         },
-        "filterParameter": {
-            "rus": "Параметр фильтра",
-            "eng": "Filter parameter",
-            "fra": "Paramètre de filtre",
-            "esp": "Parámetro de filtro",
-            "zho": "过滤器参数",
-            "ara": "معامل الفلتر"
+        "lowPassFilterParameter": {
+            "rus": "Параметр lowpass-фильтра",
+            "eng": "Low pass filter parameter",
+            "fra": "Paramètre du filtre passe-bas",
+            "esp": "Parámetro del filtro pasa-bajos",
+            "zho": "低通滤波器参数",
+            "ara": "معامل الفلتر المنخفض"
+        },
+        "highPassFilterParameter": {
+            "rus": "Параметр highpass-фильтра",
+            "eng": "High pass filter parameter",
+            "fra": "Paramètre du filtre passe-haut",
+            "esp": "Parámetro del filtro pasa-altos",
+            "zho": "高通滤波器参数",
+            "ara": "معامل الفلتر العالي"
         },
         "normalHearing": {
             "rus": "Нормальный слух",
@@ -127,14 +135,6 @@
             "esp": "Otro archivo",
             "zho": "另一个文件",
             "ara": "ملف آخر"
-        },
-        "homePage": {
-            "rus": "На главную",
-            "eng": "Homepage",
-            "fra": "Page d'accueil",
-            "esp": "Página de inicio",
-            "zho": "主页",
-            "ara": "الصفحة الرئيسية"
         },
         "liveConversationP0": {
             "rus": "Режим живой беседы позволяет послушать плохим слухом Ваше окружение.",

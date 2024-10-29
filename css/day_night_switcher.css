@@ -9,7 +9,6 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: add shadow for depth */
     z-index: 10;
 }
 

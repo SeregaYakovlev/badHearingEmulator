@@ -1,0 +1,39 @@
+.homepage-btn {
+    position: fixed;
+    bottom: 1%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px; /* Закругленные углы */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* Стили для светлой темы */
+body[theme="day"] .homepage-btn {
+    background-color: #ffd700;
+}
+
+/* Стили для темной темы */
+body[theme="night"] .homepage-btn {
+    background-color: #bd9f04;
+}
+
+/* Иконка GitHub */
+.homepage-icon {
+    width: 24px;
+    height: 24px;
+    background-size: cover;
+}
+
+body[theme="day"] .homepage-icon {
+    background-image: url('../images/home-icon.svg'); /* Иконка GitHub */
+}
+
+body[theme="night"] .homepage-icon {
+    background-image: url('../images/home-icon.svg'); /* Иконка GitHub */
+}

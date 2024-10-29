@@ -124,7 +124,19 @@ class FrequencySlider {
         };
 
         let formattedFrequency = formatFrequency(frequency);
-        this.updateLabel(`${setTSTR("filterParameter")}: ${formattedFrequency}`);
+
+        let tstr;
+        if(this.realtimeFilter.isLowPassFilter()){
+            tstr = "lowPassFilterParameter";
+        }
+        else if(this.realtimeFilter.isHighPassFilter()){
+            tstr = "highPassFilterParameter";
+        }
+        else {
+            throw new Error("Algorithm error");
+        }
+
+        this.updateLabel(`${setTSTR(tstr)}: ${formattedFrequency}`);
     }
 
     _isNormalHearing(frequency) {

@@ -1,7 +1,7 @@
-.github-toggle {
+.what-is-it-btn {
     position: fixed;
-    bottom: 1%;
-    right: 1%;
+    top: 1%;
+    left: 1%;
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -13,26 +13,25 @@
 }
 
 /* Стили для светлой темы */
-body[theme="day"] .github-toggle {
+body[theme="day"] .what-is-it-btn {
     background-color: var(--day-color-2);
 }
 
 /* Стили для темной темы */
-body[theme="night"] .github-toggle {
+body[theme="night"] .what-is-it-btn {
     background-color: var(--night-color-3);
 }
 
-/* Иконка GitHub */
-.github-icon {
+.what-is-it-icon {
     width: 24px;
     height: 24px;
     background-size: cover;
 }
 
-body[theme="day"] .github-icon {
-    background-image: url('../images/github-mark-day.svg'); /* Иконка GitHub */
+body[theme="day"] .what-is-it-icon {
+    background-image: url('../images/question-day.svg'); /* Иконка конверта */
 }
 
-body[theme="night"] .github-icon {
-    background-image: url('../images/github-mark-night.svg'); /* Иконка GitHub */
+body[theme="night"] .what-is-it-icon {
+    background-image: url('../images/question-night.svg'); /* Иконка конверта */
 }

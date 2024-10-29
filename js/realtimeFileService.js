@@ -39,12 +39,6 @@ class RealtimeFileService {
         btnContainer.classList.add("mediaPlayerBtnContainer");
         actionsBox.addElement(btnContainer);
 
-        let mainSceneBtn = document.createElement("button");
-        mainSceneBtn.innerHTML = setTSTR("homePage");
-        mainSceneBtn.addEventListener("click", () => {
-            this.page.showRoot();
-        });
-
         let anotherFileBtn = document.createElement("button");
         anotherFileBtn.innerHTML = setTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
@@ -71,7 +65,6 @@ class RealtimeFileService {
 
         btnContainer.appendChild(anotherFileBtn);
         btnContainer.appendChild(soundVisualizationBtn.asHTMLElement());
-        btnContainer.appendChild(mainSceneBtn);
 
         preloader.close();
 

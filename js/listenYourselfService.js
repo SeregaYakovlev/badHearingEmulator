@@ -17,7 +17,6 @@ class ListenYourselfService {
         this._addListenYourselfBox(scene);
         this._addFrequencySlider(scene);
         this._addFrequencySpectrum(scene);
-        this._addMainPageBtn(scene);
 
         scene.show();
     }
@@ -159,24 +158,6 @@ class ListenYourselfService {
 
     getSoundSource() {
         return this.realtimeFilter.getSoundSource();
-    }
-
-    _addMainPageBtn(scene) {
-        let actionsBox = scene.createBox();
-        actionsBox.addClassName("actionsBox");
-
-        let btnContainer = document.createElement("div");
-        btnContainer.classList.add("liveConversationBtnContainer");
-
-        actionsBox.addElement(btnContainer);
-
-        let mainSceneBtn = document.createElement("button");
-        mainSceneBtn.innerHTML = setTSTR("homePage");
-        mainSceneBtn.addEventListener("click", () => {
-            this.page.showRoot();
-        });
-
-        btnContainer.appendChild(mainSceneBtn);
     }
 
     _setHearingFrequency(frequency) {

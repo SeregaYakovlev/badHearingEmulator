@@ -10,7 +10,6 @@ class AudiogramScene {
         this.audiogramBox = this._createAudiogramBox(this.scene);
         this._createAudiogramCaption(this.audiogram, this.audiogramBox);
         this.nextActionBox = this._createNextActionBox(this.scene);
-        this._createGoToMainPageBox(this.scene);
         this.audiogram.show(this.audiogramBox.asHTMLElement());
     }
 
@@ -90,21 +89,6 @@ class AudiogramScene {
 
         nextActionBox.nextActionBtn = nextActionBtn;
         return nextActionBox;
-    }
-
-    _createGoToMainPageBox(scene) {
-        let box = scene.createBox();
-        box.addClassName("GoToMainPageBox");
-
-        let btn = document.createElement("button");
-        btn.innerHTML = setTSTR("homePage");
-
-        btn.addEventListener("click", () => {
-            this.page.showRoot();
-        })
-
-        box.addElement(btn);
-        return box;
     }
 
     _getMyNeighbour() {
