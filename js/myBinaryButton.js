@@ -6,7 +6,11 @@ class MyBinaryButton {
         });
     }
 
-    addClassName(className){
+    cancelState() {
+        this.stateCancelled = true;
+    }
+
+    addClassName(className) {
         this.btn.classList.add(className);
     }
 
@@ -54,6 +58,10 @@ class MyBinaryButton {
 
     async _onClick() {
         await this.currentState.action();
-        this._applyOppositeState();
+        if (!this.stateCancelled) {
+            this._applyOppositeState();
+        }
+
+        this.stateCancelled = null;
     }
 }

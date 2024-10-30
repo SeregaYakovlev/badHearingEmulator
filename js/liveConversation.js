@@ -74,7 +74,7 @@ class LiveConversation {
                 await this._enableMicrophone();
                 btn.asHTMLElement().setAttribute('microphone-enabled', 'true');
             } catch (e) {
-                btn.applyFirstState();
+                btn.cancelState();
             }
         });
 
