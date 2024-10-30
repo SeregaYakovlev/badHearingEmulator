@@ -77,3 +77,14 @@ body[theme="day"] .frequencySliderBox .frequencySlider {
 body[theme="night"] .frequencySliderBox .frequencySlider {
     background: linear-gradient(to right, var(--thumb-color) 0%, var(--thumb-color) var(--value), var(--night-color-2) var(--value), var(--night-color-2) 100%);
 }
+
+
+/* Дневная тема: зеленый цвет для бегунка */
+body[theme="day"] {
+    --thumb-color: var(--day-color-8);
+}
+
+/* Ночная тема: бежевый цвет для бегунка */
+body[theme="night"] {
+    --thumb-color: var(--night-color-5);
+}

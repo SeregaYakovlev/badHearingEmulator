@@ -1,14 +1,16 @@
 class ListenYourselfService {
     constructor(page) {
         this.page = page;
-        this.microphone = new MyMicrophone();
-        this.realtimeFilter = new RealTimeFilter();
         this.hearingFrequency = 500;
     }
 
     show() {
         let scene = new Scene(this.page);
         scene.addClassName("listenYourselfScene");
+
+        this.microphone = new MyMicrophone(scene);
+
+        this.realtimeFilter = new RealTimeFilter(scene);
 
         let mainBox = scene.createBox();
         mainBox.addClassName("mainBox");
@@ -19,11 +21,24 @@ class ListenYourselfService {
         this._addFrequencySpectrum(scene);
 
         scene.show();
+
+        this.scene = scene;
     }
 
     async _enableMicrophone() {
-        await this.microphone.enable();
-        this._onMicrophoneEnabled();
+        try {
+            await this.microphone.enable();
+        } catch (e) {
+            if (!(await this.microphone.isPermissionGranted())) {
+                this._onMicrophonePermissionDenied();
+            }
+            throw e;
+        }
+    }    
+
+    _onMicrophonePermissionDenied() {
+        let errorBubble = new ErrorBubble(this.scene, "MicrophonePermissionError", 1000);
+        errorBubble.show();
     }
 
     _disableMicrophone() {
@@ -35,21 +50,23 @@ class ListenYourselfService {
         let btn = new MyBinaryButton();
         btn.addClassName("microphoneRecordBtn");
 
-        btn.setState1("StartMicrophoneRecord", () => {
-            btn.asHTMLElement().setAttribute('microphone-enabled', 'true');
-            this._enableMicrophone();
+        btn.setState1("StartMicrophoneRecord", async () => {
+            try {
+                await this._enableMicrophone();
+                btn.asHTMLElement().setAttribute('microphone-enabled', 'true');
+            } catch (e) {
+                btn.applyFirstState();
+            }
         });
 
         btn.setState2("StopMicrophoneRecord", () => {
-            btn.asHTMLElement().setAttribute('microphone-enabled', 'false');
             this._disableMicrophone();
+            btn.asHTMLElement().setAttribute('microphone-enabled', 'false');
         })
 
         btn.applyFirstState();
 
         box.addElement(btn.asHTMLElement());
-
-        this.microphoneRecordBtn = btn;
     }
 
     _addListenYourselfBox(scene) {

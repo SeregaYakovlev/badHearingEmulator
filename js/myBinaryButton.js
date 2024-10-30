@@ -52,8 +52,8 @@ class MyBinaryButton {
         }
     }
 
-    _onClick() {
-        this.currentState.action();
+    async _onClick() {
+        await this.currentState.action();
         this._applyOppositeState();
     }
 }

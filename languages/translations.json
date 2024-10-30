@@ -1,5 +1,13 @@
 {
     "translations": {
+        "MicrophonePermissionError": {
+            "rus": "Ошибка доступа к микрофону",
+            "eng": "Microphone Access Error",
+            "fra": "Erreur d'accès au microphone",
+            "esp": "Error de acceso al micrófono",
+            "zho": "麦克风访问错误",
+            "ara": "خطأ في الوصول إلى الميكروفون"
+        },
         "EnableHighPassFilter": {
             "rus": "Подавлять от низких частот",
             "eng": "Suppress from Low Frequencies",

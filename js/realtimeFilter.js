@@ -4,9 +4,9 @@ class RealTimeFilter {
         HIGHPASS: 'highpass'
     };
 
-    constructor() {
+    constructor(scene) {
         this.filterType = RealTimeFilter.FILTER_TYPE.LOWPASS;
-        this.speaker = new MySpeaker();
+        this.speaker = new MySpeaker(scene);
         this.audioContext = this.speaker.getAudioContext();
         this.filters = [];
         for (let i = 0; i < 3; i++) {
@@ -14,6 +14,11 @@ class RealTimeFilter {
             this.filters.push(filter);
         }
 
+        scene.subscribeToSceneClosing(this);
+    }
+
+    onSceneClosed(){
+        this.stopProcessing();
     }
 
     invertFilter(){

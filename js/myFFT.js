@@ -1,4 +1,4 @@
-class MyAudio {
+class MyFFT {
     constructor(file) {
         this.originalFile = file;
     }
@@ -61,7 +61,7 @@ class MyAudio {
         }
 
         let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let handledBuffer = MyAudio._createAudioBufferFromSamples(audioContext, sampleRate, numChannels, handledSamples);
+        let handledBuffer = MyFFT._createAudioBufferFromSamples(audioContext, sampleRate, numChannels, handledSamples);
         return handledBuffer;
     }
 
@@ -135,7 +135,7 @@ class MyAudio {
     async handleSamplesByFFT(audioSamples, sampleRate, auditoryGraph) {
 
         // Находим ближайшую степень двойки, большую или равную длине сэмплов
-        let paddedLength = MyAudio.getNextPowerOfTwo(audioSamples.length);
+        let paddedLength = MyFFT.getNextPowerOfTwo(audioSamples.length);
 
         // Создаем массив комплексных чисел для FFT
         let floatInput = new Float32Array(paddedLength);  // Учитываем реальную и мнимую часть

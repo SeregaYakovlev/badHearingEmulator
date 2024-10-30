@@ -1,8 +1,10 @@
 class MySpeaker {
-    constructor() {
+    constructor(scene) {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.soundSources = [];
         this.playingSoundSources = []; // Хранит активные звуковые источники
+
+        scene.subscribeToSceneClosing(this);
     }
 
     getAudioContext(){
@@ -123,5 +125,9 @@ class MySpeaker {
         let soundSource = this.audioContext.createMediaStreamSource(stream);
         this.soundSources.push(soundSource);
         return soundSource; // Не забываем вернуть созданный источник
+    }
+
+    onSceneClosed(){
+        this.stop();
     }
 }

@@ -1,14 +1,16 @@
 class LiveConversation {
     constructor(page) {
         this.page = page;
-        this.microphone = new MyMicrophone();
-        this.realtimeFilter = new RealTimeFilter();
         this.hearingFrequency = 500;
     }
 
     show() {
         let scene = new Scene(this.page);
         scene.addClassName("liveConversationScene");
+
+        this.microphone = new MyMicrophone(scene);
+
+        this.realtimeFilter = new RealTimeFilter(scene);
 
         let mainBox = scene.createBox();
         mainBox.addClassName("mainBox");
@@ -41,45 +43,52 @@ class LiveConversation {
         scene.show();
     }
 
-    async _enableMicrophone(){
-        await this.microphone.enable();
-        this._onMicrophoneEnabled();
+    async _enableMicrophone() {
+        try {
+            await this.microphone.enable();
+            this._onMicrophoneEnabled();
+        } catch (e) {
+            if (!(await this.microphone.isPermissionGranted())) {
+                this._onMicrophonePermissionDenied();
+            }
+            throw e;
+        }
     }
 
-    _disableMicrophone(){
+    _onMicrophonePermissionDenied() {
+        let errorBubble = new ErrorBubble(this.scene, "MicrophonePermissionError", 1000);
+        errorBubble.show();
+    }
+
+    _disableMicrophone() {
         this.microphone.disable();
         this._onMicrophoneDisabled();
     }
 
     _addMicrophoneBtn(box) {
-        let btn = document.createElement("button");
-        btn.classList.add("microphoneBtn");
+        let btn = new MyBinaryButton();
+        btn.addClassName("microphoneBtn");
 
-        btn.innerHTML = setTSTR("enableMicrophone");
-
-        btn.onclick = () => {
-            if(this.microphone.isEnabled()){
-                this._disableMicrophone();
+        btn.setState1("enableMicrophone", async () => {
+            try {
+                await this._enableMicrophone();
+                btn.asHTMLElement().setAttribute('microphone-enabled', 'true');
+            } catch (e) {
+                btn.applyFirstState();
             }
-            else {
-                this._enableMicrophone();
-            }
-        };
-        box.addElement(btn);
+        });
 
-        this.microphoneBtn = btn;
-        this.microphoneBtn.onMicrophoneEnabled = () => {
-            this.microphoneBtn.setAttribute('microphone-enabled', 'true');
-            this.microphoneBtn.innerHTML = setTSTR("disableMicrophone");
-        }
-        this.microphoneBtn.onMicrophoneDisabled = () => {
-            this.microphoneBtn.setAttribute('microphone-enabled', 'false');
-            this.microphoneBtn.innerHTML = setTSTR("enableMicrophone");
-        }
+        btn.setState2("disableMicrophone", () => {
+            this._disableMicrophone();
+            btn.asHTMLElement().setAttribute('microphone-enabled', 'false');
+        });
+
+        btn.applyFirstState();
+
+        box.addElement(btn.asHTMLElement());
     }
 
     _onMicrophoneEnabled() {
-        this.microphoneBtn.onMicrophoneEnabled();
         let stream = this.microphone.getStream();
         this.realtimeFilter.setHearingFrequency(this.hearingFrequency);
         this.realtimeFilter.startProcessingFromMicrophone(stream);
@@ -87,7 +96,6 @@ class LiveConversation {
     }
 
     _onMicrophoneDisabled() {
-        this.microphoneBtn.onMicrophoneDisabled();
         this.realtimeFilter.stopProcessing();
         this.soundVisualization.stopProcessing();
     }
@@ -99,17 +107,17 @@ class LiveConversation {
         });
     }
 
-    _addFrequencySpectrum(scene){
+    _addFrequencySpectrum(scene) {
         this.soundVisualization = new SoundVisualization(scene, this);
         scene.update(); // важный вызов, чтобы bounding_client_rect увидел элемент
         this.soundVisualization.show();
     }
 
-    getAudioContext(){
+    getAudioContext() {
         return this.realtimeFilter.getAudioContext();
     }
 
-    getSoundSource(){
+    getSoundSource() {
         return this.realtimeFilter.getSoundSource();
     }
 

@@ -2,7 +2,7 @@ class MyPlayer {
     constructor(scene, callback) {
         this.scene = scene;
         this.callback = callback;
-        this.speaker = new MySpeaker();
+        this.speaker = new MySpeaker(scene);
     }
 
     addClassName(className) {
@@ -91,19 +91,6 @@ class MyPlayer {
         }
     }
 
-    _onDestroyed() {
-        if (this.callback) {
-            this.callback.onDestroyed();
-        }
-        if (this.customAudioSource) {
-            this._stopCustomSound();
-        }
-    }
-
-    onSceneClosed(){
-        this._onDestroyed();
-    }
-
     async install(scene) {
         let box = scene.createBox();
         return this.installInBox(box);
@@ -169,8 +156,6 @@ class MyPlayer {
         videoPlayer.on('ended', () => {
             this._onEnded();
         });
-
-        this.scene.subscribeToSceneClosing(this);
     }
 
 

@@ -89,7 +89,7 @@ class ExactlyHearingService {
         let handledAudioBuffer;
         let originalFile = serverTask.getFile();
 
-        let myAudio = new MyAudio(originalFile);
+        let myAudio = new MyFFT(originalFile);
         myAudio.setLogStream(preloader);
 
         let audiograms = serverTask.getAudiograms();

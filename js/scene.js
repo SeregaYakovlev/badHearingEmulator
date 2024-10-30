@@ -55,6 +55,11 @@ class Scene {
         return newBox;
     }
 
+    onBoxRemoved(box) {
+        let index = this.boxes.indexOf(box);
+        this.boxes.splice(index, 1);
+    }
+
     getBox(boxName) {
         let box = this.boxes.find(box => box.getName() === boxName);
         if(box){

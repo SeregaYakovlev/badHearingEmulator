@@ -1,7 +1,13 @@
 class MyMicrophone {
-    constructor() {
+    constructor(scene) {
         this.stream = null;
         this.microphone = null;
+
+        scene.subscribeToSceneClosing(this);
+    }
+
+    onSceneClosed() {
+        this.disable();
     }
 
     isEnabled() {
@@ -10,18 +16,13 @@ class MyMicrophone {
 
     // Запрашивает доступ к микрофону
     async enable() {
-        try {
-            this.stream = await navigator.mediaDevices.getUserMedia({
-                audio: {
-                    autoGainControl: false,
-                    noiseSuppression: false,
-                    echoCancellation: false
-                }
-            });
-        } catch (err) {
-            console.error("Ошибка доступа к микрофону:", err);
-            throw err;
-        }
+        this.stream = await navigator.mediaDevices.getUserMedia({
+            audio: {
+                autoGainControl: false,
+                noiseSuppression: false,
+                echoCancellation: false
+            }
+        });
     }
 
     // Отключает микрофон и освобождает ресурсы
@@ -37,5 +38,12 @@ class MyMicrophone {
     // Возвращает текущий поток
     getStream() {
         return this.stream;
+    }
+
+    // Проверяет разрешение на доступ к микрофону
+    async isPermissionGranted() {
+        let permissionStatus = await navigator.permissions.query({ name: 'microphone' });
+        let isGranted = permissionStatus.state === "granted";
+        return isGranted;
     }
 }

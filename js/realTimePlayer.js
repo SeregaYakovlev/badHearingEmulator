@@ -2,7 +2,7 @@ class RealTimePlayer {
     constructor(scene, hearingFrequency) {
         this.scene = scene;
         this.hearingFrequency = hearingFrequency;
-        this.realtimeFilter = new RealTimeFilter();
+        this.realtimeFilter = new RealTimeFilter(scene);
         this.player = new MyPlayer(this.scene, this);
         this._currentOffset = 0;
 

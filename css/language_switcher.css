@@ -59,12 +59,24 @@ body[theme="night"] .language-code {
 .language-list {
     position: absolute;
     top: 100%;
-    left: 50%; /* Центрируем по горизонтали */
-    transform: translateX(-50%); /* Сдвигаем влево на 50% своей ширины */
+    left: 50%;
+    transform: translateX(-50%);
     border-radius: 4px;
     z-index: 11;
-    display: grid; /* Используем грид */
-    grid-template-columns: repeat(3, 1fr); /* Одна колонка */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 10px; /* Внутренние отступы */
+    
+}
+
+body[theme="day"] .language-list {
+    background-color: var(--day-color-6); /* Белый фон для .language-list */
+    box-shadow: 0 0 10px var(--day-color-6); /* Черная тень для дневной темы */
+}
+
+body[theme="night"] .language-list {
+    background-color: var(--night-color-5); /* Темный фон для ночной темы */
+    box-shadow: 0 0 10px var(--night-color-5); /* Светлая тень для ночной темы */
 }
 
 .language-item {
@@ -73,15 +85,7 @@ body[theme="night"] .language-code {
     display: flex; /* Для центрирования текста внутри элемента */
     justify-content: center; /* Центрируем по горизонтали */
     align-items: center; /* Центрируем по вертикали */
-    border: 1px solid white; /* Прозрачная граница по умолчанию для создания эффекта при наведении */
-}
-
-body[theme="day"] .language-list {
-    border: 2px solid white;
-}
-
-body[theme="night"] .language-list {
-    border: 2px solid white;
+    border: 1px solid white;
 }
 
 body[theme="day"] .language-item {

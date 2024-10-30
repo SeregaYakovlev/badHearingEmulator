@@ -53,13 +53,3 @@ body[theme="night"] .mediaPlayerBtnContainer button {
     background-color: var(--night-color-2); /* Цвет фона */
     color: var(--night-color-5); /* Цвет текста */
 }
-
-/* Дневная тема: зеленый цвет для бегунка */
-body[theme="day"] {
-    --thumb-color: var(--day-color-8);
-}
-
-/* Ночная тема: бежевый цвет для бегунка */
-body[theme="night"] {
-    --thumb-color: var(--night-color-5);
-}

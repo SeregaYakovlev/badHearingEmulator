@@ -40,5 +40,6 @@ class Box {
 
     remove() {
         this.box.remove();
+        this.scene.onBoxRemoved(this);
     }
 }
