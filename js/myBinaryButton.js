@@ -1,6 +1,7 @@
 class MyBinaryButton {
     constructor() {
         this.btn = document.createElement("button");
+        this.btn.classList.add("myBtn");
         this.btn.addEventListener("click", () => {
             this._onClick();
         });

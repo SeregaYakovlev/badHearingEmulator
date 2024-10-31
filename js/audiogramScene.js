@@ -73,6 +73,7 @@ class AudiogramScene {
         nextActionBox.addClassName("nextActionBox");
 
         let nextActionBtn = document.createElement("button");
+        nextActionBtn.classList.add("myBtn");
 
         if (this.isLeftEar()) {
             nextActionBtn.innerHTML = setTSTR("Next");
@@ -123,6 +124,7 @@ class AudiogramScene {
 
     _addClearAllBtn(audiogram, btnContainer) {
         let clearAllBtn = document.createElement("button");
+        clearAllBtn.classList.add("myBtn");
         clearAllBtn.innerHTML = setTSTR("DeleteAll");
         clearAllBtn.addEventListener("click", () => {
             audiogram.clearAllPoints();
@@ -133,6 +135,7 @@ class AudiogramScene {
 
     _addClearLastDrawnPointBtn(audiogram, btnContainer) {
         let clearLastDrawnPointBtn = document.createElement("button");
+        clearLastDrawnPointBtn.classList.add("myBtn");
         clearLastDrawnPointBtn.innerHTML = setTSTR("DeleteOneByOne");
         clearLastDrawnPointBtn.addEventListener("click", () => {
             audiogram.clearLastDrawnPoint();

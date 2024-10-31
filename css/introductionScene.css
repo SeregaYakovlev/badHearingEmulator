@@ -79,22 +79,3 @@ body[theme="night"] .introduction::-webkit-scrollbar-thumb {
 body[theme="night"] .introduction::-webkit-scrollbar-thumb:hover {
     background-color: var(--night-color-5); /* изменение цвета полосы при наведении */
 }
-
-.introductionScene button {
-    box-sizing: border-box;
-    border: none; /* Убираем границу */
-    padding: 5px 10px; /* Внутренние отступы */
-    border-radius: 5px; /* Скругленные углы */
-    cursor: pointer; /* Указатель при наведении */
-    font-size: 15px;
-}
-
-body[theme="day"] .introductionScene button  {
-    background-color: var(--day-color-8); /* Цвет фона */
-    color: var(--day-color-2); /* Цвет текста */
-}
-
-body[theme="night"] .introductionScene button {
-    background-color: var(--night-color-2); /* Цвет фона */
-    color: var(--night-color-5); /* Цвет текста */
-}

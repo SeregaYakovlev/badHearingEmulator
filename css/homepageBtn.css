@@ -23,7 +23,6 @@ body[theme="night"] .homepage-btn {
     background-color: #bd9f04;
 }
 
-/* Иконка GitHub */
 .homepage-icon {
     width: 24px;
     height: 24px;
@@ -31,9 +30,9 @@ body[theme="night"] .homepage-btn {
 }
 
 body[theme="day"] .homepage-icon {
-    background-image: url('../images/home-icon.svg'); /* Иконка GitHub */
+    background-image: url('../images/home-icon.svg');
 }
 
 body[theme="night"] .homepage-icon {
-    background-image: url('../images/home-icon.svg'); /* Иконка GitHub */
+    background-image: url('../images/home-icon.svg');
 }

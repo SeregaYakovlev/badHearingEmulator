@@ -34,6 +34,7 @@ class IntroductionService {
 
     _addCloseBtn(box){
         let btn = document.createElement("button");
+        btn.classList.add("myBtn");
         btn.innerHTML = setTSTR("Close");
         btn.addEventListener("click", () => {
             this.page.showRoot();

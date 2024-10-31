@@ -56,7 +56,7 @@ class LiveConversation {
     }
 
     _onMicrophonePermissionDenied() {
-        let errorBubble = new ErrorBubble(this.scene, "MicrophonePermissionError", 1000);
+        let errorBubble = new ErrorBubble(this.scene, "MicrophonePermissionError", 2000);
         errorBubble.show();
     }
 

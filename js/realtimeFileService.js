@@ -40,6 +40,7 @@ class RealtimeFileService {
         actionsBox.addElement(btnContainer);
 
         let anotherFileBtn = document.createElement("button");
+        anotherFileBtn.classList.add("myBtn");
         anotherFileBtn.innerHTML = setTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
             let anotherFile = await this._downloadFileFromDesktop();

@@ -55,25 +55,6 @@ body[theme="night"] .audiogramScene span {
     align-items: center; /* Центрируем кнопки по вертикали */
 }
 
-.audiogramScene button {
-    box-sizing: border-box;
-    border: none; /* Убираем границу */
-    padding: 5px 10px; /* Внутренние отступы */
-    border-radius: 5px; /* Скругленные углы */
-    cursor: pointer; /* Указатель при наведении */
-    font-size: 15px;
-}
-
-body[theme="day"] .audiogramScene button  {
-    background-color: var(--day-color-8); /* Цвет фона */
-    color: var(--day-color-2); /* Цвет текста */
-}
-
-body[theme="night"] .audiogramScene button {
-    background-color: var(--night-color-2); /* Цвет фона */
-    color: var(--night-color-5); /* Цвет текста */
-}
-
 .audiogramScene p, .audiogramScene span {
     font-size: 15px; /* Размер текста */
 }

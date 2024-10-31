@@ -119,7 +119,7 @@ body[theme="night"] .reloadButton {
     color: var(--night-color-5); /* Цвет текста */
 }
 
-.exception button {
+.exception .reloadButton {
     box-sizing: border-box;
     border: none; /* Убираем границу */
     padding: 5px 10px; /* Внутренние отступы */

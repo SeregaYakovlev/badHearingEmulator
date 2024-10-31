@@ -99,25 +99,6 @@ body[theme="night"] .logs::-webkit-scrollbar-thumb:hover {
     background-color: var(--night-color-3); /* изменение цвета полосы при наведении */
 }
 
-.fileHandlingScene button {
-    box-sizing: border-box;
-    border: none; /* Убираем границу */
-    padding: 5px 10px; /* Внутренние отступы */
-    border-radius: 5px; /* Скругленные углы */
-    cursor: pointer; /* Указатель при наведении */
-    font-size: 15px;
-}
-
-body[theme="day"] .fileHandlingScene button  {
-    background-color: var(--day-color-1); /* Цвет фона */
-    color: var(--day-color-2); /* Цвет текста */
-}
-
-body[theme="night"] .fileHandlingScene button {
-    background-color: var(--night-color-2); /* Цвет фона */
-    color: var(--night-color-5); /* Цвет текста */
-}
-
 .fileHandlingScene p, .fileHandlingScene span {
     font-size: 15px; /* Размер текста */
 }

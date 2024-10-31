@@ -4,10 +4,19 @@
     left: 20px; /* отступ слева */
     padding: 10px 20px; /* внутренние отступы для большего размера */
     max-width: 200px; /* максимальная ширина для длинных сообщений */
-    background-color: #ffcccc; /* мягкий розовый фон */
-    color: #333; /* цвет текста */
     font-size: 14px; /* размер шрифта */
     border-radius: 8px; /* скругленные углы */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* тень для объема */
     z-index: 1000; /* поверх других элементов */
+}
+
+body[theme="day"] .errorBubble {
+    background-color: #ffcccc;
+    color: #333;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* тень для объема */
+}
+
+body[theme="night"] .errorBubble {
+    background-color: #ffcccc;
+    color: #333;
+    box-shadow: 0px 4px 8px rgba(255, 255, 255, 0.2);
 }

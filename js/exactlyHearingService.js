@@ -27,12 +27,14 @@ class ExactlyHearingService {
         welcomElem.appendChild(p2);
 
         let separateEarsBtn = document.createElement("button");
+        separateEarsBtn.classList.add("myBtn");
         separateEarsBtn.innerHTML = setTSTR("onEachEar");
         separateEarsBtn.addEventListener("click", () => {
             this._showAudiogramScene(Audiogram.Types.LEFT_EAR);
         })
 
         let binauralBtn = document.createElement("button");
+        binauralBtn.classList.add("myBtn");
         binauralBtn.innerHTML = setTSTR("OnBothEarsOnce");
         binauralBtn.addEventListener("click", () => {
             this._showAudiogramScene(Audiogram.Types.BINAURAL);
@@ -123,6 +125,7 @@ class ExactlyHearingService {
         actionsBox.addElement(btnContainer);
 
         let anotherFileBtn = document.createElement("button");
+        anotherFileBtn.classList.add("myBtn");
         anotherFileBtn.innerHTML = setTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
             let anotherFile = await this._downloadFileFromDesktop();
