@@ -3,29 +3,41 @@ class MyFFT {
         this.originalFile = file;
     }
 
-    async writeToLogStream(logMessage) {
-        if (this.logStream) {
-            this.logStream.write(logMessage);
-            console.log(logMessage);
-            await new Promise(resolve => requestAnimationFrame(resolve));
-        } else {
-            console.debug("LogStream is not set");
-        }
+    setPreloader(preloader) {
+        this.preloaderEarArea = preloader.createCaptionArea();
+        this.preloaderStatusArea = preloader.createCaptionArea();
     }
 
+    async _set_fft_ear_message(message){
+        this.preloaderEarArea.setMessage(message);
+        await new Promise(resolve => requestAnimationFrame(resolve));
+    }
 
-    setLogStream(logStream) {
-        this.logStream = logStream;
+    async _set_fft_message(message){
+        this.preloaderStatusArea.setMessage(message);
+        await new Promise(resolve => requestAnimationFrame(resolve));
+    }
+
+    _onProcessingLeftEar(){
+        this._set_fft_ear_message(setTSTR("LeftEar"));
+    }
+
+    _onProcessingRightEar(){
+        this._set_fft_ear_message(setTSTR("RightEar"));
+    }
+
+    _onProcessingBinaural(){
+        this._set_fft_ear_message(setTSTR("BothEars"));
     }
 
     async processWithAuditoryGraphs(auditoryGraphs) {
-        await this.writeToLogStream(setTSTR("FileDownloading..."));
+        await this._set_fft_message(setTSTR("FileDownloading..."));
 
         // Чтение аудиофайла
         let file = this.originalFile;
         let audioBuffer = await this._loadFileToAudioBuffer(file);
 
-        await this.writeToLogStream(setTSTR("FileUploaded"));
+        await this._set_fft_message(setTSTR("FileUploaded"));
 
         let auditoryGraphType = AuditoryGraph.getListType(auditoryGraphs);
         if (auditoryGraphType === AuditoryGraph.AuditoryGraphType.BINAURAL) {
@@ -54,6 +66,8 @@ class MyFFT {
         }
         else if (auditoryGraphType == AuditoryGraph.AuditoryGraphType.BINAURAL) {
             let binauralGraph = AuditoryGraph.getBinaural(auditoryGraphs);
+
+            await this._onProcessingBinaural();
             handledSamples = await this._handleMonoSamplesByFFT(audioSamples, sampleRate, binauralGraph);
         }
         else {
@@ -75,7 +89,7 @@ class MyFFT {
     async _getAudioSamples(audioBuffer) {
         console.time("getAudioSamples");
 
-        await this.writeToLogStream(setTSTR("ReadingSamplesFromFile"));
+        await this._set_fft_message(setTSTR("ReadingSamplesFromFile"));
 
         let numChannels = audioBuffer.numberOfChannels;
         let samplesPerChannel = audioBuffer.length;
@@ -94,7 +108,7 @@ class MyFFT {
 
         console.timeEnd("getAudioSamples");
 
-        await this.writeToLogStream(setTSTR("SamplesFromFileRead"));
+        await this._set_fft_message(setTSTR("SamplesFromFileRead"));
 
         return allSamples;
     }
@@ -116,8 +130,11 @@ class MyFFT {
             rightChannel[i] = audioSamples[2 * i + 1];
         }
 
+        await this._onProcessingLeftEar();
         // Обработка моно-каналов отдельно
         let processedLeftChannel = await this._handleMonoSamplesByFFT(leftChannel, sampleRate, leftEarGraph);
+
+        await this._onProcessingRightEar();
         let processedRightChannel = await this._handleMonoSamplesByFFT(rightChannel, sampleRate, rightEarGraph);
 
         // Объединение обработанных каналов в стерео
@@ -153,7 +170,7 @@ class MyFFT {
         let fft = new FFTJS(paddedLength);
         let fftData = new Float32Array(paddedLength * 2); // Правильный размер для хранения результатов FFT
 
-        await this.writeToLogStream(setTSTR("PerformingDirectFFT"));
+        await this._set_fft_message(setTSTR("PerformingDirectFFT"));
 
         // Прямое преобразование
         fft.realTransform(fftData, floatInput);
@@ -163,7 +180,7 @@ class MyFFT {
         // Применение коэффициентов ослабления
         console.time('Apply Attenuation');
 
-        await this.writeToLogStream(setTSTR("ApplicationAttenuationFactors"));
+        await this._set_fft_message(setTSTR("ApplicationAttenuationFactors"));
 
         for (let i = 0; i < fftData.length; i += 2) {
 
@@ -193,7 +210,7 @@ class MyFFT {
 
         console.timeEnd('Apply Attenuation');
 
-        await this.writeToLogStream(setTSTR("PerformingInverseFFT"));
+        await this._set_fft_message(setTSTR("PerformingInverseFFT"));
         console.time("ifft");
         // Выполняем обратное преобразование Фурье
         let ifftData = new Float32Array(fftData.length); // Правильный размер для хранения результатов IFFT
@@ -214,7 +231,7 @@ class MyFFT {
     }
 
     async _convertToMonoBuffer(audioBuffer) {
-        await this.writeToLogStream(setTSTR("ConvertingSoundToMonoFormat"));
+        await this._set_fft_message(setTSTR("ConvertingSoundToMonoFormat"));
 
         console.time("convertToMono");
         // Создание моно-канала
@@ -254,7 +271,7 @@ class MyFFT {
         console.time("convertToStereo");
         audioBuffer = await this._convertToMonoBuffer(audioBuffer);
 
-        await this.writeToLogStream(setTSTR("ConvertingSoundToStereoFormat"));
+        await this._set_fft_message(setTSTR("ConvertingSoundToStereoFormat"));
 
         let length = audioBuffer.length;
         let sampleRate = audioBuffer.sampleRate;

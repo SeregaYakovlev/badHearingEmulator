@@ -18,22 +18,17 @@ class RootService {
 
     _addIntroductionService(scene){
         let serviceBox = scene.createBox();
-        serviceBox.addClassName("tipBox");
-
-        let serviceDescription = document.createElement("p");
 
         // Создание ссылки
-        let serviceLink = document.createElement("a");
-        serviceLink.innerHTML = setTSTR("What_is_it?");
-        serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
-        serviceLink.onclick = () => {
+        let serviceBtn = document.createElement("button");
+        serviceBtn.classList.add("myBtn");
+        serviceBtn.innerHTML = setTSTR("What_is_it?");
+        serviceBtn.onclick = () => {
             this.page.runIntroductionService(); // Обработчик события на клик
         };
 
-        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
-
         // Добавляем описание в созданный блок
-        serviceBox.addElement(serviceDescription);
+        serviceBox.addElement(serviceBtn);
     }
 
     _addExampleService(scene){
@@ -43,80 +38,60 @@ class RootService {
 
     _addRealtimeFileService(scene) {
         let serviceBox = scene.createBox();
-        serviceBox.addClassName("tipBox");
-
-        let serviceDescription = document.createElement("p");
 
         // Создание ссылки
-        let serviceLink = document.createElement("a");
-        serviceLink.innerHTML = setTSTR("ListenYourFile");
-        serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
-        serviceLink.onclick = () => {
+        let serviceBtn = document.createElement("button");
+        serviceBtn.classList.add("myBtn");
+        serviceBtn.innerHTML = setTSTR("ListenYourFile");
+        serviceBtn.onclick = () => {
             this.page.runRealtimeFileService(); // Обработчик события на клик
         };
 
-        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
-
         // Добавляем описание в созданный блок
-        serviceBox.addElement(serviceDescription);
+        serviceBox.addElement(serviceBtn);
     }
 
     _addListenYourselfService(scene){
         let serviceBox = scene.createBox();
-        serviceBox.addClassName("tipBox");
-
-        let serviceDescription = document.createElement("p");
 
         // Создание ссылки
-        let serviceLink = document.createElement("a");
-        serviceLink.innerHTML = setTSTR("ListenYourself");
-        serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
-        serviceLink.onclick = () => {
+        let serviceBtn = document.createElement("button");
+        serviceBtn.classList.add("myBtn");
+        serviceBtn.innerHTML = setTSTR("ListenYourself");
+        serviceBtn.onclick = () => {
             this.page.runListenYourselfService(); // Обработчик события на клик
         };
 
-        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
-
         // Добавляем описание в созданный блок
-        serviceBox.addElement(serviceDescription);
+        serviceBox.addElement(serviceBtn);
     }
 
     _addAudiogramHearingService(scene) {
         let serviceBox = scene.createBox();
-        serviceBox.addClassName("tipBox");
-
-        let serviceDescription = document.createElement("p");
 
         // создание ссылки
-        let serviceLink = document.createElement("a");
-        serviceLink.innerHTML = setTSTR("audiogramMode");
-        serviceLink.href = "#";
-        serviceLink.onclick = () => {
+        let serviceBtn = document.createElement("button");
+        serviceBtn.classList.add("myBtn");
+        serviceBtn.innerHTML = setTSTR("audiogramMode");
+        serviceBtn.onclick = () => {
             this.page.runExactlyHearingService();
         }
 
-        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
-
-        serviceBox.addElement(serviceDescription);
+        serviceBox.addElement(serviceBtn);
     }
 
     _addLiveChatService(scene) {
         let serviceBox = scene.createBox();
-        serviceBox.addClassName("tipBox");
-
-        let serviceDescription = document.createElement("p");
 
         // Создание ссылки
-        let serviceLink = document.createElement("a");
-        serviceLink.innerHTML = setTSTR("LiveChatMode");
-        serviceLink.href = "#"; // Добавляем href, чтобы это была ссылка
-        serviceLink.onclick = () => {
+        let serviceBtn = document.createElement("button");
+        serviceBtn.classList.add("myBtn");
+        serviceBtn.innerHTML = setTSTR("LiveChatMode");
+        serviceBtn.onclick = () => {
             this.page.runLiveConversationService(); // Обработчик события на клик
         };
 
-        serviceDescription.appendChild(serviceLink); // Добавляем ссылку в описание
-
         // Добавляем описание в созданный блок
-        serviceBox.addElement(serviceDescription);
+        serviceBox.addElement(serviceBtn);
     }
 }

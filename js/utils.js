@@ -8,7 +8,11 @@ class Utils {
             hiddenInput.style.display = "none"; // Скрываем элемент
 
             // Ограничиваем выбор файлов только аудио и видео
-            hiddenInput.accept = "audio/*,video/*,.mkv"; // Выбираем все аудио и видео файлы
+            hiddenInput.accept = ""; // Инициализация
+
+            hiddenInput.accept += "audio/*,";
+            hiddenInput.accept += "video/*";
+
 
             // Обработчик события выбора файла
             hiddenInput.addEventListener('change', () => {

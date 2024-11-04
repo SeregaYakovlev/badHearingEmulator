@@ -8,26 +8,29 @@ class Preloader {
         let preloaderBox = this.scene.createBox();
         preloaderBox.addClassName("preloaderBox");
 
+        this.preloaderBox = preloaderBox;
+
         let preloader = document.createElement("div");
         preloader.classList.add("preloader");
 
-        this.caption = document.createElement("span");
-        this.caption.classList.add("preloaderCaption");
-
         preloaderBox.addElement(preloader); // Добавляем крутящийся элемент
-        preloaderBox.addElement(this.caption); // Добавляем надпись под ним
     }
 
     show(){
         this.scene.show();
     }
 
-    setCaption(caption){
-        this.caption.innerHTML = caption;
-    }
+    createCaptionArea(){
+        let caption = document.createElement("span");
+        caption.classList.add("preloaderCaption");
+        
+        this.preloaderBox.addElement(caption);
 
-    write(logMessage){
-        this.setCaption(logMessage);
+        caption.setMessage = (message) => {
+            caption.innerHTML = message;
+        }
+
+        return caption;
     }
     
     close(){

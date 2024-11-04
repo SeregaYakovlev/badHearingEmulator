@@ -127,7 +127,7 @@ class Page {
         let languageCode = localStorage.getItem("language");
 
         if (!languageCode) {
-            return new Language("eng");
+            return new Language("en");
         }
 
         return new Language(languageCode);
@@ -274,14 +274,17 @@ class Page {
     _setLanguage(language) {
         localStorage.setItem("language", language.getCode());
 
+        document.title = getTSTR("siteTitle");
+
+        // Установка языка на тег <html>
+        document.documentElement.lang = language.getCode();
+
         let translatedElements = document.querySelectorAll("translated-string");
 
         for (let translatedElement of translatedElements) {
             let stringName = translatedElement.getAttribute("string-name");
             translatedElement.textContent = language.getTranslation(stringName);
         }
-
-        document.title = getTSTR("siteTitle");
 
         this._onLanguageChanged(language);
     }

@@ -1,41 +1,59 @@
 .language-toggle {
-    position: fixed;
-    top: 1%;
-    left: 50%;
-    transform: translateX(-50%); /* Центрирует элемент по горизонтали */
-    width: 40px; /* Ширина переключателя */
-    height: 40px; /* Высота переключателя */
-    border-radius: 8px;
+    position: static;
+    width: 0;
+    height: 0;
+}
+
+.language-circle {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+
+    position: fixed;
+    top: 1%;
+    left: calc(50% - 20px);
+    width: 40px; /* Ширина переключателя */
+    height: 40px; /* Высота переключателя */
+    border-radius: 8px;
     z-index: 10;
-    font-size: 16px; /* Размер шрифта для кода языка */
-    font-weight: bold; /* Толщина шрифта */
 }
 
-body[theme="day"] .language-toggle {
+body[theme="day"] .language-circle {
     background-color: #2e6cab;
 }
 
-body[theme="night"] .language-toggle {
+body[theme="night"] .language-circle {
     background-color: #2a547c;
 }
 
-.language-circle {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+body[theme="day"] .language-circle:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--day-color-2); /* Внешняя белая тень */
+}
+
+body[theme="night"] .language-circle:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--night-color-6); /* Внешняя белая тень */
+}
+
+body[theme="day"] .language-circle:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
+}
+
+body[theme="night"] .language-circle:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
 }
 
 .language-code {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    font-size: 16px; /* Размер шрифта для кода языка */
+    font-weight: bold; /* Толщина шрифта */
 }
 
 body[theme="day"] .language-code {
@@ -58,14 +76,14 @@ body[theme="night"] .language-code {
 /* Стили для выпадающего списка */
 .language-list {
     position: absolute;
-    top: 100%;
+    top: 50px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 4px;
     z-index: 11;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    padding: 10px; /* Внутренние отступы */
+    padding: 5px; /* Внутренние отступы */
     
 }
 
@@ -106,4 +124,8 @@ body[theme="day"] .language-item:hover {
 body[theme="night"] .language-item:hover {
     background-color: white; /* Цвет фона при наведении */
     color: #2a547c;
+}
+
+.language-item:active {
+    transform: scale(0.80);
 }

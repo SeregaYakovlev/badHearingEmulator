@@ -12,14 +12,6 @@
     z-index: 10;
 }
 
-body[theme="day"] .theme-toggle {
-    background-color: var(--day-color-2);
-}
-
-body[theme="night"] .theme-toggle {
-    background-color: var(--night-color-3);
-}
-
 .theme-icon {
     width: 24px;
     height: 24px;
@@ -40,4 +32,32 @@ body[theme="night"] .theme-icon.moon {
 
 .theme-icon.moon {
     background-image: url('../images/moon.svg');
+}
+
+body[theme="day"] .theme-toggle {
+    background-color: var(--day-color-2);
+}
+
+body[theme="night"] .theme-toggle {
+    background-color: var(--night-color-3);
+}
+
+body[theme="day"] .theme-toggle:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--day-color-2); /* Внешняя белая тень */
+}
+
+body[theme="night"] .theme-toggle:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--night-color-6); /* Внешняя белая тень */
+}
+
+body[theme="day"] .theme-toggle:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
+}
+
+body[theme="night"] .theme-toggle:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
 }

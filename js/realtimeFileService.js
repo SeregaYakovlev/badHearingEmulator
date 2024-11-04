@@ -14,7 +14,8 @@ class RealtimeFileService {
 
     async _showMediaPlayer(originalFile) {
         let preloader = new Preloader(this.page);
-        preloader.setCaption(setTSTR("FewSeconds..."));
+        let preloaderCaption = preloader.createCaptionArea();
+        preloaderCaption.setMessage(setTSTR("OneMinute..."));
         preloader.show();
 
         let hearingFrequency = 500;

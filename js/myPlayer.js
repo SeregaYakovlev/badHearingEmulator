@@ -116,6 +116,7 @@ class MyPlayer {
             },
             autoplay: false,
             preload: 'auto',
+            loop: true,
         });
         this.videoPlayer = videoPlayer;
 

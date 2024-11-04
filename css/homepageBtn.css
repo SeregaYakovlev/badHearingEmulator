@@ -1,8 +1,7 @@
 .homepage-btn {
     position: fixed;
     bottom: 1%;
-    left: 50%;
-    transform: translateX(-50%);
+    left: calc(50% - 20px);
     width: 40px;
     height: 40px;
     border-radius: 8px; /* Закругленные углы */
@@ -11,16 +10,6 @@
     align-items: center;
     cursor: pointer;
     z-index: 10;
-}
-
-/* Стили для светлой темы */
-body[theme="day"] .homepage-btn {
-    background-color: #ffd700;
-}
-
-/* Стили для темной темы */
-body[theme="night"] .homepage-btn {
-    background-color: #bd9f04;
 }
 
 .homepage-icon {
@@ -35,4 +24,32 @@ body[theme="day"] .homepage-icon {
 
 body[theme="night"] .homepage-icon {
     background-image: url('../images/home-icon.svg');
+}
+
+body[theme="day"] .homepage-btn {
+    background-color: #ffd700;
+}
+
+body[theme="night"] .homepage-btn {
+    background-color: #bd9f04;
+}
+
+body[theme="day"] .homepage-btn:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--day-color-2); /* Внешняя белая тень */
+}
+
+body[theme="night"] .homepage-btn:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--night-color-6); /* Внешняя белая тень */
+}
+
+body[theme="day"] .homepage-btn:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
+}
+
+body[theme="night"] .homepage-btn:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
 }

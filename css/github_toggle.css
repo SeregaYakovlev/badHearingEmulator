@@ -12,16 +12,6 @@
     z-index: 10;
 }
 
-/* Стили для светлой темы */
-body[theme="day"] .github-toggle {
-    background-color: var(--day-color-2);
-}
-
-/* Стили для темной темы */
-body[theme="night"] .github-toggle {
-    background-color: var(--night-color-3);
-}
-
 /* Иконка GitHub */
 .github-icon {
     width: 24px;
@@ -35,4 +25,32 @@ body[theme="day"] .github-icon {
 
 body[theme="night"] .github-icon {
     background-image: url('../images/github-mark-night.svg'); /* Иконка GitHub */
+}
+
+body[theme="day"] .github-toggle {
+    background-color: var(--day-color-2);
+}
+
+body[theme="night"] .github-toggle {
+    background-color: var(--night-color-3);
+}
+
+body[theme="day"] .github-toggle:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--day-color-2); /* Внешняя белая тень */
+}
+
+body[theme="night"] .github-toggle:hover {
+    transition: box-shadow 0.2s;
+    box-shadow: 0 0 16px var(--night-color-6); /* Внешняя белая тень */
+}
+
+body[theme="day"] .github-toggle:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
+}
+
+body[theme="night"] .github-toggle:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.80);
 }

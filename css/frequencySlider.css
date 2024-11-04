@@ -4,12 +4,6 @@
 }
 
 .frequencySliderBox .invertionButton {
-    box-sizing: border-box;
-    border: none; /* Убираем границу */
-    padding: 5px 10px; /* Внутренние отступы */
-    border-radius: 5px; /* Скругленные углы */
-    cursor: pointer; /* Указатель при наведении */
-    font-size: 15px;
     align-self: center;
     order: 2;
 }

@@ -1,6 +1,6 @@
-.contact-toggle {
+.what-is-it-btn {
     position: fixed;
-    bottom: 1%;
+    top: 1%;
     left: 1%;
     width: 40px;
     height: 40px;
@@ -12,44 +12,46 @@
     z-index: 10;
 }
 
-.contact-icon {
+.what-is-it-icon {
     width: 24px;
     height: 24px;
     background-size: cover;
 }
 
-body[theme="day"] .contact-icon {
-    background-image: url('../images/mail-day.svg'); /* Иконка конверта */
+body[theme="day"] .what-is-it-icon {
+    background-image: url('../images/question-day.svg'); /* Иконка вопроса для светлой темы */
 }
 
-body[theme="night"] .contact-icon {
-    background-image: url('../images/mail-night.svg'); /* Иконка конверта */
+body[theme="night"] .what-is-it-icon {
+    background-image: url('../images/question-night.svg'); /* Иконка вопроса для темной темы */
 }
 
-body[theme="day"] .contact-toggle {
+/* Стили для светлой темы */
+body[theme="day"] .what-is-it-btn {
     background-color: var(--day-color-2);
 }
 
-body[theme="night"] .contact-toggle {
+/* Стили для темной темы */
+body[theme="night"] .what-is-it-btn {
     background-color: var(--night-color-3);
 }
 
-body[theme="day"] .contact-toggle:hover {
+body[theme="day"] .what-is-it-btn:hover {
     transition: box-shadow 0.2s;
     box-shadow: 0 0 16px var(--day-color-2); /* Внешняя белая тень */
 }
 
-body[theme="night"] .contact-toggle:hover {
+body[theme="night"] .what-is-it-btn:hover {
     transition: box-shadow 0.2s;
     box-shadow: 0 0 16px var(--night-color-6); /* Внешняя белая тень */
 }
 
-body[theme="day"] .contact-toggle:active {
+body[theme="day"] .what-is-it-btn:active {
     transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
     transform: scale(0.80);
 }
 
-body[theme="night"] .contact-toggle:active {
+body[theme="night"] .what-is-it-btn:active {
     transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
     transform: scale(0.80);
 }

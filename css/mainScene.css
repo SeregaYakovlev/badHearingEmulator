@@ -24,19 +24,3 @@ body[theme="night"] .mainScene p {
     max-width: 320px;
     max-height: 240px;
 }
-
-body[theme="day"] a {
-    color: var(--day-color-7);
-}
-
-body[theme="day"] a:visited {
-    color: var(--day-color-7);
-}
-
-body[theme="night"] a {
-    color: var(--night-color-5);
-}
-
-body[theme="night"] a:visited {
-    color: var(--night-color-5);
-}

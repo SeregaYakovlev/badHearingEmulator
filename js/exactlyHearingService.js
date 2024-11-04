@@ -91,8 +91,8 @@ class ExactlyHearingService {
         let handledAudioBuffer;
         let originalFile = serverTask.getFile();
 
-        let myAudio = new MyFFT(originalFile);
-        myAudio.setLogStream(preloader);
+        let myFFT = new MyFFT(originalFile);
+        myFFT.setPreloader(preloader);
 
         let audiograms = serverTask.getAudiograms();
         // Конвертируем каждый аудиограм в JSON и собираем их в массив
@@ -101,7 +101,7 @@ class ExactlyHearingService {
 
         let auditoryGraphArray = AuditoryGraph.getAuditoryGraphArrayFromJson(json);
 
-        handledAudioBuffer = await myAudio.processWithAuditoryGraphs(auditoryGraphArray);
+        handledAudioBuffer = await myFFT.processWithAuditoryGraphs(auditoryGraphArray);
 
         preloader.close();
 
