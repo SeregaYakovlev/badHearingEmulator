@@ -1,6 +1,7 @@
 class Page {
     constructor() {
         this.languageChangingListeners = [];
+        this.translatedStrings = [];
     }
 
     showRoot() {
@@ -279,11 +280,8 @@ class Page {
         // Установка языка на тег <html>
         document.documentElement.lang = language.getCode();
 
-        let translatedElements = document.querySelectorAll("translated-string");
-
-        for (let translatedElement of translatedElements) {
-            let stringName = translatedElement.getAttribute("string-name");
-            translatedElement.textContent = language.getTranslation(stringName);
+        for (let translatedString of this.translatedStrings) {
+            translatedString.changeLanguageTo(language);
         }
 
         this._onLanguageChanged(language);

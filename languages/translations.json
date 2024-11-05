@@ -1,5 +1,21 @@
 {
     "translations": {
+        "FileSizeWarning": {
+            "ru": "Размер файла составляет {} МБ, для использования сервиса рекомендовано не более {} МБ",
+            "en": "The file size is {} MB; for optimal service use, it is recommended not to exceed {} MB",
+            "fr": "La taille du fichier est de {} Mo; pour un service optimal, il est recommandé de ne pas dépasser {} Mo",
+            "es": "El tamaño del archivo es de {} MB; para un uso óptimo del servicio, se recomienda no superar los {} MB",
+            "zh": "文件大小为 {} MB；建议使用不超过 {} MB 的文件",
+            "ar": "حجم الملف هو {} ميجابايت؛ للاستخدام الأمثل للخدمة، يُنصح بعدم تجاوز {} ميجابايت"
+        },
+        "ContinueAnyway": {
+            "ru": "Все равно продолжить",
+            "en": "Continue Anyway",
+            "fr": "Continuer quand même",
+            "es": "Continuar de todos modos",
+            "zh": "仍然继续",
+            "ar": "الاستمرار على أي حال"
+        },
         "MicrophonePermissionError": {
             "ru": "Ошибка доступа к микрофону",
             "en": "Microphone Access Error",

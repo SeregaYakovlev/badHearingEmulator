@@ -27,4 +27,10 @@ class Utils {
             hiddenInput.click();
         });
     }
+
+    static bytesToMegabytes(bytes) {
+        let megabytes = bytes / (1024 * 1024);
+        return megabytes;
+    }
+    
 }

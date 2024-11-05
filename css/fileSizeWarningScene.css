@@ -1,0 +1,11 @@
+body[theme="day"] .fileSizeWarningScene p {
+    color: var(--day-color-3);
+}
+
+body[theme="night"] .fileSizeWarningScene p {
+    color: var(--night-color-5);
+}
+
+.fileSizeWarningScene p {
+    font-size: 15px; /* Размер текста */
+}

@@ -92,36 +92,6 @@ class AudiogramScene {
         return nextActionBox;
     }
 
-    _getMyNeighbour() {
-        return this.myNeighbour;
-    }
-
-    knowYourNeighbour(audiogramScene) {
-        this.myNeighbour = audiogramScene;
-    }
-
-    getServerTask() {
-        if (this.isBinaural()) {
-            let serverTask = new ServerTask();
-            serverTask.setBinauralAudiogram(this.getAudiogram());
-            return serverTask;
-        }
-        else if (this.isRightEar()) {
-            let myNeighbour = this._getMyNeighbour();
-            let leftEarAudiogram = myNeighbour.getAudiogram();
-
-            let serverTask = new ServerTask();
-            serverTask.setLeftEarAudiogram(leftEarAudiogram);
-            serverTask.setRightEarAudiogram(this.getAudiogram())
-            return serverTask;
-        }
-        else if (this.isLeftEar()) {
-            throw new Error("Algorithm error");
-        }
-    }
-
-
-
     _addClearAllBtn(audiogram, btnContainer) {
         let clearAllBtn = document.createElement("button");
         clearAllBtn.classList.add("myBtn");

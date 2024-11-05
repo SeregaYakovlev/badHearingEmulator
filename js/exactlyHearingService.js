@@ -1,6 +1,7 @@
 class ExactlyHearingService {
     constructor(page) {
         this.page = page;
+        this.audiograms = [];
     }
 
     show() {
@@ -49,21 +50,82 @@ class ExactlyHearingService {
         div.appendChild(binauralBtn);
 
         b.addElement(div);
-        
+
         scene.show();
     }
 
+    async _processAndDisplayFileFromDesktop(file) {
+        let fileSizeInBytes = file.size;
+        let fileSizeInMegaBytes = Utils.bytesToMegabytes(fileSizeInBytes);
+
+        while (fileSizeInMegaBytes > 100) {
+            let warningResult = await this._displayFileSizeWarning(fileSizeInMegaBytes);
+            if (!warningResult.userIsAgree) {
+                file = warningResult.anotherFile;
+                fileSizeInBytes = file.size;
+                fileSizeInMegaBytes = Utils.bytesToMegabytes(fileSizeInBytes);
+            }
+        }
+
+        let preloader = new Preloader(this.page);
+        preloader.show();
+        let handledAudioBuffer = await this._handleFile(preloader, file, this.audiograms);
+        preloader.close();
+        this._showMediaPlayer(handledAudioBuffer, file);
+    }
+
+    async _displayFileSizeWarning(fileSizeInMegaBytes) {
+        fileSizeInMegaBytes = Math.round(fileSizeInMegaBytes);
+        let recommendedFileSizeInMegaBytes = 20;
+        return new Promise((resolve) => {
+            let scene = new Scene(this.page);
+            scene.addClassName("fileSizeWarningScene");
+            let box = scene.createBox();
+
+            let p = document.createElement("p");
+            p.innerHTML = setTSTR("FileSizeWarning", [fileSizeInMegaBytes, recommendedFileSizeInMegaBytes]);
+
+            let anotherFileBtn = document.createElement("button");
+            anotherFileBtn.classList.add("myBtn");
+            anotherFileBtn.innerHTML = setTSTR("anotherFile");
+
+            anotherFileBtn.addEventListener("click", async () => {
+                let anotherFile = await this._downloadFileFromDesktop();
+                scene.close();
+                resolve({ anotherFile: anotherFile, userIsAgree: false }); // Возвращает новый файл
+            });
+
+            let agreeBtn = document.createElement("button");
+            agreeBtn.classList.add("myBtn");
+            agreeBtn.innerHTML = setTSTR("ContinueAnyway");
+
+            agreeBtn.addEventListener("click", () => {
+                scene.close();
+                resolve({ anotherFile: null, userIsAgree: true }); // Возвращает согласие на обработку
+            });
+
+            let btnContainer = document.createElement("div");
+            btnContainer.classList.add("exactlyServiceBtnContainer");
+
+            btnContainer.appendChild(anotherFileBtn);
+            btnContainer.appendChild(agreeBtn);
+
+            box.addElement(p);
+            box.addElement(btnContainer);
+            scene.show();
+        });
+    }
+
+
     async onAudiogramSceneInputed(audiogramScene) {
+        this.audiograms.push(audiogramScene.getAudiogram());
         if (audiogramScene.isLeftEar()) {
             let rightEarAudiogram = this._getAudiogramScene(Audiogram.Types.RIGHT_EAR);
-            rightEarAudiogram.knowYourNeighbour(audiogramScene);
             rightEarAudiogram.show();
         }
         else if (audiogramScene.isRightEar() || audiogramScene.isBinaural()) {
             let file = await this._downloadFileFromDesktop();
-            let serverTask = audiogramScene.getServerTask();
-            serverTask.setFile(file);
-            this._showFileHandlingScene(serverTask);
+            this._processAndDisplayFileFromDesktop(file);
         }
     }
 
@@ -81,20 +143,12 @@ class ExactlyHearingService {
         return await Utils.downloadFileFromDesktop();
     }
 
-
-    async _showFileHandlingScene(serverTask) {
-        let preloader = new Preloader(this.page);
-        preloader.show();
-
-        let worker = new Worker("worker.js");
-
+    async _handleFile(preloader, originalFile, audiograms) {
         let handledAudioBuffer;
-        let originalFile = serverTask.getFile();
 
         let myFFT = new MyFFT(originalFile);
         myFFT.setPreloader(preloader);
 
-        let audiograms = serverTask.getAudiograms();
         // Конвертируем каждый аудиограм в JSON и собираем их в массив
         let audiogramArray = audiograms.map(audiogram => audiogram.toJsonSerializableObj());
         let json = JSON.stringify(audiogramArray);
@@ -103,12 +157,10 @@ class ExactlyHearingService {
 
         handledAudioBuffer = await myFFT.processWithAuditoryGraphs(auditoryGraphArray);
 
-        preloader.close();
-
-        this._showMediaPlayer(serverTask, handledAudioBuffer, originalFile);
+        return handledAudioBuffer;
     }
 
-    _showMediaPlayer(serverTask, handledAudioBuffer, originalFile) {
+    _showMediaPlayer(handledAudioBuffer, originalFile) {
         let scene = new Scene(this.page);
         scene.addClassName("mediaPlayerScene");
 
@@ -129,9 +181,7 @@ class ExactlyHearingService {
         anotherFileBtn.innerHTML = setTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
             let anotherFile = await this._downloadFileFromDesktop();
-            let newServerTask = serverTask.recreate();
-            newServerTask.setFile(anotherFile);
-            this._showFileHandlingScene(newServerTask);
+            this._processAndDisplayFileFromDesktop(anotherFile);
         });
 
         btnContainer.appendChild(anotherFileBtn);
