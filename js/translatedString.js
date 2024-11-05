@@ -25,7 +25,7 @@ class TranslatedString {
             return translatedText;
         }
 
-        return "string not translated";
+        return "null";
     }
 
     applyArgs(args) {

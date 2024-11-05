@@ -34,6 +34,6 @@ class Language {
     getTranslation(stringName) {
         // Получаем перевод для текущего языка
         let translation = window.translations[stringName];
-        return translation ? translation[this.code] : "null";
+        return translation ? translation[this.code] : null;
     }
 }
