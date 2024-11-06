@@ -54,18 +54,10 @@ class ExactlyHearingService {
         scene.show();
     }
 
-    async _processAndDisplayFileFromDesktop(file) {
-        let fileSizeInBytes = file.size;
-        let fileSizeInMegaBytes = Utils.bytesToMegabytes(fileSizeInBytes);
-
-        while (fileSizeInMegaBytes > 100) {
-            let warningResult = await this._displayFileSizeWarning(fileSizeInMegaBytes);
-            if (!warningResult.userIsAgree) {
-                file = warningResult.anotherFile;
-                fileSizeInBytes = file.size;
-                fileSizeInMegaBytes = Utils.bytesToMegabytes(fileSizeInBytes);
-            }
-        }
+    async _download_process_display_file_from_desktop(){
+        let myFile = new MyFile(this.page);
+        myFile.setFileSizeLimitInMegabytes(20);
+        let file = await myFile.downloadFileFromDesktop();
 
         let preloader = new Preloader(this.page);
         preloader.show();
@@ -73,50 +65,7 @@ class ExactlyHearingService {
         preloader.close();
         this._showMediaPlayer(handledAudioBuffer, file);
     }
-
-    async _displayFileSizeWarning(fileSizeInMegaBytes) {
-        fileSizeInMegaBytes = Math.round(fileSizeInMegaBytes);
-        let recommendedFileSizeInMegaBytes = 20;
-        return new Promise((resolve) => {
-            let scene = new Scene(this.page);
-            scene.addClassName("fileSizeWarningScene");
-            let box = scene.createBox();
-
-            let p = document.createElement("p");
-            p.innerHTML = setTSTR("FileSizeWarning", [fileSizeInMegaBytes, recommendedFileSizeInMegaBytes]);
-
-            let anotherFileBtn = document.createElement("button");
-            anotherFileBtn.classList.add("myBtn");
-            anotherFileBtn.innerHTML = setTSTR("anotherFile");
-
-            anotherFileBtn.addEventListener("click", async () => {
-                let anotherFile = await this._downloadFileFromDesktop();
-                scene.close();
-                resolve({ anotherFile: anotherFile, userIsAgree: false }); // Возвращает новый файл
-            });
-
-            let agreeBtn = document.createElement("button");
-            agreeBtn.classList.add("myBtn");
-            agreeBtn.innerHTML = setTSTR("ContinueAnyway");
-
-            agreeBtn.addEventListener("click", () => {
-                scene.close();
-                resolve({ anotherFile: null, userIsAgree: true }); // Возвращает согласие на обработку
-            });
-
-            let btnContainer = document.createElement("div");
-            btnContainer.classList.add("exactlyServiceBtnContainer");
-
-            btnContainer.appendChild(anotherFileBtn);
-            btnContainer.appendChild(agreeBtn);
-
-            box.addElement(p);
-            box.addElement(btnContainer);
-            scene.show();
-        });
-    }
-
-
+    
     async onAudiogramSceneInputed(audiogramScene) {
         this.audiograms.push(audiogramScene.getAudiogram());
         if (audiogramScene.isLeftEar()) {
@@ -124,8 +73,7 @@ class ExactlyHearingService {
             rightEarAudiogram.show();
         }
         else if (audiogramScene.isRightEar() || audiogramScene.isBinaural()) {
-            let file = await this._downloadFileFromDesktop();
-            this._processAndDisplayFileFromDesktop(file);
+            this._download_process_display_file_from_desktop();
         }
     }
 
@@ -137,10 +85,6 @@ class ExactlyHearingService {
     _getAudiogramScene(audiogramType) {
         let scene = new AudiogramScene(this.page, this, audiogramType);
         return scene;
-    }
-
-    async _downloadFileFromDesktop() {
-        return await Utils.downloadFileFromDesktop();
     }
 
     async _handleFile(preloader, originalFile, audiograms) {
@@ -180,8 +124,7 @@ class ExactlyHearingService {
         anotherFileBtn.classList.add("myBtn");
         anotherFileBtn.innerHTML = setTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
-            let anotherFile = await this._downloadFileFromDesktop();
-            this._processAndDisplayFileFromDesktop(anotherFile);
+            this._download_process_display_file_from_desktop();
         });
 
         btnContainer.appendChild(anotherFileBtn);

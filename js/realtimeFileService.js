@@ -4,12 +4,14 @@ class RealtimeFileService {
     }
 
     async run() {
-        let file = await this._downloadFileFromDesktop();
-        this._showMediaPlayer(file);
+        this._download_process_and_display_file_from_desktop();
     }
 
-    async _downloadFileFromDesktop() {
-        return await Utils.downloadFileFromDesktop();
+    async _download_process_and_display_file_from_desktop(){
+        let myFile = new MyFile(this.page);
+        myFile.setFileSizeLimitInMegabytes(100);
+        let file = await myFile.downloadFileFromDesktop();
+        this._showMediaPlayer(file);
     }
 
     async _showMediaPlayer(originalFile) {
@@ -44,8 +46,7 @@ class RealtimeFileService {
         anotherFileBtn.classList.add("myBtn");
         anotherFileBtn.innerHTML = setTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
-            let anotherFile = await this._downloadFileFromDesktop();
-            this._showMediaPlayer(anotherFile);
+            this._download_process_and_display_file_from_desktop();
         });
 
         let soundVisualizationBtn = new MyBinaryButton();
