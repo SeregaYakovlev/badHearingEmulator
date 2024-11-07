@@ -3,11 +3,17 @@ class MySpeaker {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.soundSources = [];
         this.playingSoundSources = []; // Хранит активные звуковые источники
+        this.playingStartedTime = -1;
+        this.speakerEventListeners = [];
 
         scene.subscribeToSceneClosing(this);
     }
 
-    getAudioContext(){
+    subscribeToSpeakerEvents(speakerListener) {
+        this.speakerEventListeners.push(speakerListener);
+    }
+
+    getAudioContext() {
         return this.audioContext;
     }
 
@@ -30,11 +36,23 @@ class MySpeaker {
 
         let streamSource = this._createSoundStreamSource(stream);
 
+        // Слушаем событие окончания воспроизведения, чтобы удалить источник из активных
         streamSource.onended = () => {
-            this.playingSoundSources = this.playingSoundSources.filter(source => source !== streamSource);
-        }
+            if (this.filters) {
+                this.playingSoundSources = this.playingSoundSources.filter(source => source !== this.filters[this.filters.length - 1]);
+            }
+            else {
+                this.playingSoundSources = this.playingSoundSources.filter(source => source !== streamSource);
+            }
+        };
 
-        this.playingSoundSources.push(streamSource);
+        // Добавляем звук источник в активные
+        if (this.filters) {
+            this.playingSoundSources.push(this.filters[this.filters.length - 1]);
+        }
+        else {
+            this.playingSoundSources.push(streamSource);
+        }
 
         if (this.filters) {
             this._connectFiltersToOutput(streamSource, this.filters);
@@ -43,6 +61,15 @@ class MySpeaker {
             // на данный момент динамик еще не подключен
             streamSource.connect(this.audioContext.destination);
         }
+
+        if (this.filters) {
+            this._onPlayingStarted(this.filters[this.filters.length - 1]);
+        }
+        else {
+            this._onPlayingStarted(streamSource);
+        }
+
+        this.playingStartedTime = this.audioContext.currentTime;
     }
 
     playBuffer(audioBuffer, position) {
@@ -58,11 +85,21 @@ class MySpeaker {
         bufferSource.buffer = audioBuffer;
 
         // Добавляем звук источник в активные
-        this.playingSoundSources.push(bufferSource);
+        if (this.filters) {
+            this.playingSoundSources.push(this.filters[this.filters.length - 1]);
+        }
+        else {
+            this.playingSoundSources.push(bufferSource);
+        }
 
         // Слушаем событие окончания воспроизведения, чтобы удалить источник из активных
         bufferSource.onended = () => {
-            this.playingSoundSources = this.playingSoundSources.filter(source => source !== bufferSource);
+            if (this.filters) {
+                this.playingSoundSources = this.playingSoundSources.filter(source => source !== this.filters[this.filters.length - 1]);
+            }
+            else {
+                this.playingSoundSources = this.playingSoundSources.filter(source => source !== bufferSource);
+            }
         };
 
         if (this.filters) {
@@ -74,10 +111,23 @@ class MySpeaker {
         }
 
         bufferSource.start(0, position);
+        this.playingStartedTime = this.audioContext.currentTime;
+
+        if (this.filters) {
+            this._onPlayingStarted(this.filters[this.filters.length - 1]);
+        }
+        else {
+            this._onPlayingStarted(bufferSource);
+        }
     }
 
     stop() {
         let soundSourceCopy = [...this.soundSources];
+        let playingSoundSourcesCopy = [...this.playingSoundSources];
+
+        // Удаляем оба вида soundSources, так как в soundSource может быть нефильтрованный bufferSource,
+        // а в playingSoundSources находиться последний фильтр
+
         for (let soundSource of soundSourceCopy) {
             soundSource.disconnect();
 
@@ -85,16 +135,48 @@ class MySpeaker {
                 soundSource.stop();
             }
 
-            // Удаляем источник из soundSources с использованием filter
             this.soundSources = this.soundSources.filter(source => source !== soundSource);
+
+        }        
+
+        for (let soundSource of playingSoundSourcesCopy) {
+            soundSource.disconnect();
+
+            if (soundSource instanceof AudioBufferSourceNode) {
+                soundSource.stop();
+            }
 
             this.playingSoundSources = this.playingSoundSources.filter(source => source !== soundSource);
 
         }
+
+        this.playingStartedTime = -1;
+        this._onPlayingStopped();
+    }
+
+    getPlaybackTime() {
+        if (this.playingStartedTime >= 0) {
+            return this.audioContext.currentTime - this.playingStartedTime;
+        }
+        else {
+            throw new Error("The speaker is not playing right now");
+        }
+    }
+
+    _onPlayingStarted(source) {
+        for (let speakerListener of this.speakerEventListeners) {
+            speakerListener.onSpeakerPlayingStarted(source);
+        }
+    }
+
+    _onPlayingStopped() {
+        for (let speakerListener of this.speakerEventListeners) {
+            speakerListener.onSpeakerPlayingStopped();
+        }
     }
 
     isPlaying() {
-        return this.playingSoundSources.size > 0; // Если есть активные источники, значит звук играет
+        return this.playingSoundSources.length > 0; // Если есть активные источники, значит звук играет
     }
 
     getActiveSoundSource() {
@@ -127,7 +209,7 @@ class MySpeaker {
         return soundSource; // Не забываем вернуть созданный источник
     }
 
-    onSceneClosed(){
+    onSceneClosed() {
         this.stop();
     }
 }

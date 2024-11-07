@@ -17,44 +17,48 @@ class RealTimeFilter {
         scene.subscribeToSceneClosing(this);
     }
 
-    onSceneClosed(){
+    onSceneClosed() {
         this.stopProcessing();
     }
 
-    invertFilter(){
-        if(this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS){
+    invertFilter() {
+        if (this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS) {
             this.filterType = RealTimeFilter.FILTER_TYPE.HIGHPASS;
         }
-        else if(this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS){
+        else if (this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS) {
             this.filterType = RealTimeFilter.FILTER_TYPE.LOWPASS;
         }
 
-        for(let filter of this.filters){
+        for (let filter of this.filters) {
             filter.type = this.filterType;
         }
     }
 
-    getAudioContext(){
+    getSpeaker() {
+        return this.speaker;
+    }
+
+    getAudioContext() {
         return this.audioContext;
     }
 
-    getSoundSource(){
+    getSoundSource() {
         return this._getLastFilter();
     }
 
-    _getLastFilter(){
+    _getLastFilter() {
         return this.filters[this.filters.length - 1];
     }
 
-    getFilterType(){
+    getFilterType() {
         return this.filterType;
     }
 
-    isLowPassFilter(){
+    isLowPassFilter() {
         return this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS;
     }
 
-    isHighPassFilter(){
+    isHighPassFilter() {
         return this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS;
     }
 
@@ -64,10 +68,10 @@ class RealTimeFilter {
             // специальное сигнальное значение
             // отключения фильтра
             let filterDisablingFrequency;
-            if(this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS){
+            if (this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS) {
                 filterDisablingFrequency = 999_999_999;
             }
-            else if(this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS) {
+            else if (this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS) {
                 filterDisablingFrequency = 0;
             }
             else {
@@ -132,5 +136,28 @@ class RealTimeFilter {
         let filter = this.audioContext.createBiquadFilter();
         filter.type = this.filterType;
         return filter;
+    }
+
+    // interface method
+    onStop() {
+        this.stopProcessing();
+    }
+
+    // interface method
+    onPlay(position) {
+        this.startProcessingFromFile(position);
+    }
+
+    // interface method
+    onSeek(position, isPlaying) {
+        this.stopProcessing();
+        if (isPlaying) {
+            this.startProcessingFromFile(position);
+        }
+    }
+
+    // interface method
+    onEnded() {
+        this.stopProcessing();
     }
 }

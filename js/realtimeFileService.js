@@ -25,14 +25,18 @@ class RealtimeFileService {
         let scene = new Scene(this.page);
         scene.addClassName("mediaPlayerScene");
 
-        let realtimePlayer = new RealTimePlayer(scene, hearingFrequency);
-        realtimePlayer.setHearingFrequency(hearingFrequency);
-        await realtimePlayer.loadFile(originalFile);
-        realtimePlayer.install(scene);
+        let realtimeFilter = new RealTimeFilter(scene);
+        realtimeFilter.setHearingFrequency(hearingFrequency);
+        await realtimeFilter.loadFile(originalFile);
 
-        let frequencySlider = new FrequencySlider(scene, hearingFrequency, 0, 8_000, realtimePlayer.getRealTimeFilter());
+        let player = new MyPlayer(scene, realtimeFilter);
+        player.replaceSpeaker(realtimeFilter.getSpeaker());
+        player.setFile(originalFile);
+        player.install(scene);
+
+        let frequencySlider = new FrequencySlider(scene, hearingFrequency, 0, 8_000, realtimeFilter);
         frequencySlider.setFrequencyCallback((frequency) => {
-            realtimePlayer.setHearingFrequency(frequency);
+            realtimeFilter.setHearingFrequency(frequency);
         });
 
         let actionsBox = scene.createBox();
@@ -50,18 +54,16 @@ class RealtimeFileService {
         });
 
         let soundVisualizationBtn = new MyBinaryButton();
-        let soundVisualization = new SoundVisualization(scene, realtimePlayer);
+        let soundVisualization = new SoundVisualization(scene, realtimeFilter.getSpeaker());
 
         soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
-            realtimePlayer.hide();
-            await soundVisualization.show();
-            soundVisualization.startProcessing();
+            player.hide();
+            soundVisualization.show();
         });
 
         soundVisualizationBtn.setState2("ShowVideo", () => {
-            realtimePlayer.show();
+            player.show();
             soundVisualization.hide();
-            soundVisualization.stopProcessing();
         });
 
         soundVisualizationBtn.applyFirstState();

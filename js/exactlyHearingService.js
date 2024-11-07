@@ -131,18 +131,16 @@ class ExactlyHearingService {
 
         let soundVisualizationBtn = new MyBinaryButton();
 
-        let soundVisualization = new SoundVisualization(scene, player);
+        let soundVisualization = new SoundVisualization(scene, player.getSpeaker());
 
         soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
             player.hide();
-            await soundVisualization.show();
-            soundVisualization.startProcessing();
+            soundVisualization.show();
         });
 
         soundVisualizationBtn.setState2("ShowVideo", () => {
             player.show();
             soundVisualization.hide();
-            soundVisualization.stopProcessing();
         });
 
         soundVisualizationBtn.applyFirstState();

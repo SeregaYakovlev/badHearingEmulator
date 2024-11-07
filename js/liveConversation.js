@@ -92,12 +92,10 @@ class LiveConversation {
         let stream = this.microphone.getStream();
         this.realtimeFilter.setHearingFrequency(this.hearingFrequency);
         this.realtimeFilter.startProcessingFromMicrophone(stream);
-        this.soundVisualization.startProcessing();
     }
 
     _onMicrophoneDisabled() {
         this.realtimeFilter.stopProcessing();
-        this.soundVisualization.stopProcessing();
     }
 
     _addFrequencySlider(scene) {
@@ -108,7 +106,7 @@ class LiveConversation {
     }
 
     _addFrequencySpectrum(scene) {
-        this.soundVisualization = new SoundVisualization(scene, this);
+        this.soundVisualization = new SoundVisualization(scene, this.realtimeFilter.getSpeaker());
         scene.update(); // важный вызов, чтобы bounding_client_rect увидел элемент
         this.soundVisualization.show();
     }

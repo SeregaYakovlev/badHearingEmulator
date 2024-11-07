@@ -14,11 +14,11 @@ body[theme="night"] .listenYourselfScene p {
     color: var(--night-color-5);
 }
 
-body[theme="day"] .microphoneRecordBtn[microphone-enabled="true"] {
+body[theme="day"] .myBtn.microphoneRecordBtn[microphone-enabled="true"] {
     background-color: brown;
 }
 
-body[theme="night"] .microphoneRecordBtn[microphone-enabled="true"] {
+body[theme="night"] .myBtn.microphoneRecordBtn[microphone-enabled="true"] {
     background-color: brown;
 }
 

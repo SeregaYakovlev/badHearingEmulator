@@ -5,12 +5,26 @@ class MyPlayer {
         this.speaker = new MySpeaker(scene);
     }
 
+    enableAudioAndVideoSyncing(){
+        window.setInterval(() => this._syncSpeakerAndVideo(), 1000);
+    }
+
+    replaceSpeaker(speaker) {
+        this.speaker = speaker;
+
+        this.enableAudioAndVideoSyncing();
+    }
+
     addClassName(className) {
         this.mediaPlayerBox.addClassName(className);
     }
 
     getAudioContext() {
         return this.speaker.getAudioContext();
+    }
+
+    getSpeaker() {
+        return this.speaker;
     }
 
     getSoundSource() {
@@ -20,6 +34,8 @@ class MyPlayer {
     setCustomAudioBuffer(audioBuffer) {
         this.customAudioSource = true;
         this.audioBuffer = audioBuffer;
+
+        this.enableAudioAndVideoSyncing();
     }
 
     setFullVolume() {
@@ -35,7 +51,8 @@ class MyPlayer {
     }
 
     isPlaying() {
-        return !this.videoPlayer.paused();
+        let paused = this.videoPlayer.paused();
+        return !paused;
     }
 
     setFile(file) {
@@ -46,7 +63,7 @@ class MyPlayer {
         this.fileLink = fileLink;
     }
 
-    setFileType(fileType){
+    setFileType(fileType) {
         this.fileType = fileType;
     }
 
@@ -74,7 +91,7 @@ class MyPlayer {
 
     _onSeek(position) {
         if (this.callback) {
-            this.callback.onSeek(position);
+            this.callback.onSeek(position, this.isPlaying());
         }
         if (this.isPlaying() && this.customAudioSource) {
             this._stopCustomSound();
@@ -159,6 +176,24 @@ class MyPlayer {
         });
     }
 
+    _syncSpeakerAndVideo() {
+        let isPlaying = this.isPlaying();
+        if(!isPlaying){
+            return;
+        }
+
+        try {
+            // Получаем текущее время воспроизведения аудио
+            let speakerPlaybackTime = this.speaker.getPlaybackTime();
+
+            if (speakerPlaybackTime <= this.videoPlayer.duration) {
+                // Устанавливаем это время для элемента видео
+                this.videoPlayer.currentTime = speakerPlaybackTime;
+            }
+        } catch (e) {
+
+        }
+    }
 
     replaceVideo() {
         if (this.file) {

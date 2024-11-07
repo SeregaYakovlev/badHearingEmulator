@@ -4,10 +4,13 @@ class SoundVisualization {
     static FFT_SIZE = 8192;
     static FREQUENCY_RANGE = [16, 20_000];
 
-    constructor(scene, player) {
+    constructor(scene, speaker) {
         this.scene = scene;
-        this.player = player;
-        this.audioContext = player.getAudioContext();
+        this.speaker = speaker;
+
+        speaker.subscribeToSpeakerEvents(this);
+
+        this.audioContext = speaker.getAudioContext();
 
         // Создаем контейнер для визуализации
         this.soundVisualizationBox = this.scene.createBox();
@@ -31,31 +34,24 @@ class SoundVisualization {
         this.soundVisualizationBox.addElement(this.overlayCanvas);
     }
 
-    _connectToSoundSource() {
-        let soundSource;
-        try {
-            soundSource = this.player.getSoundSource();
-        }
-        catch (e) { }
-
-        if (soundSource) {
-            soundSource.connect(this.analyser);
-        }
+    onSpeakerPlayingStarted(soundSource) {
+        this._connectToSoundSource(soundSource);
     }
 
-    _disconnectFromSoundSource() {
-        let soundSource;
+    onSpeakerPlayingStopped() {
+        this._disconnectFromSources();
+    }
+
+    _connectToSoundSource(soundSource){
+        this.soundSource = soundSource;
+        soundSource.connect(this.analyser);
+    }
+
+    _disconnectFromSources(){
         try {
-            soundSource = this.player.getSoundSource();
-        }
-        catch (e) { }
+            this.soundSource.disconnect(this.analyser);
+        } catch (e) {
 
-        if (soundSource) {
-            try {
-                soundSource.disconnect(this.analyser);
-            } catch (e) {
-
-            }
         }
     }
 
@@ -66,22 +62,15 @@ class SoundVisualization {
             // Запрашиваем обновление интерфейса
             requestAnimationFrame(() => {
                 this._initDisplay(); // Инициализируем отображение в следующем кадре
-
+                // чтобы телефон не тормозил, запускаем анимацию через 250 мс
+                setTimeout(() => this._startVisualization(), 250);
                 resolve(); // Разрешаем промис после обновления
             });
         });
     }
 
-    startProcessing() {
-        this._connectToSoundSource();
-        this._startVisualization();
-    }
-
-    stopProcessing() {
-        this._disconnectFromSoundSource();
-    }
-
     hide() {
+        this._stopVisualization();
         this.soundVisualizationBox.hide();
     }
 
@@ -166,11 +155,27 @@ class SoundVisualization {
     }
 
     _startVisualization() {
+        let activeSoundSource = this.speaker.getActiveSoundSource();
+
+        if (!this.soundSource && activeSoundSource) {
+            this._connectToSoundSource(activeSoundSource);
+        }
+
         let rect = this.mainCanvas.getBoundingClientRect();
         let cssCanvasWidth = rect.width;
         let cssCanvasHeight = rect.height;
 
         this._drawSpectrum(cssCanvasWidth, cssCanvasHeight);
+    }
+
+    _stopVisualization() {
+        try {
+            this.soundSource.disconnect(this.analyser);
+        } catch (e) {
+
+        } finally {
+            this.soundSource = null;
+        }
     }
 
     // Метод для отрисовки частот

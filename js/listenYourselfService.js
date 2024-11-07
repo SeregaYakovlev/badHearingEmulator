@@ -28,6 +28,7 @@ class ListenYourselfService {
     async _enableMicrophone() {
         try {
             await this.microphone.enable();
+            this._onMicrophoneEnabled();
         } catch (e) {
             if (!(await this.microphone.isPermissionGranted())) {
                 this._onMicrophonePermissionDenied();
@@ -132,27 +133,22 @@ class ListenYourselfService {
 
     onStop() {
         this.realtimeFilter.stopProcessing();
-        this.soundVisualization.stopProcessing();
     }
 
     onPlay(position) {
         this.realtimeFilter.startProcessingFromFile(position);
-        this.soundVisualization.startProcessing();
     }
 
     onSeek(position) {
         this.realtimeFilter.stopProcessing();
-        this.soundVisualization.stopProcessing();
 
         if (this.audioPlayer.isPlaying()) {
             this.realtimeFilter.startProcessingFromFile(position);
-            this.soundVisualization.startProcessing();
         }
     }
 
     onEnded() {
         this.realtimeFilter.stopProcessing();
-        this.soundVisualization.stopProcessing();
     }
 
 
@@ -164,7 +160,7 @@ class ListenYourselfService {
     }
 
     _addFrequencySpectrum(scene) {
-        this.soundVisualization = new SoundVisualization(scene, this);
+        this.soundVisualization = new SoundVisualization(scene, this.realtimeFilter.getSpeaker());
         scene.update(); // важный вызов, чтобы bounding_client_rect увидел элемент
         this.soundVisualization.show();
     }
