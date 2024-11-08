@@ -62,8 +62,7 @@ class SoundVisualization {
             // Запрашиваем обновление интерфейса
             requestAnimationFrame(() => {
                 this._initDisplay(); // Инициализируем отображение в следующем кадре
-                // чтобы телефон не тормозил, запускаем анимацию через 250 мс
-                setTimeout(() => this._startVisualization(), 250);
+                this._startVisualization();
                 resolve(); // Разрешаем промис после обновления
             });
         });
