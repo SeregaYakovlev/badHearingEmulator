@@ -2,7 +2,6 @@ class MySpeaker {
     constructor(scene) {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.currentInputSource = null;
-        this.playingStartedTime = -1;
         this.speakerEventListeners = [];
 
         scene.subscribeToSceneClosing(this);
@@ -42,7 +41,6 @@ class MySpeaker {
         }
     
         this.currentInputSource = streamSource;
-        this.playingStartedTime = this.audioContext.currentTime;
 
         this._onPlayingStarted(this.getActiveSoundSource());
     }
@@ -67,7 +65,6 @@ class MySpeaker {
     
         bufferSource.start(0, position);
         this.currentInputSource = bufferSource;
-        this.playingStartedTime = this.audioContext.currentTime;
     
         this._onPlayingStarted(this.getActiveSoundSource());
     }
@@ -86,18 +83,7 @@ class MySpeaker {
 
         this._disconnectFiltersFromOutput();
 
-        this.playingStartedTime = -1;
-
         this._onPlayingStopped();
-    }
-
-    getPlaybackTime() {
-        if (this.playingStartedTime >= 0) {
-            return this.audioContext.currentTime - this.playingStartedTime;
-        }
-        else {
-            throw new Error("The speaker is not playing right now");
-        }
     }
 
     _onPlayingStarted(source) {

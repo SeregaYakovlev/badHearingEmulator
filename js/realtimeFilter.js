@@ -140,16 +140,19 @@ class RealTimeFilter {
 
     // interface method
     onStop() {
+        console.log("filter onStop");
         this.stopProcessing();
     }
 
     // interface method
     onPlay(position) {
+        console.log("filter onPlay");
         this.startProcessingFromFile(position);
     }
 
     // interface method
     onSeek(position, isPlaying) {
+        console.log("filter onSeek");
         this.stopProcessing();
         if (isPlaying) {
             this.startProcessingFromFile(position);
@@ -158,6 +161,7 @@ class RealTimeFilter {
 
     // interface method
     onEnded() {
+        console.log("filter onEnded");
         this.stopProcessing();
     }
 }

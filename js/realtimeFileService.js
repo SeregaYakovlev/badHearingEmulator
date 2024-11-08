@@ -30,7 +30,6 @@ class RealtimeFileService {
         await realtimeFilter.loadFile(originalFile);
 
         let player = new MyPlayer(scene, realtimeFilter);
-        player.replaceSpeaker(realtimeFilter.getSpeaker());
         player.setFile(originalFile);
         player.install(scene);
 

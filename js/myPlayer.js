@@ -5,16 +5,6 @@ class MyPlayer {
         this.speaker = new MySpeaker(scene);
     }
 
-    enableAudioAndVideoSyncing(){
-        window.setInterval(() => this._syncSpeakerAndVideo(), 1000);
-    }
-
-    replaceSpeaker(speaker) {
-        this.speaker = speaker;
-
-        this.enableAudioAndVideoSyncing();
-    }
-
     addClassName(className) {
         this.mediaPlayerBox.addClassName(className);
     }
@@ -34,8 +24,6 @@ class MyPlayer {
     setCustomAudioBuffer(audioBuffer) {
         this.customAudioSource = true;
         this.audioBuffer = audioBuffer;
-
-        this.enableAudioAndVideoSyncing();
     }
 
     setFullVolume() {
@@ -174,25 +162,6 @@ class MyPlayer {
         videoPlayer.on('ended', () => {
             this._onEnded();
         });
-    }
-
-    _syncSpeakerAndVideo() {
-        let isPlaying = this.isPlaying();
-        if(!isPlaying){
-            return;
-        }
-
-        try {
-            // Получаем текущее время воспроизведения аудио
-            let speakerPlaybackTime = this.speaker.getPlaybackTime();
-
-            if (speakerPlaybackTime <= this.videoPlayer.duration) {
-                // Устанавливаем это время для элемента видео
-                this.videoPlayer.currentTime = speakerPlaybackTime;
-            }
-        } catch (e) {
-
-        }
     }
 
     replaceVideo() {
