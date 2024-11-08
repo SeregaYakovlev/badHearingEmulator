@@ -42,12 +42,12 @@ class SoundVisualization {
         this._disconnectFromSources();
     }
 
-    _connectToSoundSource(soundSource){
+    _connectToSoundSource(soundSource) {
         this.soundSource = soundSource;
         soundSource.connect(this.analyser);
     }
 
-    _disconnectFromSources(){
+    _disconnectFromSources() {
         try {
             this.soundSource.disconnect(this.analyser);
         } catch (e) {
@@ -99,7 +99,7 @@ class SoundVisualization {
     }
 
     _drawSpectrum(cssCanvasWidth, cssCanvasHeight) {
-        requestAnimationFrame(() => this._drawSpectrum(cssCanvasWidth, cssCanvasHeight));
+        this.animationFrameId = requestAnimationFrame(() => this._drawSpectrum(cssCanvasWidth, cssCanvasHeight));
 
         // Получаем данные частотного спектра
         this.analyser.getByteFrequencyData(this.dataArray);
@@ -171,6 +171,7 @@ class SoundVisualization {
     _stopVisualization() {
         try {
             this.soundSource.disconnect(this.analyser);
+            cancelAnimationFrame(this.animationFrameId);
         } catch (e) {
 
         } finally {

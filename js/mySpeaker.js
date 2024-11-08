@@ -1,8 +1,7 @@
 class MySpeaker {
     constructor(scene) {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        this.soundSources = [];
-        this.playingSoundSources = []; // Хранит активные звуковые источники
+        this.currentInputSource = null;
         this.playingStartedTime = -1;
         this.speakerEventListeners = [];
 
@@ -26,131 +25,69 @@ class MySpeaker {
     }
 
     playStream(stream) {
-        if (this.isPlaying()) {
+        if(this.isPlaying()){
             throw new Error("The speaker is already playing");
         }
-
+    
         if (!stream) {
             throw new Error("Invalid argument: no stream");
         }
-
+    
         let streamSource = this._createSoundStreamSource(stream);
-
-        // Слушаем событие окончания воспроизведения, чтобы удалить источник из активных
-        streamSource.onended = () => {
-            if (this.filters) {
-                this.playingSoundSources = this.playingSoundSources.filter(source => source !== this.filters[this.filters.length - 1]);
-            }
-            else {
-                this.playingSoundSources = this.playingSoundSources.filter(source => source !== streamSource);
-            }
-        };
-
-        // Добавляем звук источник в активные
-        if (this.filters) {
-            this.playingSoundSources.push(this.filters[this.filters.length - 1]);
-        }
-        else {
-            this.playingSoundSources.push(streamSource);
-        }
-
+    
         if (this.filters) {
             this._connectFiltersToOutput(streamSource, this.filters);
-        }
-        else {
-            // на данный момент динамик еще не подключен
+        } else {
             streamSource.connect(this.audioContext.destination);
         }
-
-        if (this.filters) {
-            this._onPlayingStarted(this.filters[this.filters.length - 1]);
-        }
-        else {
-            this._onPlayingStarted(streamSource);
-        }
-
+    
+        this.currentInputSource = streamSource;
         this.playingStartedTime = this.audioContext.currentTime;
-    }
 
+        this._onPlayingStarted(this.getActiveSoundSource());
+    }
+    
     playBuffer(audioBuffer, position) {
-        if (this.isPlaying()) {
+        if(this.isPlaying()){
             throw new Error("The speaker is already playing");
         }
-
+    
         if (!audioBuffer) {
             throw new Error("AudioBuffer is not set.");
         }
-
+    
         let bufferSource = this._createSoundBufferSource();
         bufferSource.buffer = audioBuffer;
-
-        // Добавляем звук источник в активные
-        if (this.filters) {
-            this.playingSoundSources.push(this.filters[this.filters.length - 1]);
-        }
-        else {
-            this.playingSoundSources.push(bufferSource);
-        }
-
-        // Слушаем событие окончания воспроизведения, чтобы удалить источник из активных
-        bufferSource.onended = () => {
-            if (this.filters) {
-                this.playingSoundSources = this.playingSoundSources.filter(source => source !== this.filters[this.filters.length - 1]);
-            }
-            else {
-                this.playingSoundSources = this.playingSoundSources.filter(source => source !== bufferSource);
-            }
-        };
-
+    
         if (this.filters) {
             this._connectFiltersToOutput(bufferSource, this.filters);
-        }
-        else {
-            // на данный момент динамик еще не подключен
+        } else {
             bufferSource.connect(this.audioContext.destination);
         }
-
+    
         bufferSource.start(0, position);
+        this.currentInputSource = bufferSource;
         this.playingStartedTime = this.audioContext.currentTime;
-
-        if (this.filters) {
-            this._onPlayingStarted(this.filters[this.filters.length - 1]);
-        }
-        else {
-            this._onPlayingStarted(bufferSource);
-        }
+    
+        this._onPlayingStarted(this.getActiveSoundSource());
     }
+    
 
     stop() {
-        let soundSourceCopy = [...this.soundSources];
-        let playingSoundSourcesCopy = [...this.playingSoundSources];
+        if (this.currentInputSource) {
+            this.currentInputSource.disconnect();
 
-        // Удаляем оба вида soundSources, так как в soundSource может быть нефильтрованный bufferSource,
-        // а в playingSoundSources находиться последний фильтр
-
-        for (let soundSource of soundSourceCopy) {
-            soundSource.disconnect();
-
-            if (soundSource instanceof AudioBufferSourceNode) {
-                soundSource.stop();
+            if (this.currentInputSource instanceof AudioBufferSourceNode) {
+                this.currentInputSource.stop();
             }
 
-            this.soundSources = this.soundSources.filter(source => source !== soundSource);
-
-        }        
-
-        for (let soundSource of playingSoundSourcesCopy) {
-            soundSource.disconnect();
-
-            if (soundSource instanceof AudioBufferSourceNode) {
-                soundSource.stop();
-            }
-
-            this.playingSoundSources = this.playingSoundSources.filter(source => source !== soundSource);
-
+            this.currentInputSource = null;
         }
 
+        this._disconnectFiltersFromOutput();
+
         this.playingStartedTime = -1;
+
         this._onPlayingStopped();
     }
 
@@ -176,12 +113,16 @@ class MySpeaker {
     }
 
     isPlaying() {
-        return this.playingSoundSources.length > 0; // Если есть активные источники, значит звук играет
+        return this.currentInputSource != null;
     }
 
     getActiveSoundSource() {
-        // динамик не может играть несколько источников
-        return this.playingSoundSources[0];
+        if(this.filters){
+            return this.filters[this.filters.length - 1];
+        }
+        else {
+            return this.currentInputSource;
+        }
     }
 
     _connectFiltersToOutput(soundSource, filters) {
@@ -197,15 +138,21 @@ class MySpeaker {
         filters[filters.length - 1].connect(output); // Последний фильтр к выходу
     }
 
+    _disconnectFiltersFromOutput(){
+        if(this.filters){
+            for (let filter of this.filters) {
+                filter.disconnect();
+            }
+        }
+    }
+
     _createSoundBufferSource() {
         let soundSource = this.audioContext.createBufferSource();
-        this.soundSources.push(soundSource);
         return soundSource; // Не забываем вернуть созданный источник
     }
 
     _createSoundStreamSource(stream) {
         let soundSource = this.audioContext.createMediaStreamSource(stream);
-        this.soundSources.push(soundSource);
         return soundSource; // Не забываем вернуть созданный источник
     }
 
