@@ -1,3 +1,34 @@
+.fileWarningScene {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Расстояние между элементами */
+    align-items: center;
+}
+
+.fileWarningScene .warningBox {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Расстояние между иконкой и текстом */
+    justify-content: flex-start; /* Размещение элементов по началу строки */
+    flex-direction: row;
+}
+
+.fileWarningScene .warningBox .warningIcon {
+    width: 48px;
+    height: 48px;
+    background-size: contain; /* Чтобы иконка не искажалась */
+    background-repeat: no-repeat; /* Не повторять изображение */
+}
+
+body[theme="day"] .fileWarningScene .warningBox .warningIcon {
+    background-image: url("../images/warning-icon-day.svg");
+}
+
+body[theme="night"] .fileWarningScene .warningBox .warningIcon {
+    background-image: url("../images/warning-icon-night.svg");
+}
+
 body[theme="day"] .fileWarningScene p {
     color: var(--day-color-3);
 }
@@ -8,6 +39,8 @@ body[theme="night"] .fileWarningScene p {
 
 .fileWarningScene p {
     font-size: 15px; /* Размер текста */
+    margin: 0;
+    
 }
 
 .fileWarningScene .fileWarningBtnContainer {
@@ -18,4 +51,9 @@ body[theme="night"] .fileWarningScene p {
     /* Центрируем кнопки по горизонтали */
     align-items: center;
     /* Центрируем кнопки по вертикали */
+}
+
+.fileWarningScene .pContainer {
+    display: flex;
+    flex-direction: column;
 }

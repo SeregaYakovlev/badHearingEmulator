@@ -16,27 +16,27 @@ class ExactlyHearingService {
         let welcomElem = document.createElement("div");
 
         let p0 = document.createElement("p");
-        p0.innerHTML = `${setTSTR("audiogramScene_mainBox_P0")}`;
+        p0.innerHTML = `${htmlTSTR("audiogramScene_mainBox_P0")}`;
         welcomElem.appendChild(p0);
 
         let p1 = document.createElement("p");
-        p1.innerHTML = `1) ${setTSTR("audiogramScene_mainBox_P1")}`;
+        p1.innerHTML = `1) ${htmlTSTR("audiogramScene_mainBox_P1")}`;
         welcomElem.appendChild(p1);
 
         let p2 = document.createElement("p");
-        p2.innerHTML = `2) ${setTSTR("audiogramScene_mainBox_P2")}`;
+        p2.innerHTML = `2) ${htmlTSTR("audiogramScene_mainBox_P2")}`;
         welcomElem.appendChild(p2);
 
         let separateEarsBtn = document.createElement("button");
         separateEarsBtn.classList.add("myBtn");
-        separateEarsBtn.innerHTML = setTSTR("onEachEar");
+        separateEarsBtn.innerHTML = htmlTSTR("onEachEar");
         separateEarsBtn.addEventListener("click", () => {
             this._showAudiogramScene(Audiogram.Types.LEFT_EAR);
         })
 
         let binauralBtn = document.createElement("button");
         binauralBtn.classList.add("myBtn");
-        binauralBtn.innerHTML = setTSTR("OnBothEarsOnce");
+        binauralBtn.innerHTML = htmlTSTR("OnBothEarsOnce");
         binauralBtn.addEventListener("click", () => {
             this._showAudiogramScene(Audiogram.Types.BINAURAL);
         })
@@ -67,7 +67,7 @@ class ExactlyHearingService {
                     throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
                 }
 
-                let fileWarning = new FileWarning(this.page, myFile);
+                let fileWarning = new FileWarningService(this.page, myFile);
                 fileWarning.show();
 
                 // Ждем решения пользователя
@@ -76,7 +76,6 @@ class ExactlyHearingService {
                 // Проверяем, согласился ли пользователь
                 if (result.userAgreed()) {
                     myFile.setUserAgreement(true);
-                    // TODO: исправить
                     file = await myFile.downloadSelectedFile();
                 } else if (result.userNotAgreed()) {
                     continue;
@@ -151,7 +150,7 @@ class ExactlyHearingService {
 
         let anotherFileBtn = document.createElement("button");
         anotherFileBtn.classList.add("myBtn");
-        anotherFileBtn.innerHTML = setTSTR("anotherFile");
+        anotherFileBtn.innerHTML = htmlTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
             this._download_process_display_file_from_desktop();
         });

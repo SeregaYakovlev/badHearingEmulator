@@ -62,7 +62,7 @@ class FrequencySlider {
             this.updateFrequencyLabel(frequency);
         }
         else {
-            this.updateLabel(setTSTR("normalHearing"));
+            this.updateLabel(htmlTSTR("normalHearing"));
         }
 
         this._paintSlider();
@@ -136,7 +136,7 @@ class FrequencySlider {
             throw new Error("Algorithm error");
         }
 
-        this.updateLabel(`${setTSTR(tstr)}: ${formattedFrequency}`);
+        this.updateLabel(`${htmlTSTR(tstr)}: ${formattedFrequency}`);
     }
 
     _isNormalHearing(frequency) {

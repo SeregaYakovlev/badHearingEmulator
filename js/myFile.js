@@ -12,6 +12,63 @@ class MyFile {
         this.fileSizeLimit = null;
     }
 
+    // Метод для получения наибольшего размера файла в разных единицах
+    getLargestFileSize() {
+        if (!this.file) {
+            throw new Error("No file");
+        }
+
+        let fileSizeInBytes = this.file.size;
+        let size, units;
+
+        if (fileSizeInBytes >= 1024 * 1024 * 1024) {
+            size = fileSizeInBytes / (1024 * 1024 * 1024);
+            units = MyFile.FileSizeUnits.GIGABYTES;
+        } else if (fileSizeInBytes >= 1024 * 1024) {
+            size = fileSizeInBytes / (1024 * 1024);
+            units = MyFile.FileSizeUnits.MEGABYTES;
+        } else if (fileSizeInBytes >= 1024) {
+            size = fileSizeInBytes / 1024;
+            units = MyFile.FileSizeUnits.KILOBYTES;
+        } else {
+            size = fileSizeInBytes;
+            units = MyFile.FileSizeUnits.BYTES;
+        }
+
+        return { size, units };
+    }
+
+    // Метод для получения наибольшего лимита размера файла в разных единицах
+    getLargestFileSizeLimit() {
+        if (!this.fileSizeLimit) {
+            throw new Error("No fileSizeLimit");
+        }
+
+        let fileSizeLimitInBytes = this.fileSizeLimit;
+        let size, units, unit_tstr;
+
+        if (fileSizeLimitInBytes >= 1024 * 1024 * 1024) {
+            size = fileSizeLimitInBytes / (1024 * 1024 * 1024);
+            units = MyFile.FileSizeUnits.GIGABYTES;
+            unit_tstr = "GIGABYTE_short";
+        } else if (fileSizeLimitInBytes >= 1024 * 1024) {
+            size = fileSizeLimitInBytes / (1024 * 1024);
+            units = MyFile.FileSizeUnits.MEGABYTES;
+            unit_tstr = "MEGABYTE_short";
+        } else if (fileSizeLimitInBytes >= 1024) {
+            size = fileSizeLimitInBytes / 1024;
+            units = MyFile.FileSizeUnits.KILOBYTES;
+            unit_tstr = "KILOBYTE_short";
+        } else {
+            size = fileSizeLimitInBytes;
+            units = MyFile.FileSizeUnits.BYTES;
+            unit_tstr = "BYTE_short";
+        }
+
+        return { size, units, unit_tstr };
+    }
+
+
     // Метод для получения размера файла в разных единицах
     getFileSize(fileSizeUnits = MyFile.FileSizeUnits.BYTES) {
         if (!this.file) {
@@ -90,28 +147,26 @@ class MyFile {
         }
     }
 
-    async downloadSelectedFile(){
+    async downloadSelectedFile() {
         return new Promise((resolve) => {
-            resolve(this.selectedFile)
+            resolve(this.file)
         });
     }
 
     async downloadFileFromDesktop() {
         let file = await this._downloadFileFromDesktop();
 
-        this.selectedFile = file;
-    
+        this.file = file;
+
         if (!this.isUserAgreed()) {
             this.validationResult = this._validateFile();
             if (!this.validationResult.isOk()) {
                 throw new FileValidationError(this.validationResult);  // Бросаем ошибку с результатом валидации
             }
         }
-    
-        this.file = file;
-        
+
         return this.file;
-    }    
+    }
 
     getValidationResult() {
         return this.validationResult;
@@ -180,9 +235,16 @@ class MyFile {
 
     getFileExtension() {
         if (!this.file || !this.file.name) {
-            return null;
+            throw new Error("No file or file name");
         }
         return this.file.name.split('.').pop().toLowerCase();
+    }
+
+    getFileName() {
+        if (!this.file || !this.file.name) {
+            throw new Error("No file or file name");
+        }
+        return this.file.name;
     }
 
     // Метод для проверки, является ли файл аудио или видео

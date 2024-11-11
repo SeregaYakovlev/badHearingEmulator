@@ -16,19 +16,19 @@ class LiveConversation {
         mainBox.addClassName("mainBox");
 
         let p0 = document.createElement("p");
-        p0.innerHTML = setTSTR("liveConversationP0");
+        p0.innerHTML = htmlTSTR("liveConversationP0");
 
         let p1 = document.createElement("p");
-        p1.innerHTML = `1) ${setTSTR("takeSmartphone")}`;
+        p1.innerHTML = `1) ${htmlTSTR("takeSmartphone")}`;
 
         let p2 = document.createElement("p");
-        p2.innerHTML = `2) ${setTSTR("putOnHeadphones")}`;
+        p2.innerHTML = `2) ${htmlTSTR("putOnHeadphones")}`;
 
         let p3 = document.createElement("p");
-        p3.innerHTML = `3) ${setTSTR("enableMicrophone")}`;
+        p3.innerHTML = `3) ${htmlTSTR("enableMicrophone")}`;
 
         let p4 = document.createElement("p");
-        p4.innerHTML = `4) ${setTSTR("talkToSurroundings")}`;
+        p4.innerHTML = `4) ${htmlTSTR("talkToSurroundings")}`;
 
         mainBox.addElement(p0);
         mainBox.addElement(p1);

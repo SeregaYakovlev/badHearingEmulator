@@ -28,7 +28,7 @@ class MyBinaryButton {
     }
 
     _applyState(state) {
-        this.btn.innerHTML = window.setTSTR(state.tstr);
+        this.btn.innerHTML = htmlTSTR(state.tstr);
         this.currentState = state;
     }
 

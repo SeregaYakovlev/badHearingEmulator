@@ -11,7 +11,7 @@ class ErrorBubble{
         this.errorBubble = errorBubble;
 
         let span = document.createElement("span");
-        span.innerHTML = setTSTR(this.tstr);
+        span.innerHTML = htmlTSTR(this.tstr);
         errorBubble.appendChild(span);
 
         document.body.appendChild(errorBubble);

@@ -22,7 +22,7 @@ class RootService {
         // Создание ссылки
         let serviceBtn = document.createElement("button");
         serviceBtn.classList.add("myBtn");
-        serviceBtn.innerHTML = setTSTR("What_is_it?");
+        serviceBtn.innerHTML = htmlTSTR("What_is_it?");
         serviceBtn.onclick = () => {
             this.page.runIntroductionService(); // Обработчик события на клик
         };
@@ -42,7 +42,7 @@ class RootService {
         // Создание ссылки
         let serviceBtn = document.createElement("button");
         serviceBtn.classList.add("myBtn");
-        serviceBtn.innerHTML = setTSTR("ListenYourFile");
+        serviceBtn.innerHTML = htmlTSTR("ListenYourFile");
         serviceBtn.onclick = () => {
             this.page.runRealtimeFileService(); // Обработчик события на клик
         };
@@ -57,7 +57,7 @@ class RootService {
         // Создание ссылки
         let serviceBtn = document.createElement("button");
         serviceBtn.classList.add("myBtn");
-        serviceBtn.innerHTML = setTSTR("ListenYourself");
+        serviceBtn.innerHTML = htmlTSTR("ListenYourself");
         serviceBtn.onclick = () => {
             this.page.runListenYourselfService(); // Обработчик события на клик
         };
@@ -72,7 +72,7 @@ class RootService {
         // создание ссылки
         let serviceBtn = document.createElement("button");
         serviceBtn.classList.add("myBtn");
-        serviceBtn.innerHTML = setTSTR("audiogramMode");
+        serviceBtn.innerHTML = htmlTSTR("audiogramMode");
         serviceBtn.onclick = () => {
             this.page.runExactlyHearingService();
         }
@@ -86,7 +86,7 @@ class RootService {
         // Создание ссылки
         let serviceBtn = document.createElement("button");
         serviceBtn.classList.add("myBtn");
-        serviceBtn.innerHTML = setTSTR("LiveChatMode");
+        serviceBtn.innerHTML = htmlTSTR("LiveChatMode");
         serviceBtn.onclick = () => {
             this.page.runLiveConversationService(); // Обработчик события на клик
         };

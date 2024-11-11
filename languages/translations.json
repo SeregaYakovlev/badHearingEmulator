@@ -16,13 +16,13 @@
             "zh": "是的，它是音频/视频。",
             "ar": "نعم، هو ملف صوتي/فيديو."
         },
-        "FileDownloadedWithExtension": {
-            "ru": "Файл загружен с расширением {}.",
-            "en": "File downloaded with extension {}.",
-            "fr": "Fichier téléchargé avec l'extension {}.",
-            "es": "Archivo descargado con la extensión {}.",
-            "zh": "文件已下载，扩展名为 {}.",
-            "ar": "تم تنزيل الملف بالامتداد {}."
+        "FileDownloadedWithNameAndExtension": {
+            "ru": "Загружен файл {} с расширением {}",
+            "en": "File {} downloaded with extension {}.",
+            "fr": "Fichier {} téléchargé avec l'extension {}.",
+            "es": "Archivo {} descargado con la extensión {}.",
+            "zh": "文件 {} 已下载，扩展名为 {}。",
+            "ar": "تم تنزيل الملف {} بالامتداد {}."
         },
         "IsThisDefinitelyAudioVideoFile?": {
             "ru": "Действительно ли это аудио или видео файл?",
@@ -32,13 +32,53 @@
             "zh": "这确实是音频或视频文件吗？",
             "ar": "هل هذا بالتأكيد ملف صوتي أو فيديو؟"
         },
-        "FileSizeWarning": {
-            "ru": "Размер файла составляет {} МБ, для использования сервиса рекомендовано не более {} МБ",
-            "en": "The file size is {} MB; for optimal service use, it is recommended not to exceed {} MB",
-            "fr": "La taille du fichier est de {} Mo; pour un service optimal, il est recommandé de ne pas dépasser {} Mo",
-            "es": "El tamaño del archivo es de {} MB; para un uso óptimo del servicio, se recomienda no superar los {} MB",
-            "zh": "文件大小为 {} MB；建议使用不超过 {} MB 的文件",
-            "ar": "حجم الملف هو {} ميجابايت؛ للاستخدام الأمثل للخدمة، يُنصح بعدم تجاوز {} ميجابايت"
+        "FileWarningSize": {
+            "ru": "Размер файла составляет {} {}",
+            "en": "The file size is {} {}",
+            "fr": "La taille du fichier est de {} {}",
+            "es": "El tamaño del archivo es de {} {}",
+            "zh": "文件大小为 {} {}",
+            "ar": "حجم الملف هو {} {}"
+        },
+        "FileWarningRecommendation": {
+            "ru": "Для использования этого раздела рекомендовано не более {} {}",
+            "en": "For optimal use of this section, it is recommended not to exceed {} {}",
+            "fr": "Pour une utilisation optimale de cette section, il est recommandé de ne pas dépasser {} {}",
+            "es": "Para un uso óptimo de esta sección, se recomienda no superar los {} {}",
+            "zh": "建议使用不超过 {} {} 的文件",
+            "ar": "للاستخدام الأمثل لهذا القسم، يُنصح بعدم تجاوز {} {}"
+        },
+        "BYTE_short": {
+            "ru": "Б",
+            "en": "B",
+            "fr": "o",
+            "es": "B",
+            "zh": "字节",
+            "ar": "ب"
+        },
+        "KILOBYTE_short": {
+            "ru": "Кб",
+            "en": "KB",
+            "fr": "Ko",
+            "es": "KB",
+            "zh": "KB",
+            "ar": "كيلوبايت"
+        },
+        "MEGABYTE_short": {
+            "ru": "Мб",
+            "en": "MB",
+            "fr": "Mo",
+            "es": "MB",
+            "zh": "MB",
+            "ar": "ميجابايت"
+        },
+        "GIGABYTE_short": {
+            "ru": "Гб",
+            "en": "GB",
+            "fr": "Go",
+            "es": "GB",
+            "zh": "GB",
+            "ar": "جيجابايت"
         },
         "ContinueAnyway": {
             "ru": "Все равно продолжить",

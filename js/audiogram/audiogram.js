@@ -64,13 +64,13 @@ class Audiogram {
     getCaption(){
         let caption;
         if(this.audiogramType === Audiogram.Types.LEFT_EAR){
-            caption = setTSTR("LeftEar");
+            caption = htmlTSTR("LeftEar");
         }
         else if(this.audiogramType === Audiogram.Types.RIGHT_EAR){
-            caption = setTSTR("RightEar");
+            caption = htmlTSTR("RightEar");
         }
         else if(this.audiogramType === Audiogram.Types.BINAURAL){
-            caption = setTSTR("BothEars");
+            caption = htmlTSTR("BothEars");
         }
         else {
             throw new Error("Algorithm error");

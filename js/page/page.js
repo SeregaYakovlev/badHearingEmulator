@@ -40,7 +40,7 @@ class Page {
         let data2 = await response2.json();
         window.languages = data2.languages;
 
-        document.title = getTSTR("siteTitle");
+        document.title = textTSTR("siteTitle");
 
         this._setTheme();
         this._add_what_is_it_btn();
@@ -275,7 +275,7 @@ class Page {
     _setLanguage(language) {
         localStorage.setItem("language", language.getCode());
 
-        document.title = getTSTR("siteTitle");
+        document.title = textTSTR("siteTitle");
 
         // Установка языка на тег <html>
         document.documentElement.lang = language.getCode();

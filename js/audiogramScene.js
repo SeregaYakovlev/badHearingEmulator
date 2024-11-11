@@ -76,10 +76,10 @@ class AudiogramScene {
         nextActionBtn.classList.add("myBtn");
 
         if (this.isLeftEar()) {
-            nextActionBtn.innerHTML = setTSTR("Next");
+            nextActionBtn.innerHTML = htmlTSTR("Next");
         }
         else if(this.isRightEar() || this.isBinaural()){
-            nextActionBtn.innerHTML = setTSTR("downloadFile");
+            nextActionBtn.innerHTML = htmlTSTR("downloadFile");
         }
 
         nextActionBtn.addEventListener("click", () => {
@@ -95,7 +95,7 @@ class AudiogramScene {
     _addClearAllBtn(audiogram, btnContainer) {
         let clearAllBtn = document.createElement("button");
         clearAllBtn.classList.add("myBtn");
-        clearAllBtn.innerHTML = setTSTR("DeleteAll");
+        clearAllBtn.innerHTML = htmlTSTR("DeleteAll");
         clearAllBtn.addEventListener("click", () => {
             audiogram.clearAllPoints();
         });
@@ -106,7 +106,7 @@ class AudiogramScene {
     _addClearLastDrawnPointBtn(audiogram, btnContainer) {
         let clearLastDrawnPointBtn = document.createElement("button");
         clearLastDrawnPointBtn.classList.add("myBtn");
-        clearLastDrawnPointBtn.innerHTML = setTSTR("DeleteOneByOne");
+        clearLastDrawnPointBtn.innerHTML = htmlTSTR("DeleteOneByOne");
         clearLastDrawnPointBtn.addEventListener("click", () => {
             audiogram.clearLastDrawnPoint();
         });

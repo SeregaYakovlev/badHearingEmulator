@@ -21,7 +21,7 @@ class TranslatedString {
 
         // Если перевод найден, обновляем элемент
         if (translation) {
-            let translatedText = this._replaceArgs(translation, this.args);
+            let translatedText = this._replaceArgs(translation, this.args, language);
             return translatedText;
         }
 
@@ -30,7 +30,7 @@ class TranslatedString {
 
     applyArgs(args) {
         this.args = args;
-    }
+    }        
 
     // Метод для смены языка
     changeLanguageTo(language) {
@@ -39,17 +39,16 @@ class TranslatedString {
     }
 
     // Метод для замены аргументов в переводе
-    _replaceArgs(translation, args) {
+    _replaceArgs(translation, args, language) {
         if (!args || args.length === 0) {
             return translation;
         }
 
-        let a = [...args];
-        // Используем регулярное выражение для поиска { }
-        return translation.replace(/{}/g, () => {
-            // Если есть доступные аргументы, подставляем следующее значение
-            return a.length > 0 ? a.shift() : "{}"; // Заменяем на значение или оставляем {} если аргументов не осталось
-        });
+        for (let arg of args) {
+            translation = arg.replaceFirstPlaceholderWithArgument(translation, language);
+        }
+
+        return translation;
     }
 
     // Метод для обновления элемента с новым переводом
@@ -58,9 +57,21 @@ class TranslatedString {
         let ourElements = document.querySelectorAll(`translated-string[string-name="${this.stringName}"]`);
 
         // Обновляем текст в каждом найденном элементе
-        ourElements.forEach(element => {
+        for (let element of ourElements) {
             element.innerHTML = translatedText; // Устанавливаем новый перевод
-        });
+        }
     }
 
+}
+
+function htmlTSTR(stringName, args){
+    let translatedString = new TranslatedString(stringName);
+    translatedString.applyArgs(args);
+    return translatedString.toHTMLFormat(window.page.getCurrentLanguage());
+}
+
+function textTSTR(stringName, args){
+    let translatedString = new TranslatedString(stringName);
+    translatedString.applyArgs(args);
+    return translatedString.toTextFormat(window.page.getCurrentLanguage());
 }

@@ -9,7 +9,7 @@ class RealtimeFileService {
 
     async _download_process_and_display_file_from_desktop() {
         let myFile = new MyFile(this.page);
-        myFile.setFileSizeLimit(100, MyFile.FileSizeUnits.MEGABYTES);
+        myFile.setFileSizeLimit(100, MyFile.FileSizeUnits.BYTES);
 
         let file;
         while (!file) {
@@ -20,7 +20,7 @@ class RealtimeFileService {
                     throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
                 }
 
-                let fileWarning = new FileWarning(this.page, myFile);
+                let fileWarning = new FileWarningService(this.page, myFile);
                 fileWarning.show();
 
                 // Ждем решения пользователя
@@ -28,7 +28,6 @@ class RealtimeFileService {
 
                 // Проверяем, согласился ли пользователь
                 if (result.userAgreed()) {
-                    // TODO: исправить
                     myFile.setUserAgreement(true);
                     file = await myFile.downloadSelectedFile();
                 } else if (result.userNotAgreed()) {
@@ -46,7 +45,7 @@ class RealtimeFileService {
     async _showMediaPlayer(originalFile) {
         let preloader = new Preloader(this.page);
         let preloaderCaption = preloader.createCaptionArea();
-        preloaderCaption.setMessage(setTSTR("OneMinute..."));
+        preloaderCaption.setMessage(htmlTSTR("OneMinute..."));
         preloader.show();
 
         let hearingFrequency = 500;
@@ -76,7 +75,7 @@ class RealtimeFileService {
 
         let anotherFileBtn = document.createElement("button");
         anotherFileBtn.classList.add("myBtn");
-        anotherFileBtn.innerHTML = setTSTR("anotherFile");
+        anotherFileBtn.innerHTML = htmlTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
             this._download_process_and_display_file_from_desktop();
         });

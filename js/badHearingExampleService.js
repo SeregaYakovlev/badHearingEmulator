@@ -9,7 +9,7 @@ class BadHearingExampleService{
         let captionBox = scene.createBox();
         captionBox.addClassName("tipBox");
         let caption = document.createElement("p");
-        caption.innerHTML = setTSTR("InVideoExampleBadHearing");
+        caption.innerHTML = htmlTSTR("InVideoExampleBadHearing");
         captionBox.addElement(caption);
 
         let videoBox = scene.createBox();
