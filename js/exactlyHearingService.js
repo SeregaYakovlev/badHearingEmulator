@@ -54,10 +54,39 @@ class ExactlyHearingService {
         scene.show();
     }
 
-    async _download_process_display_file_from_desktop(){
+    async _download_process_display_file_from_desktop() {
         let myFile = new MyFile(this.page);
-        myFile.setFileSizeLimitInMegabytes(20);
-        let file = await myFile.downloadFileFromDesktop();
+        myFile.setFileSizeLimit(20, MyFile.FileSizeUnits.MEGABYTES);
+        let file;
+
+        while (!file) {
+            try {
+                file = await myFile.downloadFileFromDesktop();
+            } catch (e) {
+                if (!(e instanceof FileValidationError)) {
+                    throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
+                }
+
+                let fileWarning = new FileWarning(this.page, myFile);
+                fileWarning.show();
+
+                // Ждем решения пользователя
+                let result = await fileWarning.waitForResult();
+
+                // Проверяем, согласился ли пользователь
+                if (result.userAgreed()) {
+                    myFile.setUserAgreement(true);
+                    // TODO: исправить
+                    file = await myFile.downloadSelectedFile();
+                } else if (result.userNotAgreed()) {
+                    continue;
+                }
+                else {
+                    throw new Error("Algorithm error");
+                }
+            }
+        }
+
 
         let preloader = new Preloader(this.page);
         preloader.show();
@@ -65,7 +94,7 @@ class ExactlyHearingService {
         preloader.close();
         this._showMediaPlayer(handledAudioBuffer, file);
     }
-    
+
     async onAudiogramSceneInputed(audiogramScene) {
         this.audiograms.push(audiogramScene.getAudiogram());
         if (audiogramScene.isLeftEar()) {

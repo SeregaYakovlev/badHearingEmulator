@@ -7,10 +7,39 @@ class RealtimeFileService {
         this._download_process_and_display_file_from_desktop();
     }
 
-    async _download_process_and_display_file_from_desktop(){
+    async _download_process_and_display_file_from_desktop() {
         let myFile = new MyFile(this.page);
-        myFile.setFileSizeLimitInMegabytes(100);
-        let file = await myFile.downloadFileFromDesktop();
+        myFile.setFileSizeLimit(100, MyFile.FileSizeUnits.MEGABYTES);
+
+        let file;
+        while (!file) {
+            try {
+                file = await myFile.downloadFileFromDesktop();
+            } catch (e) {
+                if (!(e instanceof FileValidationError)) {
+                    throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
+                }
+
+                let fileWarning = new FileWarning(this.page, myFile);
+                fileWarning.show();
+
+                // Ждем решения пользователя
+                let result = await fileWarning.waitForResult();
+
+                // Проверяем, согласился ли пользователь
+                if (result.userAgreed()) {
+                    // TODO: исправить
+                    myFile.setUserAgreement(true);
+                    file = await myFile.downloadSelectedFile();
+                } else if (result.userNotAgreed()) {
+                    continue;
+                }
+                else {
+                    throw new Error("Algorithm error");
+                }
+            }
+        }
+
         this._showMediaPlayer(file);
     }
 

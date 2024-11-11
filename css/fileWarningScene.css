@@ -1,0 +1,21 @@
+body[theme="day"] .fileWarningScene p {
+    color: var(--day-color-3);
+}
+
+body[theme="night"] .fileWarningScene p {
+    color: var(--night-color-5);
+}
+
+.fileWarningScene p {
+    font-size: 15px; /* Размер текста */
+}
+
+.fileWarningScene .fileWarningBtnContainer {
+    display: flex;
+    gap: 10px;
+    /* Расстояние между кнопками */
+    justify-content: center;
+    /* Центрируем кнопки по горизонтали */
+    align-items: center;
+    /* Центрируем кнопки по вертикали */
+}

@@ -1,5 +1,37 @@
 {
     "translations": {
+        "NoLoadAnotherFile": {
+            "ru": "Нет, загрузить другой файл",
+            "en": "No, load another file",
+            "fr": "Non, chargez un autre fichier",
+            "es": "No, cargar otro archivo",
+            "zh": "不，加载另一个文件",
+            "ar": "لا، تحميل ملف آخر"
+        },
+        "YesItIsAudioVideo": {
+            "ru": "Да, это аудио/видео.",
+            "en": "Yes, it is audio/video.",
+            "fr": "Oui, c'est audio/vidéo.",
+            "es": "Sí, es audio/video.",
+            "zh": "是的，它是音频/视频。",
+            "ar": "نعم، هو ملف صوتي/فيديو."
+        },
+        "FileDownloadedWithExtension": {
+            "ru": "Файл загружен с расширением {}.",
+            "en": "File downloaded with extension {}.",
+            "fr": "Fichier téléchargé avec l'extension {}.",
+            "es": "Archivo descargado con la extensión {}.",
+            "zh": "文件已下载，扩展名为 {}.",
+            "ar": "تم تنزيل الملف بالامتداد {}."
+        },
+        "IsThisDefinitelyAudioVideoFile?": {
+            "ru": "Действительно ли это аудио или видео файл?",
+            "en": "Is this definitely an audio or video file?",
+            "fr": "Est-ce vraiment un fichier audio ou vidéo?",
+            "es": "¿Es esto definitivamente un archivo de audio o video?",
+            "zh": "这确实是音频或视频文件吗？",
+            "ar": "هل هذا بالتأكيد ملف صوتي أو فيديو؟"
+        },
         "FileSizeWarning": {
             "ru": "Размер файла составляет {} МБ, для использования сервиса рекомендовано не более {} МБ",
             "en": "The file size is {} MB; for optimal service use, it is recommended not to exceed {} MB",

@@ -1,19 +1,86 @@
 class MyFile {
+    static FileSizeUnits = {
+        BYTES: 0,
+        KILOBYTES: 1,
+        MEGABYTES: 2,
+        GIGABYTES: 3
+    };
+
     constructor(page) {
         this.page = page;
         this.file = null;
         this.fileSizeLimit = null;
     }
 
-    getFileSize(){
-        return this.file.size;
+    // Метод для получения размера файла в разных единицах
+    getFileSize(fileSizeUnits = MyFile.FileSizeUnits.BYTES) {
+        if (!this.file) {
+            throw new Error("No file");
+        }
+
+        let fileSizeInBytes = this.file.size;
+
+        switch (fileSizeUnits) {
+            case MyFile.FileSizeUnits.BYTES:
+                return fileSizeInBytes;
+            case MyFile.FileSizeUnits.KILOBYTES:
+                return (fileSizeInBytes / 1024);
+            case MyFile.FileSizeUnits.MEGABYTES:
+                return (fileSizeInBytes / (1024 * 1024));
+            case MyFile.FileSizeUnits.GIGABYTES:
+                return (fileSizeInBytes / (1024 * 1024 * 1024));
+            default:
+                throw new Error("Algorithm error");
+        }
     }
 
-    getFileSizeLimit(){
-        return this.fileSizeLimit;
+    // Метод для получения лимита размера файла в разных единицах
+    getFileSizeLimit(fileSizeUnits = MyFile.FileSizeUnits.BYTES) {
+        if (!this.fileSizeLimit) {
+            throw new Error("No fileSizeLimit");
+        }
+
+        let fileSizeLimitInBytes = this.fileSizeLimit;
+
+        switch (fileSizeUnits) {
+            case MyFile.FileSizeUnits.BYTES:
+                return fileSizeLimitInBytes;
+            case MyFile.FileSizeUnits.KILOBYTES:
+                return (fileSizeLimitInBytes / 1024);
+            case MyFile.FileSizeUnits.MEGABYTES:
+                return (fileSizeLimitInBytes / (1024 * 1024));
+            case MyFile.FileSizeUnits.GIGABYTES:
+                return (fileSizeLimitInBytes / (1024 * 1024 * 1024));
+            default:
+                throw new Error("Algorithm error");
+        }
     }
 
-    _isLimitIsExceeded() {
+    // Метод для установки лимита размера файла в различных единицах
+    setFileSizeLimit(fileSize, fileSizeUnits = MyFile.FileSizeUnits.BYTES) {
+        let fileSizeInBytes;
+
+        switch (fileSizeUnits) {
+            case MyFile.FileSizeUnits.BYTES:
+                fileSizeInBytes = fileSize;
+                break;
+            case MyFile.FileSizeUnits.KILOBYTES:
+                fileSizeInBytes = fileSize * 1024;
+                break;
+            case MyFile.FileSizeUnits.MEGABYTES:
+                fileSizeInBytes = fileSize * 1024 * 1024;
+                break;
+            case MyFile.FileSizeUnits.GIGABYTES:
+                fileSizeInBytes = fileSize * 1024 * 1024 * 1024;
+                break;
+            default:
+                throw new Error("Algorithm error");
+        }
+
+        this.fileSizeLimit = fileSizeInBytes;
+    }
+
+    isLimitExceeded() {
         if (this.fileSizeLimit) {
             let fileSize = this.file.size;
             return fileSize > this.fileSizeLimit;
@@ -23,23 +90,64 @@ class MyFile {
         }
     }
 
-    setFileSizeLimitInMegabytes(fileSizeLimit) {
-        this.fileSizeLimit = this._megabytesToBytes(fileSizeLimit);
+    async downloadSelectedFile(){
+        return new Promise((resolve) => {
+            resolve(this.selectedFile)
+        });
     }
 
-    async downloadFileFromDesktop(){
-        this.file = await this._downloadFileFromDesktop();
+    async downloadFileFromDesktop() {
+        let file = await this._downloadFileFromDesktop();
 
-        let userIsAgree;
-        while (this._isLimitIsExceeded() && !userIsAgree) {
-            let warningResult = await this._displayFileSizeWarning();
-            userIsAgree = warningResult.userIsAgree;
-            if (!userIsAgree) {
-                this.file = warningResult.anotherFile;
+        this.selectedFile = file;
+    
+        if (!this.isUserAgreed()) {
+            this.validationResult = this._validateFile();
+            if (!this.validationResult.isOk()) {
+                throw new FileValidationError(this.validationResult);  // Бросаем ошибку с результатом валидации
             }
         }
-
+    
+        this.file = file;
+        
         return this.file;
+    }    
+
+    getValidationResult() {
+        return this.validationResult;
+    }
+
+    _validateFile() {
+        let obj = {};
+
+        // Преобразуем это в метод с использованием стрелочной функции
+        obj.isAudioOrVideoFile = () => {
+            return this._isAudioOrVideoFile();
+        };
+
+        // Преобразуем isLimitExceeded в метод с использованием стрелочной функции
+        obj.isLimitExceeded = () => {
+            return this.isLimitExceeded();
+        };
+
+        obj.isOk = () => {
+            return obj.isAudioOrVideoFile() && !obj.isLimitExceeded();
+        };
+
+        obj.toJson = () => {
+            return JSON.stringify(obj);
+        };
+
+        return obj;
+    }
+
+
+    isUserAgreed() {
+        return this.userIsAgreed;
+    }
+
+    setUserAgreement(userAgreement) {
+        this.userIsAgreed = userAgreement;
     }
 
     async _downloadFileFromDesktop() {
@@ -70,55 +178,25 @@ class MyFile {
         });
     }
 
-    async _displayFileSizeWarning() {
-        let fileSizeInMegaBytes = Math.round(this._bytesToMegabytes(this.file.size));
-        let fileSizeLimit = Math.round(this._bytesToMegabytes(this.fileSizeLimit));
-
-        return new Promise((resolve) => {
-            let scene = new Scene(this.page);
-            scene.addClassName("fileSizeWarningScene");
-            let box = scene.createBox();
-
-            let p = document.createElement("p");
-            p.innerHTML = setTSTR("FileSizeWarning", [fileSizeInMegaBytes, fileSizeLimit]);
-
-            let anotherFileBtn = document.createElement("button");
-            anotherFileBtn.classList.add("myBtn");
-            anotherFileBtn.innerHTML = setTSTR("anotherFile");
-
-            anotherFileBtn.addEventListener("click", async () => {
-                let anotherFile = await this._downloadFileFromDesktop();
-                scene.close();
-                resolve({ anotherFile: anotherFile, userIsAgree: false }); // Возвращает новый файл
-            });
-
-            let agreeBtn = document.createElement("button");
-            agreeBtn.classList.add("myBtn");
-            agreeBtn.innerHTML = setTSTR("ContinueAnyway");
-
-            agreeBtn.addEventListener("click", () => {
-                scene.close();
-                resolve({ anotherFile: null, userIsAgree: true }); // Возвращает согласие на обработку
-            });
-
-            let btnContainer = document.createElement("div");
-            btnContainer.classList.add("exactlyServiceBtnContainer");
-
-            btnContainer.appendChild(anotherFileBtn);
-            btnContainer.appendChild(agreeBtn);
-
-            box.addElement(p);
-            box.addElement(btnContainer);
-            scene.show();
-        });
+    getFileExtension() {
+        if (!this.file || !this.file.name) {
+            return null;
+        }
+        return this.file.name.split('.').pop().toLowerCase();
     }
 
-    _megabytesToBytes(megabytes) {
-        return megabytes * 1024 * 1024;
+    // Метод для проверки, является ли файл аудио или видео
+    _isAudioOrVideoFile() {
+        if (!this.file) return false;
+        let fileType = this.file.type;
+        return fileType.startsWith("audio/") || fileType.startsWith("video/");
     }
+}
 
-    _bytesToMegabytes(bytes) {
-        let megabytes = bytes / (1024 * 1024);
-        return megabytes;
+class FileValidationError extends Error {
+    constructor(validationResult) {
+        super("File validation failed.");
+        this.name = "FileValidationError";
+        this.validationResult = validationResult;  // Храним результат валидации
     }
 }

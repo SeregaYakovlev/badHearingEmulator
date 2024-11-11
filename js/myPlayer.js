@@ -60,6 +60,7 @@ class MyPlayer {
     }
 
     _onStop() {
+        console.log("player onStop");
         if (this.callback) {
             this.callback.onStop();
         }
@@ -69,6 +70,8 @@ class MyPlayer {
     }
 
     _onPlay(position) {
+        console.log("player onPlay");
+
         if (this.callback) {
             this.callback.onPlay(position);
         }
@@ -78,6 +81,8 @@ class MyPlayer {
     }
 
     _onSeek(position) {
+        console.log("player onSeek");
+
         if (this.callback) {
             this.callback.onSeek(position, this.isPlaying());
         }
@@ -88,6 +93,8 @@ class MyPlayer {
     }
 
     _onEnded() {
+        console.log("player onEnded");
+
         if (this.callback) {
             this.callback.onEnded();
         }
