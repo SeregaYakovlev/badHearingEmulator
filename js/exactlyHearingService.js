@@ -1,7 +1,10 @@
 class ExactlyHearingService {
     constructor(page) {
         this.page = page;
-        this.audiograms = [];
+
+        this.leftEarScene = new AudiogramScene(this.page, this, Audiogram.Types.LEFT_EAR);
+        this.rightEarScene = new AudiogramScene(this.page, this, Audiogram.Types.RIGHT_EAR);
+        this.binauralScene = new AudiogramScene(this.page, this, Audiogram.Types.BINAURAL);
     }
 
     show() {
@@ -31,14 +34,14 @@ class ExactlyHearingService {
         separateEarsBtn.classList.add("myBtn");
         separateEarsBtn.innerHTML = htmlTSTR("onEachEar");
         separateEarsBtn.addEventListener("click", () => {
-            this._showAudiogramScene(Audiogram.Types.LEFT_EAR);
+            this.leftEarScene.show();
         })
 
         let binauralBtn = document.createElement("button");
         binauralBtn.classList.add("myBtn");
         binauralBtn.innerHTML = htmlTSTR("OnBothEarsOnce");
         binauralBtn.addEventListener("click", () => {
-            this._showAudiogramScene(Audiogram.Types.BINAURAL);
+            this.binauralScene.show();
         })
 
         b.addElement(welcomElem);
@@ -57,62 +60,70 @@ class ExactlyHearingService {
     async _download_process_display_file_from_desktop() {
         let myFile = new MyFile(this.page);
         myFile.setFileSizeLimit(20, MyFile.FileSizeUnits.MEGABYTES);
+        myFile.setDurationLimit(5, MyFile.FileDurationUnits.MINUTES);
+
         let file;
-
-        while (!file) {
-            try {
-                file = await myFile.downloadFileFromDesktop();
-            } catch (e) {
-                if (!(e instanceof FileValidationError)) {
-                    throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
-                }
-
-                let fileWarning = new FileWarningService(this.page, myFile);
-                fileWarning.show();
-
-                // Ждем решения пользователя
-                let result = await fileWarning.waitForResult();
-
-                // Проверяем, согласился ли пользователь
-                if (result.userAgreed()) {
-                    myFile.setUserAgreement(true);
-                    file = await myFile.downloadSelectedFile();
-                } else if (result.userNotAgreed()) {
-                    continue;
-                }
-                else {
-                    throw new Error("Algorithm error");
-                }
+        try {
+            file = await myFile.downloadFileFromDesktop();
+            if (file) {
+                this._onFileLoaded(file);
             }
+
+        } catch (e) {
+            if (!(e instanceof FileValidationError)) {
+                throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
+            }
+
+            let fileWarning = new FileWarningService(this.page, myFile, this);
+            fileWarning.show();
         }
 
+    }
+
+    async _onFileLoaded(file) {
+        let audiograms = [];
+
+        if (this.leftEarScene.isShown()) {
+            audiograms.push(this.leftEarScene.getAudiogram());
+        }
+
+        if (this.rightEarScene.isShown()) {
+            audiograms.push(this.rightEarScene.getAudiogram());
+        }
+
+        if (this.binauralScene.isShown()) {
+            audiograms.push(this.binauralScene.getAudiogram());
+        }
 
         let preloader = new Preloader(this.page);
         preloader.show();
-        let handledAudioBuffer = await this._handleFile(preloader, file, this.audiograms);
+        let handledAudioBuffer = await this._handleFile(preloader, file, audiograms);
         preloader.close();
         this._showMediaPlayer(handledAudioBuffer, file);
     }
 
-    async onAudiogramSceneInputed(audiogramScene) {
-        this.audiograms.push(audiogramScene.getAudiogram());
-        if (audiogramScene.isLeftEar()) {
-            let rightEarAudiogram = this._getAudiogramScene(Audiogram.Types.RIGHT_EAR);
-            rightEarAudiogram.show();
+    // interface method
+    async onUserAgreed(myFile) {
+        myFile.setUserAgreement(true);
+        let file = await myFile.downloadSelectedFile();
+        this._showMediaPlayer(file);
+    }
+
+    // interface method
+    onUserRequestedFileSelection() {
+        this._download_process_display_file_from_desktop();
+    }
+
+    async onDataInputed(scene) {
+        if (scene.isLeftEar()) {
+            this.rightEarScene.show();
         }
-        else if (audiogramScene.isRightEar() || audiogramScene.isBinaural()) {
+        else if (scene.isRightEar() || scene.isBinaural()) {
             this._download_process_display_file_from_desktop();
         }
-    }
-
-    _showAudiogramScene(audiogramType) {
-        let audiogramScene = this._getAudiogramScene(audiogramType);
-        audiogramScene.show();
-    }
-
-    _getAudiogramScene(audiogramType) {
-        let scene = new AudiogramScene(this.page, this, audiogramType);
-        return scene;
+        else {
+            throw new Error("Algorithm error");
+        }
     }
 
     async _handleFile(preloader, originalFile, audiograms) {

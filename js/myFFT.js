@@ -150,6 +150,7 @@ class MyFFT {
 
     // Преобразует аудио сэмплы с использованием FFT и применяет коэффициенты ослабления
     async handleSamplesByFFT(audioSamples, sampleRate, auditoryGraph) {
+        await this._set_fft_message(htmlTSTR("PerformingDirectFFT"));
 
         // Находим ближайшую степень двойки, большую или равную длине сэмплов
         let paddedLength = MyFFT.getNextPowerOfTwo(audioSamples.length);
@@ -169,8 +170,6 @@ class MyFFT {
         console.time("fft");
         let fft = new FFTJS(paddedLength);
         let fftData = new Float32Array(paddedLength * 2); // Правильный размер для хранения результатов FFT
-
-        await this._set_fft_message(htmlTSTR("PerformingDirectFFT"));
 
         // Прямое преобразование
         fft.realTransform(fftData, floatInput);

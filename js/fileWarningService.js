@@ -1,6 +1,7 @@
 class FileWarningService {
-    constructor(page, myFile) {
+    constructor(page, myFile, callback) {
         this.page = page;
+        this.callback = callback;
         this.myFile = myFile;
         this.scene = new Scene(this.page);
         this.scene.addClassName("fileWarningScene");
@@ -12,7 +13,7 @@ class FileWarningService {
         agreeBtn.innerHTML = htmlTSTR(text);
 
         agreeBtn.addEventListener("click", () => {
-            this.callback.userAgreed();
+            this.callback.onUserAgreed(this.myFile);
             this.scene.close();
         });
 
@@ -25,54 +26,25 @@ class FileWarningService {
         nonAgreeBtn.innerHTML = htmlTSTR(text);
 
         nonAgreeBtn.addEventListener("click", () => {
-            this.callback.userNotAgreed();
+            this.callback.onUserRequestedFileSelection();
         });
 
         return nonAgreeBtn;
     }
 
-    async waitForResult() {
-        let userAgreed;
-
-        // Создаем промис
-        let promise = new Promise((resolve) => {
-            this.callback = {
-                userAgreed: () => {
-                    userAgreed = true;
-                    resolve(); // Разрешаем промис
-                },
-                userNotAgreed: () => {
-                    userAgreed = false;
-                    resolve(); // Разрешаем промис
-                }
-            }
-        });
-
-        // Ожидаем разрешения промиса
-        await promise;
-
-        // Возвращаем объект с методами
-        let result = {
-            userAgreed: () => {
-                return userAgreed;
-            },
-            userNotAgreed: () => {
-                return !userAgreed;
-            }
-        };
-
-        return result;
-    }
-
-    show() {
+    async show() {
         let validationResult = this.myFile.getValidationResult();
 
-        if (!validationResult.isAudioOrVideoFile()) {
+        if (!validationResult.isVideoOrAudio) {
             this._addFileTypeWarning();
         }
 
-        if (validationResult.isLimitExceeded()) {
+        if (validationResult.isFileSizeLimitExceeded) {
             this._addFileSizeWarning();
+        }
+
+        if (validationResult.isDurationLimitExceeded) {
+            await this._addDurationWarning();
         }
 
         this._addAgreementContainer();
@@ -105,6 +77,38 @@ class FileWarningService {
         box.addElement(pContainer);
     }
 
+    async _addDurationWarning() {
+        let fileDurationObj = await this.myFile.getLargestDuration();
+        let fileDurationLimitObj = this.myFile.getLargestDurationLimit();
+
+        let box = this._createWarningBox();
+
+        let pContainer = document.createElement("div");
+
+        let p1 = document.createElement("p");
+        p1.innerHTML = htmlTSTR("FileWarningDuration",
+            [
+                SA((fileDurationObj.duration).toFixed(1), false),
+                SA(this._getFileDurationUnitTSTR(fileDurationObj.units), true)
+            ]
+        );
+
+        let p2 = document.createElement("p");
+        p2.innerHTML = htmlTSTR(
+            "FileWarningDurationRecommendation",
+            [
+                SA((fileDurationLimitObj.duration).toFixed(1), false),
+                SA(this._getFileDurationUnitTSTR(fileDurationLimitObj.units), true)
+            ]
+        );
+
+        pContainer.appendChild(p1);
+        pContainer.appendChild(p2);
+
+        box.addElement(pContainer);
+
+    }
+
     _addFileSizeWarning() {
         let fileSizeObj = this.myFile.getLargestFileSize();
         let fileSizeLimitObj = this.myFile.getLargestFileSizeLimit();
@@ -117,15 +121,15 @@ class FileWarningService {
         let p1 = document.createElement("p");
         p1.innerHTML = htmlTSTR("FileWarningSize",
             [
-                SA(Math.round(fileSizeObj.size), false),
-                SA(this._getUnitTSTR(fileSizeObj.units), true)
+                SA((fileSizeObj.size).toFixed(1), false),
+                SA(this._getFileSizeUnitTSTR(fileSizeObj.units), true)
             ]);
 
         let p2 = document.createElement("p");
         p2.innerHTML = htmlTSTR("FileWarningRecommendation",
             [
-                SA(Math.round(fileSizeLimitObj.size), false),
-                SA(this._getUnitTSTR(fileSizeLimitObj.units), true)
+                SA((fileSizeLimitObj.size).toFixed(1), false),
+                SA(this._getFileSizeUnitTSTR(fileSizeLimitObj.units), true)
             ]
         )
         pContainer.appendChild(p1);
@@ -164,7 +168,7 @@ class FileWarningService {
         return box;
     }
 
-    _getUnitTSTR(fileSizeUnit) {
+    _getFileSizeUnitTSTR(fileSizeUnit) {
         if (fileSizeUnit === MyFile.FileSizeUnits.BYTES) {
             return "BYTE_short";
         } else if (fileSizeUnit === MyFile.FileSizeUnits.KILOBYTES) {
@@ -177,4 +181,19 @@ class FileWarningService {
             throw new Error("Unknown file size unit");
         }
     }
+
+    _getFileDurationUnitTSTR(durationUnit) {
+        if (durationUnit === MyFile.FileDurationUnits.MILLISECONDS) {
+            return "MILLISECOND_short";
+        } else if (durationUnit === MyFile.FileDurationUnits.SECONDS) {
+            return "SECOND_short";
+        } else if (durationUnit === MyFile.FileDurationUnits.MINUTES) {
+            return "MINUTE_short";
+        } else if (durationUnit === MyFile.FileDurationUnits.HOURS) {
+            return "HOUR_short";
+        } else {
+            throw new Error("Unknown duration unit");
+        }
+    }
+
 }

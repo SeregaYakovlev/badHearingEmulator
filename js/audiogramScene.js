@@ -17,8 +17,13 @@ class AudiogramScene {
         return this.audiogram;
     }
 
+    isShown(){
+        return this.shown;
+    }
+
     show() {
         this.scene.show();
+        this.shown = true;
     }
 
     isLeftEar() {
@@ -83,7 +88,7 @@ class AudiogramScene {
         }
 
         nextActionBtn.addEventListener("click", () => {
-            this.service.onAudiogramSceneInputed(this);
+            this.service.onDataInputed(this);
         })
 
         nextActionBox.addElement(nextActionBtn);

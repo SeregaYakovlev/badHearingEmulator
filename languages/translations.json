@@ -32,6 +32,22 @@
             "zh": "这确实是音频或视频文件吗？",
             "ar": "هل هذا بالتأكيد ملف صوتي أو فيديو؟"
         },
+        "FileWarningDuration": {
+            "ru": "Длительность файла составляет {} {}",
+            "en": "The file duration is {} {}",
+            "fr": "La durée du fichier est de {} {}",
+            "es": "La duración del archivo es de {} {}",
+            "zh": "文件时长为 {} {}",
+            "ar": "مدة الملف هي {} {}"
+        },
+        "FileWarningDurationRecommendation": {
+            "ru": "Для использования этого раздела рекомендована длительность не более {} {}",
+            "en": "For optimal use of this section, it is recommended not to exceed {} {}",
+            "fr": "Pour une utilisation optimale de cette section, il est recommandé de ne pas dépasser {} {}",
+            "es": "Para un uso óptimo de esta sección, se recomienda no superar los {} {}",
+            "zh": "建议使用不超过 {} {} 的文件时长",
+            "ar": "للاستخدام الأمثل لهذا القسم، يُنصح بعدم تجاوز مدة {} {}"
+        },
         "FileWarningSize": {
             "ru": "Размер файла составляет {} {}",
             "en": "The file size is {} {}",
@@ -47,6 +63,38 @@
             "es": "Para un uso óptimo de esta sección, se recomienda no superar los {} {}",
             "zh": "建议使用不超过 {} {} 的文件",
             "ar": "للاستخدام الأمثل لهذا القسم، يُنصح بعدم تجاوز {} {}"
+        },
+        "MILLISECOND_short": {
+            "ru": "мс",
+            "en": "ms",
+            "fr": "ms",
+            "es": "ms",
+            "zh": "毫秒",
+            "ar": "مللي ثانية"
+        },
+        "SECOND_short": {
+            "ru": "с",
+            "en": "s",
+            "fr": "s",
+            "es": "s",
+            "zh": "秒",
+            "ar": "ثانية"
+        },
+        "MINUTE_short": {
+            "ru": "мин",
+            "en": "min",
+            "fr": "min",
+            "es": "min",
+            "zh": "分钟",
+            "ar": "دقيقة"
+        },
+        "HOUR_short": {
+            "ru": "ч",
+            "en": "h",
+            "fr": "h",
+            "es": "h",
+            "zh": "小时",
+            "ar": "ساعة"
         },
         "BYTE_short": {
             "ru": "Б",

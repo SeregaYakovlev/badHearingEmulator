@@ -6,6 +6,13 @@ class MyFile {
         GIGABYTES: 3
     };
 
+    static FileDurationUnits = {
+        MILLISECONDS: 0,
+        SECONDS: 1,
+        MINUTES: 2,
+        HOURS: 3
+    };
+
     constructor(page) {
         this.page = page;
         this.file = null;
@@ -45,27 +52,23 @@ class MyFile {
         }
 
         let fileSizeLimitInBytes = this.fileSizeLimit;
-        let size, units, unit_tstr;
+        let size, units;
 
         if (fileSizeLimitInBytes >= 1024 * 1024 * 1024) {
             size = fileSizeLimitInBytes / (1024 * 1024 * 1024);
             units = MyFile.FileSizeUnits.GIGABYTES;
-            unit_tstr = "GIGABYTE_short";
         } else if (fileSizeLimitInBytes >= 1024 * 1024) {
             size = fileSizeLimitInBytes / (1024 * 1024);
             units = MyFile.FileSizeUnits.MEGABYTES;
-            unit_tstr = "MEGABYTE_short";
         } else if (fileSizeLimitInBytes >= 1024) {
             size = fileSizeLimitInBytes / 1024;
             units = MyFile.FileSizeUnits.KILOBYTES;
-            unit_tstr = "KILOBYTE_short";
         } else {
             size = fileSizeLimitInBytes;
             units = MyFile.FileSizeUnits.BYTES;
-            unit_tstr = "BYTE_short";
         }
 
-        return { size, units, unit_tstr };
+        return { size, units };
     }
 
 
@@ -137,7 +140,128 @@ class MyFile {
         this.fileSizeLimit = fileSizeInBytes;
     }
 
-    isLimitExceeded() {
+    async getDuration(durationUnits = MyFile.FileDurationUnits.SECONDS) {
+        let durationInSeconds = await this._getFileDuration();
+
+        switch (durationUnits) {
+            case MyFile.FileDurationUnits.MILLISECONDS:
+                return durationInSeconds * 1000;
+            case MyFile.FileDurationUnits.SECONDS:
+                return durationInSeconds;
+            case MyFile.FileDurationUnits.MINUTES:
+                return durationInSeconds / 60;
+            case MyFile.FileDurationUnits.HOURS:
+                return durationInSeconds / 3600;
+            default:
+                throw new Error("Algorithm error");
+        }
+    }
+
+    async getLargestDuration() {
+
+        let durationInSeconds = await this._getFileDuration();
+        let duration, units;
+
+        if (durationInSeconds >= 3600) { // Если больше или равно одному часу
+            duration = durationInSeconds / 3600;
+            units = MyFile.FileDurationUnits.HOURS;
+        } else if (durationInSeconds >= 60) { // Если больше или равно одной минуте
+            duration = durationInSeconds / 60;
+            units = MyFile.FileDurationUnits.MINUTES;
+        } else if (durationInSeconds >= 1) { // Если больше или равно одной секунде
+            duration = durationInSeconds;
+            units = MyFile.FileDurationUnits.SECONDS;
+        } else { // Если меньше секунды
+            duration = durationInSeconds * 1000;
+            units = MyFile.FileDurationUnits.MILLISECONDS;
+        }
+
+        return { duration, units };
+    }
+
+
+    getDurationLimit(durationUnits = MyFile.FileDurationUnits.SECONDS) {
+        if (!this.durationLimit) {
+            throw new Error("No durationLimit");
+        }
+
+        let durationLimitInSeconds = this.durationLimit;
+
+        switch (durationUnits) {
+            case MyFile.FileDurationUnits.MILLISECONDS:
+                return durationLimitInSeconds * 1000;
+            case MyFile.FileDurationUnits.SECONDS:
+                return durationLimitInSeconds;
+            case MyFile.FileDurationUnits.MINUTES:
+                return durationLimitInSeconds / 60;
+            case MyFile.FileDurationUnits.HOURS:
+                return durationLimitInSeconds / 3600;
+            default:
+                throw new Error("Algorithm error");
+        }
+    }
+
+    getLargestDurationLimit() {
+        if (!this.durationLimit) {
+            throw new Error("No durationLimit");
+        }
+
+        let durationInSeconds = this.durationLimit;
+        let duration, units;
+
+        if (durationInSeconds >= 3600) { // Если больше или равно часу
+            duration = durationInSeconds / 3600;
+            units = MyFile.FileDurationUnits.HOURS;
+        } else if (durationInSeconds >= 60) { // Если больше или равно минуте
+            duration = durationInSeconds / 60;
+            units = MyFile.FileDurationUnits.MINUTES;
+        } else if (durationInSeconds >= 1) { // Если больше или равно одной секунде
+            duration = durationInSeconds;
+            units = MyFile.FileDurationUnits.SECONDS;
+        } else { // Если меньше секунды
+            duration = durationInSeconds * 1000;
+            units = MyFile.FileDurationUnits.MILLISECONDS;
+        }
+
+        return { duration, units };
+    }
+
+    setDurationLimit(duration, durationUnits = MyFile.FileDurationUnits.SECONDS) {
+        let durationInSeconds;
+
+        switch (durationUnits) {
+            case MyFile.FileDurationUnits.MILLISECONDS:
+                durationInSeconds = duration / 1000;
+                break;
+            case MyFile.FileDurationUnits.SECONDS:
+                durationInSeconds = duration;
+                break;
+            case MyFile.FileDurationUnits.MINUTES:
+                durationInSeconds = duration * 60;
+                break;
+            case MyFile.FileDurationUnits.HOURS:
+                durationInSeconds = duration * 3600;
+                break;
+            default:
+                throw new Error("Algorithm error");
+        }
+
+        this.durationLimit = durationInSeconds;
+    }
+
+    async isDurationLimitExceeded() {
+        if (this.durationLimit) {
+            let fileDuration = await this._getFileDuration();
+
+            // Сравниваем длительность файла с лимитом
+            return fileDuration > this.durationLimit;
+        }
+        else {
+            return false;
+        }
+    }
+
+    isFileSizeLimitExceeded() {
         if (this.fileSizeLimit) {
             let fileSize = this.file.size;
             return fileSize > this.fileSizeLimit;
@@ -145,6 +269,30 @@ class MyFile {
         else {
             return false;
         }
+    }
+
+    async _getFileDuration() {
+        return new Promise((resolve, reject) => {
+            let audio = document.createElement('audio');
+            audio.setAttribute('src', URL.createObjectURL(this.file));
+
+            // Убедитесь, что аудио элемент не задерживает память
+            let releaseResources = () => {
+                URL.revokeObjectURL(audio.src); // Освободить ресурсы URL
+                audio.remove(); // Удалить элемент из DOM
+            };
+
+            audio.addEventListener('loadedmetadata', () => {
+                let duration = audio.duration;
+                releaseResources();  // Удаляем аудио элемент после получения длительности
+                resolve(duration);
+            });
+
+            audio.addEventListener('error', (err) => {
+                releaseResources();  // Удаляем аудио элемент в случае ошибки
+                reject(new Error("Error loading audio file"));
+            });
+        });
     }
 
     async downloadSelectedFile() {
@@ -156,11 +304,15 @@ class MyFile {
     async downloadFileFromDesktop() {
         let file = await this._downloadFileFromDesktop();
 
+        if(!file){
+            return;
+        }
+
         this.file = file;
 
         if (!this.isUserAgreed()) {
-            this.validationResult = this._validateFile();
-            if (!this.validationResult.isOk()) {
+            this.validationResult = await this._validateFile();
+            if (!this.validationResult.isOk) {
                 throw new FileValidationError(this.validationResult);  // Бросаем ошибку с результатом валидации
             }
         }
@@ -172,22 +324,21 @@ class MyFile {
         return this.validationResult;
     }
 
-    _validateFile() {
+    async _validateFile() {
         let obj = {};
 
-        // Преобразуем это в метод с использованием стрелочной функции
-        obj.isAudioOrVideoFile = () => {
-            return this._isAudioOrVideoFile();
-        };
+        obj.isVideoOrAudio = this._isAudioOrVideoFile();
 
-        // Преобразуем isLimitExceeded в метод с использованием стрелочной функции
-        obj.isLimitExceeded = () => {
-            return this.isLimitExceeded();
-        };
+        obj.isFileSizeLimitExceeded = this.isFileSizeLimitExceeded();
 
-        obj.isOk = () => {
-            return obj.isAudioOrVideoFile() && !obj.isLimitExceeded();
-        };
+        try {
+            obj.isDurationLimitExceeded = await this.isDurationLimitExceeded();
+        } catch (e) {
+            // может быть загружено не аудио
+            obj.isDurationLimitExceeded = false;
+        }
+
+        obj.isOk = obj.isVideoOrAudio && !obj.isFileSizeLimitExceeded && !obj.isDurationLimitExceeded;
 
         obj.toJson = () => {
             return JSON.stringify(obj);
@@ -195,7 +346,6 @@ class MyFile {
 
         return obj;
     }
-
 
     isUserAgreed() {
         return this.userIsAgreed;
@@ -225,9 +375,13 @@ class MyFile {
                 if (file) {
                     resolve(file); // Разрешаем промис с выбранным файлом
                 } else {
-                    reject(new Error("No file selected")); // Отклоняем промис, если файл не выбран
+                    resolve(null); // Отклоняем промис, если файл не выбран
                 }
             });
+
+            hiddenInput.addEventListener("cancel", () => {
+                resolve(null);
+            })
 
             hiddenInput.click();
         });

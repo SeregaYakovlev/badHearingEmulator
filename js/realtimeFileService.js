@@ -4,42 +4,45 @@ class RealtimeFileService {
     }
 
     async run() {
-        this._download_process_and_display_file_from_desktop();
+        this._download_process_display_file_from_desktop();
     }
 
-    async _download_process_and_display_file_from_desktop() {
+    async _download_process_display_file_from_desktop() {
         let myFile = new MyFile(this.page);
-        myFile.setFileSizeLimit(100, MyFile.FileSizeUnits.BYTES);
+        myFile.setFileSizeLimit(100, MyFile.FileSizeUnits.MEGABYTES);
+        myFile.setDurationLimit(1, MyFile.FileDurationUnits.HOURS);
 
         let file;
-        while (!file) {
-            try {
-                file = await myFile.downloadFileFromDesktop();
-            } catch (e) {
-                if (!(e instanceof FileValidationError)) {
-                    throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
-                }
-
-                let fileWarning = new FileWarningService(this.page, myFile);
-                fileWarning.show();
-
-                // Ждем решения пользователя
-                let result = await fileWarning.waitForResult();
-
-                // Проверяем, согласился ли пользователь
-                if (result.userAgreed()) {
-                    myFile.setUserAgreement(true);
-                    file = await myFile.downloadSelectedFile();
-                } else if (result.userNotAgreed()) {
-                    continue;
-                }
-                else {
-                    throw new Error("Algorithm error");
-                }
+        try {
+            file = await myFile.downloadFileFromDesktop();
+            if (file) {
+                this._onFileLoaded(file);
             }
-        }
 
+        } catch (e) {
+            if (!(e instanceof FileValidationError)) {
+                throw e;  // Если ошибка не является FileValidationError, выбрасываем её дальше
+            }
+
+            let fileWarning = new FileWarningService(this.page, myFile, this);
+            fileWarning.show();
+        }
+    }
+
+    _onFileLoaded(file) {
         this._showMediaPlayer(file);
+    }
+
+    // interface method
+    async onUserAgreed(myFile) {
+        myFile.setUserAgreement(true);
+        let file = await myFile.downloadSelectedFile();
+        this._showMediaPlayer(file);
+    }
+
+    // interface method
+    onUserRequestedFileSelection() {
+        this._download_process_display_file_from_desktop();
     }
 
     async _showMediaPlayer(originalFile) {
@@ -77,7 +80,7 @@ class RealtimeFileService {
         anotherFileBtn.classList.add("myBtn");
         anotherFileBtn.innerHTML = htmlTSTR("anotherFile");
         anotherFileBtn.addEventListener("click", async () => {
-            this._download_process_and_display_file_from_desktop();
+            this._download_process_display_file_from_desktop();
         });
 
         let soundVisualizationBtn = new MyBinaryButton();
