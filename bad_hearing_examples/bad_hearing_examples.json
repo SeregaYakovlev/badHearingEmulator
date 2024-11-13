@@ -1,0 +1,44 @@
+{
+    "bad_hearing_examples": {
+        "ru": [
+            {
+                "name": "Почтальон Пэт",
+                "url": "https://www.dropbox.com/scl/fi/tfx0qu9mkfqeat9m2k5hc/1.mkv?rlkey=z9iz8zwud4gatyruv7jupln77&st=dv2sdcgu&raw=1"
+            },
+            {
+                "name": "А ты изобрети",
+                "url": "https://www.dropbox.com/scl/fi/402kgz3vamyd2fbfy1e9q/.webm?rlkey=lyisvlid2rlwzx98pjztfdc4h&st=x0i3n1cx&raw=1"
+            }
+        ],
+        "en": [
+            {
+                "name": "Example 1",
+                "url": "https://www.example.com/1"
+            }
+        ],
+        "fr": [
+            {
+                "name": "Exemple 1",
+                "url": "https://www.example.com/1"
+            }
+        ],
+        "es": [
+            {
+                "name": "Ejemplo 1",
+                "url": "https://www.example.com/1"
+            }
+        ],
+        "zh": [
+            {
+                "name": "示例 1",
+                "url": "https://www.example.com/1"
+            }
+        ],
+        "ar": [
+            {
+                "name": "مثال 1",
+                "url": "https://www.example.com/1"
+            }
+        ]
+    }
+}

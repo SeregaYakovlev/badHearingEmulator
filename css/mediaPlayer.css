@@ -1,0 +1,18 @@
+video {
+    width: 100%; /* Заполняет всю ширину контейнера */
+    height: 100%; /* Заполняет всю высоту контейнера */
+    object-fit: cover;
+}
+
+video-js {
+    max-width: 640px;
+    max-height: 480px;
+}
+
+body[theme="day"] video {
+    background: linear-gradient(135deg, #6B8E23, #ffffff); /* Градиент от оливкового к белому */
+}
+
+body[theme="night"] video {
+    background: linear-gradient(135deg, #221a0f, #362712, #5e452b, #423523, #d3af86, #ffffff); /* Градиентный фон */
+}

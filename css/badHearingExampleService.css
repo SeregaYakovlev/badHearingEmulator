@@ -1,0 +1,51 @@
+.badHearingExampleServiceBox {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.badHearingExampleServiceBox .horizontalContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.badHearingExampleServiceBox .arrowBtn {
+    width: 100%;
+    height: 100%;
+}
+
+.badHearingExampleServiceBox .arrowWrapper {
+    display: flex;
+    width: 48px;
+    height: 48px;
+}
+
+.badHearingExampleServiceBox video-js {
+    max-width: 300px;
+    max-height: 200px;
+}
+
+body[theme="day"] .badHearingExampleServiceBox .arrowBtn[arrow="left"] {
+    background-image: url('../images/arrows/day/left-arrow.svg'); 
+}
+
+body[theme="day"] .badHearingExampleServiceBox .arrowBtn[arrow="right"] {
+    background-image: url('../images/arrows/day/right-arrow.svg'); 
+}
+
+body[theme="night"] .badHearingExampleServiceBox .arrowBtn[arrow="left"] {
+    background-image: url('../images/arrows/night/left-arrow.svg'); 
+}
+
+body[theme="night"] .badHearingExampleServiceBox .arrowBtn[arrow="right"] {
+    background-image: url('../images/arrows/night/right-arrow.svg'); 
+}
+
+.badHearingExampleServiceBox .arrowBtn {
+    background-repeat: no-repeat;
+    background-size: 70% 70%; /* Измените на нужное */
+    background-position: center;
+}

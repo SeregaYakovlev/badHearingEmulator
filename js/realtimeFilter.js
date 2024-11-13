@@ -124,6 +124,26 @@ class RealTimeFilter {
         this.speaker.playBuffer(this._audioBuffer, position);
     }
 
+    connectPlayer(htmlElement) {
+        if (!(htmlElement instanceof HTMLAudioElement || htmlElement instanceof HTMLVideoElement)) {
+            throw new Error("Expected an HTMLAudioElement or HTMLVideoElement");
+        }
+    
+        // Создаем источник аудио из элемента <audio> или <video>
+        const source = this.audioContext.createMediaElementSource(htmlElement);
+    
+        // Подключаем источник к фильтрам
+        source.connect(this.filters[0]);
+    
+        // Подключаем фильтры друг к другу
+        for (let i = 0; i < this.filters.length - 1; i++) {
+            this.filters[i].connect(this.filters[i + 1]);
+        }
+    
+        // Подключаем последний фильтр к выходу
+        this.filters[this.filters.length - 1].connect(this.audioContext.destination);
+    }
+
     stopProcessing() {
         this.speaker.stop();
 

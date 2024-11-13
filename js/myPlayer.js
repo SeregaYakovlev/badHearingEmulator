@@ -103,6 +103,10 @@ class MyPlayer {
         }
     }
 
+    setAutoplay(bool) {
+        this.videoPlayer.autoplay(bool); // Устанавливает авто воспроизведение
+    }
+
     async install(scene) {
         let box = scene.createBox();
         return this.installInBox(box);
@@ -115,12 +119,27 @@ class MyPlayer {
 
         this.mediaPlayerBox = mediaPlayerBox;
 
-        // Создаем элемент <video> с использованием Video.js
-        let videoElem = document.createElement('video-js');
+        let videoElem = this._createPlayer();
+
         mediaPlayerBox.addElement(videoElem);
 
+        this.playerElem = mediaPlayerBox.asHTMLElement();
+    }
+
+    async installInDiv(div) {
+        div.classList.add("mediaPlayerBox");
+        div.classList.add("box");
+
+        let videoElem = this._createPlayer();
+        div.appendChild(videoElem);
+
+        this.playerElem = div;
+    }
+
+    _createPlayer() {
+        let videoElem = document.createElement('video-js');
         let videoPlayer = videojs(videoElem, {
-            fill: true,
+            fill: false,
             controls: true,
             controlBar: {
                 volumePanel: false,
@@ -128,26 +147,13 @@ class MyPlayer {
             },
             autoplay: false,
             preload: 'auto',
-            loop: true,
+            loop: true
         });
         this.videoPlayer = videoPlayer;
 
         this.setVolume(0);
 
-        if (this.file) {
-            videoPlayer.src({
-                type: (this.fileType) ? this.fileType : "video/mp4",
-                src: URL.createObjectURL(this.file)
-            });
-        }
-
-        if (this.fileLink) {
-            videoPlayer.src({
-                type: (this.fileType) ? this.fileType : "video/mp4",
-                src: this.fileLink
-            });
-        }
-
+        this._connectPlayerToSRC();
 
         videoPlayer.addClass("vjs-big-play-centered");
 
@@ -169,22 +175,60 @@ class MyPlayer {
         videoPlayer.on('ended', () => {
             this._onEnded();
         });
+
+        return videoElem;
     }
 
-    replaceVideo() {
+    /*_connectPlayerToSRC(){
         if (this.file) {
-            this.videoPlayer.src({
+            videoPlayer.src({
                 type: (this.fileType) ? this.fileType : "video/mp4",
                 src: URL.createObjectURL(this.file)
             });
         }
 
         if (this.fileLink) {
-            this.videoPlayer.src({
+            videoPlayer.src({
                 type: (this.fileType) ? this.fileType : "video/mp4",
                 src: this.fileLink
             });
         }
+    }*/
+
+    async _connectPlayerToSRC() {
+        let videoPlayer = this.videoPlayer;  // предполагаем, что videoPlayer уже определен
+
+        // Для локального файла
+        if (this.file) {
+            videoPlayer.src({
+                type: this.fileType ? this.fileType : "video/mp4",
+                src: URL.createObjectURL(this.file)
+            });
+        }
+
+        // Для файла по ссылке
+        if (this.fileLink) {
+            this.videoPlayer.tech().el().crossOrigin="anonymous";
+            
+            let proxyUrl = 'https://corsproxy.io/?';  // Новый прокси-сервер
+
+            // Используем прокси-сервер для загрузки файла по ссылке
+            let proxiedUrl = proxyUrl + encodeURIComponent(this.fileLink);
+
+            // Устанавливаем файл как источник для видео
+            videoPlayer.src({
+                type: this.fileType ? this.fileType : "video/mp4",
+                src: proxiedUrl
+            });
+        }
+    }
+
+    connectFilter(filter) {
+        filter.connectPlayer(this.videoPlayer.tech().el());
+    }
+
+    replaceVideo() {
+        this._connectPlayerToSRC();
     }
 
     _playCustomSound(position) {
@@ -196,10 +240,22 @@ class MyPlayer {
     }
 
     show() {
-        this.mediaPlayerBox.reveal();
+        if (this.mediaPlayerBox) {
+            this.mediaPlayerBox.reveal();
+        }
+        else {
+            // не реализовано
+            this.playerElem.setAttribute("hidden", "true"); // Устанавливаем атрибут для скрытия
+        }
     }
 
     hide() {
-        this.mediaPlayerBox.hide();
+        if (this.mediaPlayerBox) {
+            this.mediaPlayerBox.hide();
+        }
+        else {
+            // не реализовано
+            this.playerElem.removeAttribute("hidden"); // Удаляем атрибут для отображения
+        }
     }
 }

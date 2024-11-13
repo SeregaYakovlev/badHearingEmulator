@@ -17,6 +17,10 @@ class Box {
         return this.box;
     }
 
+    setAttribute(attrName, attrValue){
+        this.box.setAttribute(attrName, attrValue);
+    }
+
     addClassName(className) {
         this.box.classList.add(className);
     }

@@ -6,13 +6,6 @@
     align-items: center;
 }
 
-.mediaPlayerBox {
-    width: 100%;
-    height: 100%;
-    max-width: 640px;
-    max-height: 480px;
-}
-
 .mediaPlayerScene .mediaPlayerBox, .mediaPlayerScene .soundVisualizationBox {
     order: 0;
 }

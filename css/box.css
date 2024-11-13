@@ -4,6 +4,16 @@
     flex-direction: column;
     padding: 5px; /* Пример отступов в 10px вокруг контента */
     border-radius: 10px; /* Пример скругления углов границы */
+    max-width: 100%;
+    max-height: 100%;
+}
+
+body[theme] .box[specialstate="transparent"] {
+    background-color: transparent; /* Убираем цвет фона */
+    border: none; /* Убираем границу */
+    box-shadow: none; /* Убираем тень, если есть */
+    padding: 0; /* Убираем отступы внутри бокса */
+    overflow: visible; /* Убедимся, что дочерние элементы не скрываются */
 }
 
 .box[boxHidden="true"] {
