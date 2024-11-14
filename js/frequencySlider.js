@@ -71,25 +71,15 @@ class FrequencySlider {
     }
 
     _addFilterInvertionBtn(box) {
-        let btn = new MyBinaryButton();
-        btn.addClassName("invertionButton");
-
-        btn.setState1("EnableHighPassFilter", () => {
+        let btn = document.createElement("button");
+        btn.classList.add("myBtn");
+        btn.classList.add("invertionButton");
+        btn.innerHTML = htmlTSTR("InvertFilter");
+        btn.addEventListener("click", () => {
             this._invertSlider();
         });
 
-        btn.setState2("EnableLowPassFilter", () => {
-            this._invertSlider();
-        })
-
-        if (this.realtimeFilter.isLowPassFilter()) {
-            btn.applyFirstState();
-        }
-        else if (this.realtimeFilter.isHighPassFilter()) {
-            btn.applySecondState();
-        }
-
-        box.addElement(btn.asHTMLElement());
+        box.addElement(btn);
     }
 
     _convertSliderValueToFrequency(sliderValue, isLowPassFilter) {

@@ -59,10 +59,13 @@ class RealtimeFileService {
         let realtimeFilter = new RealTimeFilter(scene);
         realtimeFilter.setHearingFrequency(hearingFrequency);
 
-        let player = new MyPlayer(scene, null);
+        this.realtimeFilter = realtimeFilter;
+
+        let player = new MyPlayer(scene, this);
         player.setFile(originalFile);
         player.install(scene);
-        player.connectFilter(realtimeFilter);
+
+        this.player = player;
 
         let frequencySlider = new FrequencySlider(scene, hearingFrequency, 0, 8_000, realtimeFilter);
         frequencySlider.setFrequencyCallback((frequency) => {
@@ -104,5 +107,13 @@ class RealtimeFileService {
         preloader.close();
 
         scene.show();
+    }
+
+    onPlay() {
+        // this.audioContext.createMediaElementSource(this.audioElement) не любит пустые файлы
+        // и работает с перебоями в таком случае
+        if (!this.player.isFilterConnected()) {
+            this.player.connectFilter(this.realtimeFilter);
+        }
     }
 }

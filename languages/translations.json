@@ -145,20 +145,20 @@
             "ar": "خطأ في الوصول إلى الميكروفون"
         },
         "EnableHighPassFilter": {
-            "ru": "Подавлять от низких частот",
-            "en": "Suppress from Low Frequencies",
-            "fr": "Supprimer à partir des basses fréquences",
-            "es": "Suprimir desde frecuencias bajas",
-            "zh": "从低频开始抑制",
-            "ar": "قمع من الترددات المنخفضة"
+            "ru": "Включить фильтр высоких частот",
+            "en": "Enable High-Pass Filter",
+            "fr": "Activer le filtre passe-haut",
+            "es": "Activar el filtro pasa-altos",
+            "zh": "启用高通滤波器",
+            "ar": "تمكين مرشح الترددات العالية"
         },
         "EnableLowPassFilter": {
-            "ru": "Подавлять от высоких частот",
-            "en": "Suppress from High Frequencies",
-            "fr": "Supprimer à partir des hautes fréquences",
-            "es": "Suprimir desde frecuencias altas",
-            "zh": "从高频开始抑制",
-            "ar": "قمع من الترددات العالية"
+            "ru": "Включить фильтр низких частот",
+            "en": "Enable Low-Pass Filter",
+            "fr": "Activer le filtre passe-bas",
+            "es": "Activar el filtro pasa-bajos",
+            "zh": "启用低通滤波器",
+            "ar": "تمكين مرشح الترددات المنخفضة"
         },
         "InvertFilter": {
             "ru": "Инвертировать",
@@ -249,20 +249,20 @@
             "ar": "تحميل الملف"
         },
         "lowPassFilterParameter": {
-            "ru": "Параметр lowpass-фильтра",
-            "en": "Low pass filter parameter",
-            "fr": "Paramètre du filtre passe-bas",
-            "es": "Parámetro del filtro pasa-bajos",
-            "zh": "低通滤波器参数",
-            "ar": "معامل الفلتر المنخفض"
+            "ru": "Параметр фильтра (от нуля)",
+            "en": "Filter parameter (from zero)",
+            "fr": "Paramètre du filtre (de zéro)",
+            "es": "Parámetro del filtro (de cero)",
+            "zh": "滤波器参数（从零）",
+            "ar": "معامل الفلتر (من الصفر)"
         },
         "highPassFilterParameter": {
-            "ru": "Параметр highpass-фильтра",
-            "en": "High pass filter parameter",
-            "fr": "Paramètre du filtre passe-haut",
-            "es": "Parámetro del filtro pasa-altos",
-            "zh": "高通滤波器参数",
-            "ar": "معامل الفلتر العالي"
+            "ru": "Параметр фильтра (к нулю)",
+            "en": "Filter parameter (to zero)",
+            "fr": "Paramètre du filtre (vers zéro)",
+            "es": "Parámetro del filtro (a cero)",
+            "zh": "滤波器参数（到零）",
+            "ar": "معامل الفلتر (إلى الصفر)"
         },
         "normalHearing": {
             "ru": "Нормальный слух",

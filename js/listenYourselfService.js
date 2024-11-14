@@ -92,14 +92,15 @@ class ListenYourselfService {
             let audioFile = new File([audioBlob], "recordedAudio.webm", { type: 'audio/webm' }); // Создайте файл с именем и типом
 
             audioPlayer.loadFile(audioFile); // Загружаем файл в аудиоплеер
-            this._onFileLoaded();
         };
 
         this.listenYourselfBox = box;
         this.audioPlayer = audioPlayer;
     }
 
-    _onFileLoaded() {
+    onPlay() {
+        // this.audioContext.createMediaElementSource(this.audioElement) не любит пустые файлы
+        // и работает с перебоями в таком случае
         if (!this.audioPlayer.isFilterConnected()) {
             this.audioPlayer.connectFilter(this.realtimeFilter);
         }

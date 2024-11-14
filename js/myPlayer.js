@@ -24,7 +24,7 @@ class MyPlayer {
             // После получения источника медиаэлемента, он должен быть куда-то подключен
             source.connect(this.audioContext.destination);
         }
-        
+
         return source;
     }
 
@@ -81,6 +81,12 @@ class MyPlayer {
 
         if (this.audioElement) {
             this.audioElement.currentTime = position; // Перемещаем аудио в нужную позицию
+
+            // нужно для режима зацикливания, при котором onPlay не срабатывает
+            let isAudioPlaying = !this.audioElement.paused;
+            if (this.isPlaying() && !isAudioPlaying) {
+                this.audioElement.play();
+            }
         }
 
         if (this.callback && typeof this.callback.onSeek === 'function') {

@@ -93,7 +93,7 @@ class ListenYourselfPlayer {
 
     _onPlay() {
         let position = this.audioPlayer.currentTime;
-        if (this.callback && typeof this.callback.onSeek === 'function') {
+        if (this.callback && typeof this.callback.onPlay === 'function') {
             this.callback.onPlay(position);
         }
 
@@ -101,7 +101,7 @@ class ListenYourselfPlayer {
     }
 
     _onPause() {
-        if (this.callback && typeof this.callback.onSeek === 'function') {
+        if (this.callback && typeof this.callback.onPause === 'function') {
             this.callback.onPause();
         }
 
@@ -119,7 +119,7 @@ class ListenYourselfPlayer {
     }
 
     _onEnded() {
-        if (this.callback && typeof this.callback.onSeek === 'function') {
+        if (this.callback && typeof this.callback.onEnded === 'function') {
             this.callback.onEnded();
         }
 

@@ -1,8 +1,9 @@
-
 body[theme="day"] video {
-    background: linear-gradient(135deg, #6B8E23, #ffffff); /* Градиент от оливкового к белому */
+    background: repeating-linear-gradient(0deg, #6B8E23 0%, white 10%, #6B8E23 20%, white 30%, #6B8E23 40%, white 50%, #6B8E23 60%, white 70%, #6B8E23 80%, white 90%, #6B8E23 100%);
 }
+
 
 body[theme="night"] video {
-    background: linear-gradient(135deg, #221a0f, #362712, #5e452b, #423523, #d3af86, #ffffff); /* Градиентный фон */
+    background: repeating-linear-gradient(0deg, #221a0f 0%, #5e452b 10%, #221a0f 20%, #5e452b 30%, #221a0f 40%, #5e452b 50%, #221a0f 60%, #5e452b 70%, #221a0f 80%, #5e452b 90%, #221a0f 100%);
 }
+

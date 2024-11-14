@@ -72,10 +72,9 @@ class BadHearingExampleService {
     }
 
     onPlay() {
+        // this.audioContext.createMediaElementSource(this.audioElement) не любит пустые файлы
+        // и работает с перебоями в таком случае
         if (!this.player.isFilterConnected()) {
-            // ОЧЕНЬ ВАЖНО, ЧТОБЫ ПОЛЬЗОВАТЕЛЬ УСПЕЛ ПОВЗОИМОДЕЙСТВОВАТЬ СО СТРАНИЦЕЙ,
-            // СОЗДАНИЕ AUDIOCONTEXT БЕЗ ВЗАИМОДЕЙСТВИЯ АВТОМАТИЧЕСКИ ПРИВОДИТ К ПРИОСТАНОВКЕ AUDIOCONTEXT ПОЛИТИКОЙ МОБИЛЬНОГО БРАУЗЕРА CHROME
-            // ПО ЭТОЙ ПРИЧИНЕ СЛУШАЕТСЯ СОБЫТИЕ ONPLAY, КОТОРОЕ ТОЧНО ОЗНАЧАЕТ ВЗАИМОДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ
             this.player.connectFilter(this.realtimeFilter);
         }
     }
