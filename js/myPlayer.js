@@ -2,29 +2,107 @@ class MyPlayer {
     constructor(scene, callback) {
         this.scene = scene;
         this.callback = callback;
-        this.speaker = new MySpeaker(scene);
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    getAudioContext() {
+        return this.audioContext;
+    }
+
+    getSoundSource(connectToOutput = true) {
+        let source;
+
+        if (this.audioElement) {
+            source = this.audioContext.createMediaElementSource(this.audioElement);
+        }
+
+        else {
+            source = this.audioContext.createMediaElementSource(this.videoPlayer.tech().el());
+        }
+
+        if (connectToOutput) {
+            // После получения источника медиаэлемента, он должен быть куда-то подключен
+            source.connect(this.audioContext.destination);
+        }
+        
+        return source;
     }
 
     addClassName(className) {
         this.mediaPlayerBox.addClassName(className);
     }
 
-    getAudioContext() {
-        return this.speaker.getAudioContext();
+    async setCustomAudioFile(file) {
+        if (!file || !(file instanceof File)) {
+            throw new Error("Invalid file provided");
+        }
+
+        // Создаём новый аудио элемент
+        this.audioElement = document.createElement("audio");
+
+        // Устанавливаем файл как источник
+        this.audioElement.src = URL.createObjectURL(file);
+
+        console.log(this.audioElement.volume);
+
+        // заменяем аудио из видеофайла нашим кастомным аудиофайлом
+        // отключаем звук из файла, который проигрывает видеоплеер
+        this.videoPlayer.volume(0.0);
+
+        // Устанавливаем громкость аудио на 1.0
+        this.audioElement.volume = 1.0;
     }
 
-    getSpeaker() {
-        return this.speaker;
+    _onPause() {
+        console.log("player onPause");
+
+        if (this.audioElement) {
+            this.audioElement.pause(); // Ставим на паузу аудио
+        }
+
+        if (this.callback && typeof this.callback.onPause === 'function') {
+            this.callback.onPause(); // Вызываем callback onPause
+        }
     }
 
-    getSoundSource() {
-        return this.speaker.getSoundSource();
+    _onPlay(position) {
+        console.log("player onPlay");
+
+        if (this.audioElement) {
+            this.audioElement.currentTime = this.videoPlayer.currentTime(); // Синхронизируем время аудио с видео
+            this.audioElement.play(); // Запускаем аудио
+        }
+
+        if (this.callback && typeof this.callback.onPlay === 'function') {
+            this.callback.onPlay(position); // Вызываем callback onPlay
+        }
     }
 
-    setCustomAudioBuffer(audioBuffer) {
-        this.customAudioSource = true;
-        this.audioBuffer = audioBuffer;
+    _onSeek(position) {
+        console.log("player onSeek");
+
+        if (this.audioElement) {
+            this.audioElement.currentTime = position; // Перемещаем аудио в нужную позицию
+        }
+
+        if (this.callback && typeof this.callback.onSeek === 'function') {
+            this.callback.onSeek(position, this.isPlaying()); // Вызываем callback onSeek
+        }
     }
+
+    _onEnded() {
+        console.log("player onEnded");
+
+        if (this.audioElement) {
+            this.audioElement.pause(); // Останавливаем аудио
+            this.audioElement.currentTime = 0; // Сбрасываем время на начало
+        }
+
+        if (this.callback && typeof this.callback.onEnded === 'function') {
+            this.callback.onEnded(); // Вызываем callback onEnded
+        }
+    }
+
 
     setFullVolume() {
         this.setVolume(1.0);
@@ -35,7 +113,12 @@ class MyPlayer {
     }
 
     setVolume(volume) {
-        this.videoPlayer.volume(volume);
+        if (this.audioElement) {
+            this.audioElement.volume = volume;
+        }
+        else {
+            this.videoPlayer.volume(volume);
+        }
     }
 
     isPlaying() {
@@ -44,14 +127,26 @@ class MyPlayer {
     }
 
     setFile(file) {
+        if (this.audioElement) {
+            throw new Error("Impossible replace wideo with custom audio file");
+        }
+
         this.file = file;
     }
 
     setFileLink(fileLink) {
+        if (this.audioElement) {
+            throw new Error("Impossible replace wideo with custom audio file");
+        }
+
         this.fileLink = fileLink;
     }
 
     setFileType(fileType) {
+        if (this.audioElement) {
+            throw new Error("Impossible replace wideo with custom audio file");
+        }
+
         this.fileType = fileType;
     }
 
@@ -59,56 +154,12 @@ class MyPlayer {
         this.callback = callback;
     }
 
-    _onStop() {
-        console.log("player onStop");
-        if (this.callback && typeof this.callback.onStop === 'function') {
-            this.callback.onStop();
-        }
-        if (this.customAudioSource) {
-            this._stopCustomSound();
-        }
-    }
-    
-    _onPlay(position) {
-        console.log("player onPlay");
-    
-        if (this.callback && typeof this.callback.onPlay === 'function') {
-            this.callback.onPlay(position);
-        }
-        if (this.customAudioSource) {
-            this._playCustomSound(position);
-        }
-    }
-    
-    _onSeek(position) {
-        console.log("player onSeek");
-    
-        if (this.callback && typeof this.callback.onSeek === 'function') {
-            this.callback.onSeek(position, this.isPlaying());
-        }
-        if (this.isPlaying() && this.customAudioSource) {
-            this._stopCustomSound();
-            this._playCustomSound(position);
-        }
-    }
-    
-    _onEnded() {
-        console.log("player onEnded");
-    
-        if (this.callback && typeof this.callback.onEnded === 'function') {
-            this.callback.onEnded();
-        }
-        if (this.customAudioSource) {
-            this._stopCustomSound();
-        }
-    }
-
-    _onVideoLoaded(){
+    _onVideoLoaded() {
         if (this.callback && typeof this.callback.onVideoLoaded === 'function') {
             this.callback.onVideoLoaded();
         }
     }
-    
+
     setAutoplay(bool) {
         this.videoPlayer.autoplay(bool); // Устанавливает авто воспроизведение
     }
@@ -145,7 +196,7 @@ class MyPlayer {
     _createPlayer() {
         let videoElem = document.createElement('video-js');
         let videoPlayer = videojs(videoElem, {
-            fill: false,
+            fill: true,
             controls: true,
             controlBar: {
                 volumePanel: false,
@@ -157,11 +208,11 @@ class MyPlayer {
         });
         this.videoPlayer = videoPlayer;
 
-        this.setVolume(0);
+        videoPlayer.addClass("vjs-big-play-centered");
+
+        this.videoPlayer.volume(1.0);
 
         this._connectPlayerToSRC();
-
-        videoPlayer.addClass("vjs-big-play-centered");
 
         // Подписываемся на события play, pause, seeked и ended
         videoPlayer.on('play', () => {
@@ -170,7 +221,7 @@ class MyPlayer {
         });
 
         videoPlayer.on('pause', () => {
-            this._onStop();
+            this._onPause();
         });
 
         videoPlayer.on('seeked', () => {
@@ -189,22 +240,6 @@ class MyPlayer {
 
         return videoElem;
     }
-
-    /*_connectPlayerToSRC(){
-        if (this.file) {
-            videoPlayer.src({
-                type: (this.fileType) ? this.fileType : "video/mp4",
-                src: URL.createObjectURL(this.file)
-            });
-        }
-
-        if (this.fileLink) {
-            videoPlayer.src({
-                type: (this.fileType) ? this.fileType : "video/mp4",
-                src: this.fileLink
-            });
-        }
-    }*/
 
     async _connectPlayerToSRC() {
         let videoPlayer = this.videoPlayer;  // предполагаем, что videoPlayer уже определен
@@ -234,20 +269,27 @@ class MyPlayer {
         }
     }
 
-    connectFilter(filter) {
-        filter.connectPlayer(this.videoPlayer.tech().el());
+    async connectFilter(filter) {
+        if (this.audioElement) {
+            await filter.connectPlayer(this.audioElement);
+        }
+        else {
+            await filter.connectPlayer(this.videoPlayer.tech().el());
+        }
+
+        this.filter = filter;
+    }
+
+    isFilterConnected() {
+        return !!this.filter;
     }
 
     replaceVideo() {
+        if (this.audioElement) {
+            throw new Error("Impossible replace wideo with custom audio file");
+        }
+
         this._connectPlayerToSRC();
-    }
-
-    _playCustomSound(position) {
-        this.speaker.playBuffer(this.audioBuffer, position);
-    }
-
-    _stopCustomSound() {
-        this.speaker.stop();
     }
 
     show() {

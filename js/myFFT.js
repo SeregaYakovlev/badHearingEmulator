@@ -75,9 +75,68 @@ class MyFFT {
         }
 
         let audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        let handledBuffer = MyFFT._createAudioBufferFromSamples(audioContext, sampleRate, numChannels, handledSamples);
-        return handledBuffer;
+
+        let handledFile = this._createFileFromSamples(audioContext, sampleRate, numChannels, handledSamples);
+
+        return handledFile;
     }
+
+    _createFileFromSamples(audioContext, sampleRate, numChannels, handledSamples) {
+        // Создание аудиобуфера
+        let audioBuffer = MyFFT._createAudioBufferFromSamples(audioContext, sampleRate, numChannels, handledSamples);
+    
+        // Генерация WAV-данных
+        let wavData = this._encodeWAV(audioBuffer, sampleRate, numChannels);
+    
+        // Создание Blob-объекта из WAV-данных
+        let wavBlob = new Blob([wavData], { type: 'audio/wav' });
+    
+        // Создание URL-объекта для Blob
+        let handledFile = new File([wavBlob], "audio.wav", { type: "audio/wav" });
+    
+        return handledFile;
+    }
+
+    _encodeWAV(audioBuffer, sampleRate, numChannels) {
+        let numFrames = audioBuffer.length;
+        let dataLength = numFrames * numChannels * 2; // 2 байта на семпл
+        let buffer = new ArrayBuffer(44 + dataLength); // WAV-заголовок + данные
+        let view = new DataView(buffer);
+    
+        // Запись заголовка WAV
+        this._writeString(view, 0, 'RIFF');
+        view.setUint32(4, 36 + dataLength, true); // ChunkSize
+        this._writeString(view, 8, 'WAVE');
+        this._writeString(view, 12, 'fmt ');
+        view.setUint32(16, 16, true); // Subchunk1Size (PCM)
+        view.setUint16(20, 1, true); // AudioFormat (PCM = 1)
+        view.setUint16(22, numChannels, true); // NumChannels
+        view.setUint32(24, sampleRate, true); // SampleRate
+        view.setUint32(28, sampleRate * numChannels * 2, true); // ByteRate
+        view.setUint16(32, numChannels * 2, true); // BlockAlign
+        view.setUint16(34, 16, true); // BitsPerSample
+        this._writeString(view, 36, 'data');
+        view.setUint32(40, dataLength, true); // Subchunk2Size
+    
+        // Запись PCM-данных
+        let offset = 44;
+        for (let i = 0; i < numFrames; i++) {
+            for (let channel = 0; channel < numChannels; channel++) {
+                let sample = audioBuffer.getChannelData(channel)[i];
+                let clampedSample = Math.max(-1, Math.min(1, sample)); // Ограничение значений
+                view.setInt16(offset, clampedSample * 0x7FFF, true); // 16 бит PCM
+                offset += 2;
+            }
+        }
+    
+        return buffer;
+    }
+    
+    _writeString(view, offset, string) {
+        for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+        }
+    }    
 
     async _loadFileToAudioBuffer(file) {
         let arrayBuffer = await file.arrayBuffer();

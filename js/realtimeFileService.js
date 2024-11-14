@@ -58,11 +58,11 @@ class RealtimeFileService {
 
         let realtimeFilter = new RealTimeFilter(scene);
         realtimeFilter.setHearingFrequency(hearingFrequency);
-        await realtimeFilter.loadFile(originalFile);
 
-        let player = new MyPlayer(scene, realtimeFilter);
+        let player = new MyPlayer(scene, null);
         player.setFile(originalFile);
         player.install(scene);
+        player.connectFilter(realtimeFilter);
 
         let frequencySlider = new FrequencySlider(scene, hearingFrequency, 0, 8_000, realtimeFilter);
         frequencySlider.setFrequencyCallback((frequency) => {
@@ -84,7 +84,7 @@ class RealtimeFileService {
         });
 
         let soundVisualizationBtn = new MyBinaryButton();
-        let soundVisualization = new SoundVisualization(scene, realtimeFilter.getSpeaker());
+        let soundVisualization = new SoundVisualization(scene, realtimeFilter.getAudioContext(), realtimeFilter.getSoundSource());
 
         soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
             player.hide();

@@ -65,28 +65,26 @@ class BadHearingExampleService {
 
         this.player = new MyPlayer(scene, this);
         this.player.installInDiv(videoDiv);
-        this.player.setFullVolume();
+
 
         this.currentCollection = this._getLocalizedCollection();
         this._showFirstExample();
     }
 
-    onVideoLoaded() {
-        // я вынужден подключать фильтр только после получения метаданных,
-        // так как this.audioContext.createMediaElementSource(htmlElement) глючный на пустые проигрыватели
-        if (!this.filterIsConnected) {
+    onPlay() {
+        if (!this.player.isFilterConnected()) {
+            // ОЧЕНЬ ВАЖНО, ЧТОБЫ ПОЛЬЗОВАТЕЛЬ УСПЕЛ ПОВЗОИМОДЕЙСТВОВАТЬ СО СТРАНИЦЕЙ,
+            // СОЗДАНИЕ AUDIOCONTEXT БЕЗ ВЗАИМОДЕЙСТВИЯ АВТОМАТИЧЕСКИ ПРИВОДИТ К ПРИОСТАНОВКЕ AUDIOCONTEXT ПОЛИТИКОЙ МОБИЛЬНОГО БРАУЗЕРА CHROME
+            // ПО ЭТОЙ ПРИЧИНЕ СЛУШАЕТСЯ СОБЫТИЕ ONPLAY, КОТОРОЕ ТОЧНО ОЗНАЧАЕТ ВЗАИМОДЕЙСТВИЕ ПОЛЬЗОВАТЕЛЯ
             this.player.connectFilter(this.realtimeFilter);
-            this.filterIsConnected = true;
         }
     }
 
     _onPreviousBtnClicked() {
-        this.player.setAutoplay(true);
         this._showPreviousExample();
     }
 
     _onNextBtnClicked() {
-        this.player.setAutoplay(true);
         this._showNextExample();
     }
 

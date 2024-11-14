@@ -18,11 +18,11 @@ body[theme="night"] .liveConversationScene p {
     align-self: center;
 }
 
-body[theme="day"] .microphoneBtn[microphone-enabled="true"] {
+body[theme="day"] .myBtn.microphoneBtn[microphone-enabled="true"] {
     background-color: brown;
 }
 
-body[theme="night"] .microphoneBtn[microphone-enabled="true"] {
+body[theme="night"] .myBtn.microphoneBtn[microphone-enabled="true"] {
     background-color: brown;
 }
 

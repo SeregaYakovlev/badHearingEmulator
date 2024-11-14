@@ -4,13 +4,10 @@ class SoundVisualization {
     static FFT_SIZE = 8192;
     static FREQUENCY_RANGE = [16, 20_000];
 
-    constructor(scene, speaker) {
+    constructor(scene, audioContext, soundSource) {
         this.scene = scene;
-        this.speaker = speaker;
-
-        speaker.subscribeToSpeakerEvents(this);
-
-        this.audioContext = speaker.getAudioContext();
+        this.audioContext = audioContext;
+        this.soundSource = soundSource;
 
         // Создаем контейнер для визуализации
         this.soundVisualizationBox = this.scene.createBox();
@@ -34,22 +31,20 @@ class SoundVisualization {
         this.soundVisualizationBox.addElement(this.overlayCanvas);
     }
 
-    onSpeakerPlayingStarted(soundSource) {
-        this._connectToSoundSource(soundSource);
+    _startVisualization() {
+        this.soundSource.connect(this.analyser);
+
+        let rect = this.mainCanvas.getBoundingClientRect();
+        let cssCanvasWidth = rect.width;
+        let cssCanvasHeight = rect.height;
+
+        this._drawSpectrum(cssCanvasWidth, cssCanvasHeight);
     }
 
-    onSpeakerPlayingStopped() {
-        this._disconnectFromSources();
-    }
-
-    _connectToSoundSource(soundSource) {
-        this.soundSource = soundSource;
-        soundSource.connect(this.analyser);
-    }
-
-    _disconnectFromSources() {
+    _stopVisualization() {
         try {
             this.soundSource.disconnect(this.analyser);
+            cancelAnimationFrame(this.animationFrameId);
         } catch (e) {
 
         }
@@ -151,31 +146,6 @@ class SoundVisualization {
         }
 
         return `rgb(${red}, ${green}, 0)`; // Синий компонент остается 0
-    }
-
-    _startVisualization() {
-        let activeSoundSource = this.speaker.getActiveSoundSource();
-
-        if (!this.soundSource && activeSoundSource) {
-            this._connectToSoundSource(activeSoundSource);
-        }
-
-        let rect = this.mainCanvas.getBoundingClientRect();
-        let cssCanvasWidth = rect.width;
-        let cssCanvasHeight = rect.height;
-
-        this._drawSpectrum(cssCanvasWidth, cssCanvasHeight);
-    }
-
-    _stopVisualization() {
-        try {
-            this.soundSource.disconnect(this.analyser);
-            cancelAnimationFrame(this.animationFrameId);
-        } catch (e) {
-
-        } finally {
-            this.soundSource = null;
-        }
     }
 
     // Метод для отрисовки частот

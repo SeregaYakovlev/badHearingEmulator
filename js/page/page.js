@@ -68,7 +68,7 @@ class Page {
         this._addGithub();
         this._addContactLink();
 
-        this._runRootService(this);
+        this._runRootService();
     }
 
     isDay() {

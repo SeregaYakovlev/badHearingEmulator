@@ -2,6 +2,7 @@ class MyAudioPlayer {
     constructor(scene) {
         this.scene = scene;
         this.audioPlayer = document.createElement("audio");
+        this.audioPlayer.volume = 1.0;
         this._addUI();
         this._addEventListeners();
     }
@@ -50,16 +51,15 @@ class MyAudioPlayer {
     clear() {
         this.audioPlayer.src = '';
         this.audioPlayer.load();
-
-        this.ui.removeAttribute("fileIsLoaded");
+        this._onCleared();
     }
 
     setCallback(callback) {
         this.callback = callback;
     }
 
-    muteSound() {
-        this.audioPlayer.volume = 0.0;
+    setFullVolume(){
+        this.setVolume(1.0);
     }
 
     setVolume(volume) {
@@ -75,6 +75,15 @@ class MyAudioPlayer {
 
     installInBox(box) {
         box.addElement(this.ui);
+    }
+
+    async connectFilter(filter) {
+        await filter.connectPlayer(this.audioPlayer);
+        this.filter = filter;
+    }
+
+    isFilterConnected(){
+        return !!this.filter;
     }
 
     isPlaying() {
@@ -111,5 +120,10 @@ class MyAudioPlayer {
         }
 
         this.ui.removeAttribute("playing");
+    }
+
+    _onCleared(){
+        this.ui.removeAttribute("playing");
+        this.ui.removeAttribute("fileIsLoaded");
     }
 }

@@ -97,9 +97,9 @@ class ExactlyHearingService {
 
         let preloader = new Preloader(this.page);
         preloader.show();
-        let handledAudioBuffer = await this._handleFile(preloader, file, audiograms);
+        let handledAudioFile = await this._handleFile(preloader, file, audiograms);
         preloader.close();
-        this._showMediaPlayer(handledAudioBuffer, file);
+        this._showMediaPlayer(handledAudioFile, file);
     }
 
     // interface method
@@ -127,7 +127,7 @@ class ExactlyHearingService {
     }
 
     async _handleFile(preloader, originalFile, audiograms) {
-        let handledAudioBuffer;
+        let handledAudioFile;
 
         let myFFT = new MyFFT(originalFile);
         myFFT.setPreloader(preloader);
@@ -138,19 +138,19 @@ class ExactlyHearingService {
 
         let auditoryGraphArray = AuditoryGraph.getAuditoryGraphArrayFromJson(json);
 
-        handledAudioBuffer = await myFFT.processWithAuditoryGraphs(auditoryGraphArray);
+        handledAudioFile = await myFFT.processWithAuditoryGraphs(auditoryGraphArray);
 
-        return handledAudioBuffer;
+        return handledAudioFile;
     }
 
-    _showMediaPlayer(handledAudioBuffer, originalFile) {
+    _showMediaPlayer(handledAudioFile, originalFile) {
         let scene = new Scene(this.page);
         scene.addClassName("mediaPlayerScene");
 
         let player = new MyPlayer(scene, null);
         player.setFile(originalFile);
-        player.setCustomAudioBuffer(handledAudioBuffer);
         player.install(scene);
+        player.setCustomAudioFile(handledAudioFile);
 
         let actionsBox = scene.createBox();
         actionsBox.addClassName("actionsBox");
@@ -170,7 +170,7 @@ class ExactlyHearingService {
 
         let soundVisualizationBtn = new MyBinaryButton();
 
-        let soundVisualization = new SoundVisualization(scene, player.getSpeaker());
+        let soundVisualization = new SoundVisualization(scene, player.getAudioContext(), player.getSoundSource());
 
         soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
             player.hide();

@@ -11,6 +11,7 @@ class ListenYourselfService {
         this.microphone = new MyMicrophone(scene);
 
         this.realtimeFilter = new RealTimeFilter(scene);
+        this.realtimeFilter.setHearingFrequency(this.hearingFrequency);
 
         let mainBox = scene.createBox();
         mainBox.addClassName("mainBox");
@@ -35,7 +36,7 @@ class ListenYourselfService {
             }
             throw e;
         }
-    }    
+    }
 
     _onMicrophonePermissionDenied() {
         let errorBubble = new ErrorBubble(this.scene, "MicrophonePermissionError", 2000);
@@ -75,7 +76,6 @@ class ListenYourselfService {
         box.addClassName("listenYourselfBox");
 
         let audioPlayer = new MyAudioPlayer(scene);
-        audioPlayer.muteSound();
         audioPlayer.setCallback(this);
         audioPlayer.installInBox(box);
         this.audioPlayer = audioPlayer;
@@ -93,12 +93,17 @@ class ListenYourselfService {
             let audioFile = new File([audioBlob], "recordedAudio.webm", { type: 'audio/webm' }); // Создайте файл с именем и типом
 
             audioPlayer.loadFile(audioFile); // Загружаем файл в аудиоплеер
-            this.realtimeFilter.setHearingFrequency(this.hearingFrequency);
-            this.realtimeFilter.loadFile(audioFile); // Загружаем файл в фильтр
+            this._onFileLoaded();
         };
 
         this.listenYourselfBox = box;
         this.audioPlayer = audioPlayer;
+    }
+
+    _onFileLoaded() {
+        if (!this.audioPlayer.isFilterConnected()) {
+            this.audioPlayer.connectFilter(this.realtimeFilter);
+        }
     }
 
     _onMicrophoneEnabled() {
@@ -132,23 +137,17 @@ class ListenYourselfService {
     }
 
     onStop() {
-        this.realtimeFilter.stopProcessing();
     }
 
     onPlay(position) {
-        this.realtimeFilter.startProcessingFromFile(position);
     }
 
     onSeek(position) {
-        this.realtimeFilter.stopProcessing();
 
-        if (this.audioPlayer.isPlaying()) {
-            this.realtimeFilter.startProcessingFromFile(position);
-        }
     }
 
     onEnded() {
-        this.realtimeFilter.stopProcessing();
+
     }
 
 
@@ -160,7 +159,7 @@ class ListenYourselfService {
     }
 
     _addFrequencySpectrum(scene) {
-        this.soundVisualization = new SoundVisualization(scene, this.realtimeFilter.getSpeaker());
+        this.soundVisualization = new SoundVisualization(scene, this.realtimeFilter.getAudioContext(), this.realtimeFilter.getSoundSource());
         scene.update(); // важный вызов, чтобы bounding_client_rect увидел элемент
         this.soundVisualization.show();
     }

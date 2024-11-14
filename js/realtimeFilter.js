@@ -6,8 +6,7 @@ class RealTimeFilter {
 
     constructor(scene) {
         this.filterType = RealTimeFilter.FILTER_TYPE.LOWPASS;
-        this.speaker = new MySpeaker(scene);
-        this.audioContext = this.speaker.getAudioContext();
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.filters = [];
         for (let i = 0; i < 3; i++) {
             let filter = this._createFilter();
@@ -18,7 +17,9 @@ class RealTimeFilter {
     }
 
     onSceneClosed() {
-        this.stopProcessing();
+        for(let filter of this.filters){
+            filter.disconnect();
+        }
     }
 
     invertFilter() {
@@ -32,10 +33,6 @@ class RealTimeFilter {
         for (let filter of this.filters) {
             filter.type = this.filterType;
         }
-    }
-
-    getSpeaker() {
-        return this.speaker;
     }
 
     getAudioContext() {
@@ -90,48 +87,23 @@ class RealTimeFilter {
         }
     }
 
-    async loadFile(file) {
-        this.file = file;
-        // Чтение аудиофайла
-        let arrayBuffer = await file.arrayBuffer();
-        let audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
-        this._audioBuffer = audioBuffer;
+    async connectMicrophone(microphoneStream){
+        let source = this.audioContext.createMediaStreamSource(microphoneStream);
+        await this._connectStream(source);
     }
 
-    startProcessingFromMicrophone(stream) {
-        if (!stream) {
-            throw new Error("Invalid argument: no stream");
-        }
-
-        if (this.hearingFrequency == null) { // Проверяет на null и undefined, ноль допустим
-            throw new Error("No hearing frequency parameter");
-        }
-
-        this.speaker.setFilters(this.filters);
-        this.speaker.playStream(stream);
-    }
-
-    startProcessingFromFile(position) {
-        if (!this._audioBuffer) {
-            throw new Error("No one source is loaded");
-        }
-
-        if (this.hearingFrequency == null) { // Проверяет на null и undefined, ноль допустим
-            throw new Error("No hearing frequency parameter");
-        }
-
-        this.speaker.setFilters(this.filters);
-        this.speaker.playBuffer(this._audioBuffer, position);
-    }
-
-    connectPlayer(htmlElement) {
+    async connectPlayer(htmlElement) {
         if (!(htmlElement instanceof HTMLAudioElement || htmlElement instanceof HTMLVideoElement)) {
             throw new Error("Expected an HTMLAudioElement or HTMLVideoElement");
         }
-    
+
         // Создаем источник аудио из элемента <audio> или <video>
-        const source = this.audioContext.createMediaElementSource(htmlElement);
-    
+        let source = this.audioContext.createMediaElementSource(htmlElement);
+
+        await this._connectStream(source);
+    }
+
+    async _connectStream(source){
         // Подключаем источник к фильтрам
         source.connect(this.filters[0]);
     
@@ -142,13 +114,11 @@ class RealTimeFilter {
     
         // Подключаем последний фильтр к выходу
         this.filters[this.filters.length - 1].connect(this.audioContext.destination);
-    }
 
-    stopProcessing() {
-        this.speaker.stop();
-
-        for (let filter of this.filters) {
-            filter.disconnect();
+        // НА МОБИЛЬНОМ CHROME аудиоконтекст останавливается, если был создан
+        // до того, как пользователь повзаимодействовал со страницей
+        if (this.getAudioContext().state === 'suspended') {
+            await this.getAudioContext().resume();
         }
     }
 
@@ -156,32 +126,5 @@ class RealTimeFilter {
         let filter = this.audioContext.createBiquadFilter();
         filter.type = this.filterType;
         return filter;
-    }
-
-    // interface method
-    onStop() {
-        console.log("filter onStop");
-        this.stopProcessing();
-    }
-
-    // interface method
-    onPlay(position) {
-        console.log("filter onPlay");
-        this.startProcessingFromFile(position);
-    }
-
-    // interface method
-    onSeek(position, isPlaying) {
-        console.log("filter onSeek");
-        this.stopProcessing();
-        if (isPlaying) {
-            this.startProcessingFromFile(position);
-        }
-    }
-
-    // interface method
-    onEnded() {
-        console.log("filter onEnded");
-        this.stopProcessing();
     }
 }
