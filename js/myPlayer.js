@@ -260,11 +260,6 @@ class MyPlayer {
         if (this.fileLink) {
             this.videoPlayer.tech().el().crossOrigin = "anonymous";
 
-            /*let proxyUrl = 'https://corsproxy.io/?';  // Новый прокси-сервер
-
-            // Используем прокси-сервер для загрузки файла по ссылке
-            let proxiedUrl = proxyUrl + encodeURIComponent(this.fileLink);*/
-
             // Устанавливаем файл как источник для видео
             videoPlayer.src({
                 type: this.fileType ? this.fileType : "video/mp4",

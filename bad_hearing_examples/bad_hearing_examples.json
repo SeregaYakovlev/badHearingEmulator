@@ -2,38 +2,32 @@
     "bad_hearing_examples": {
         "ru": [
             {
-                "name": "Почтальон Пэт",
                 "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/ru/postman_pat.mkv"
             }
         ],
         "en": [
             {
-                "name": "Example 1",
-                "url": "https://www.example.com/1"
+                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/en/postman_pat.mkv"
             }
         ],
         "fr": [
             {
-                "name": "Exemple 1",
-                "url": "https://www.example.com/1"
+                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/fr/postman_pat.mkv"
             }
         ],
         "es": [
             {
-                "name": "Ejemplo 1",
-                "url": "https://www.example.com/1"
+                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/es/postman_pat.mkv"
             }
         ],
         "zh": [
             {
-                "name": "示例 1",
-                "url": "https://www.example.com/1"
+                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/zh/postman_pat.mkv"
             }
         ],
         "ar": [
             {
-                "name": "مثال 1",
-                "url": "https://www.example.com/1"
+                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/ar/postman_pat.mkv"
             }
         ]
     }
