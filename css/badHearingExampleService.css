@@ -1,31 +1,29 @@
 .badHearingExampleServiceBox {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
+    align-items: center;
 }
 
 .badHearingExampleServiceBox .horizontalContainer {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
     gap: 10px;
-}
-
-.badHearingExampleServiceBox .arrowBtn {
-    width: 100%;
-    height: 100%;
+    max-width: 50%;
 }
 
 .badHearingExampleServiceBox .arrowWrapper {
     display: flex;
-    width: 48px;
     height: 48px;
+    aspect-ratio: 1;
 }
 
-.badHearingExampleServiceBox video-js {
-    max-width: 300px;
-    max-height: 200px;
+.badHearingExampleServiceBox .mediaPlayerBox video-js {
+    max-width: 100%;
+    max-height: 150px;
 }
 
 body[theme="day"] .badHearingExampleServiceBox .arrowBtn[arrow="left"] {
@@ -48,4 +46,6 @@ body[theme="night"] .badHearingExampleServiceBox .arrowBtn[arrow="right"] {
     background-repeat: no-repeat;
     background-size: 70% 70%; /* Измените на нужное */
     background-position: center;
+    width: 100%;
+    height: 100%;
 }

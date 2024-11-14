@@ -1,4 +1,9 @@
 .mainScene {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Расстояние между элементами */
+    align-items: center;
     gap: 10px;
 }
 

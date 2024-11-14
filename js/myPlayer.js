@@ -61,29 +61,29 @@ class MyPlayer {
 
     _onStop() {
         console.log("player onStop");
-        if (this.callback) {
+        if (this.callback && typeof this.callback.onStop === 'function') {
             this.callback.onStop();
         }
         if (this.customAudioSource) {
             this._stopCustomSound();
         }
     }
-
+    
     _onPlay(position) {
         console.log("player onPlay");
-
-        if (this.callback) {
+    
+        if (this.callback && typeof this.callback.onPlay === 'function') {
             this.callback.onPlay(position);
         }
         if (this.customAudioSource) {
             this._playCustomSound(position);
         }
     }
-
+    
     _onSeek(position) {
         console.log("player onSeek");
-
-        if (this.callback) {
+    
+        if (this.callback && typeof this.callback.onSeek === 'function') {
             this.callback.onSeek(position, this.isPlaying());
         }
         if (this.isPlaying() && this.customAudioSource) {
@@ -91,11 +91,11 @@ class MyPlayer {
             this._playCustomSound(position);
         }
     }
-
+    
     _onEnded() {
         console.log("player onEnded");
-
-        if (this.callback) {
+    
+        if (this.callback && typeof this.callback.onEnded === 'function') {
             this.callback.onEnded();
         }
         if (this.customAudioSource) {
@@ -103,6 +103,12 @@ class MyPlayer {
         }
     }
 
+    _onVideoLoaded(){
+        if (this.callback && typeof this.callback.onVideoLoaded === 'function') {
+            this.callback.onVideoLoaded();
+        }
+    }
+    
     setAutoplay(bool) {
         this.videoPlayer.autoplay(bool); // Устанавливает авто воспроизведение
     }
@@ -176,6 +182,11 @@ class MyPlayer {
             this._onEnded();
         });
 
+        // Событие onVideoLoaded
+        videoPlayer.on('loadeddata', () => {
+            this._onVideoLoaded();
+        });
+
         return videoElem;
     }
 
@@ -208,8 +219,8 @@ class MyPlayer {
 
         // Для файла по ссылке
         if (this.fileLink) {
-            this.videoPlayer.tech().el().crossOrigin="anonymous";
-            
+            this.videoPlayer.tech().el().crossOrigin = "anonymous";
+
             let proxyUrl = 'https://corsproxy.io/?';  // Новый прокси-сервер
 
             // Используем прокси-сервер для загрузки файла по ссылке

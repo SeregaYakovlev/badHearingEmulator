@@ -60,16 +60,24 @@ class BadHearingExampleService {
         serviceBox.addElement(captionDiv);
         serviceBox.addElement(horizontalContainer);
 
-        let realtimeFilter = new RealTimeFilter(scene);
-        realtimeFilter.setHearingFrequency(250);
+        this.realtimeFilter = new RealTimeFilter(scene);
+        this.realtimeFilter.setHearingFrequency(250);
 
-        this.player = new MyPlayer(scene, null);
+        this.player = new MyPlayer(scene, this);
         this.player.installInDiv(videoDiv);
         this.player.setFullVolume();
-        this.player.connectFilter(realtimeFilter);
 
         this.currentCollection = this._getLocalizedCollection();
         this._showFirstExample();
+    }
+
+    onVideoLoaded() {
+        // я вынужден подключать фильтр только после получения метаданных,
+        // так как this.audioContext.createMediaElementSource(htmlElement) глючный на пустые проигрыватели
+        if (!this.filterIsConnected) {
+            this.player.connectFilter(this.realtimeFilter);
+            this.filterIsConnected = true;
+        }
     }
 
     _onPreviousBtnClicked() {
@@ -87,12 +95,12 @@ class BadHearingExampleService {
         this._showExample(firstExample);
     }
 
-    _showPreviousExample(){
+    _showPreviousExample() {
         let previousExample = this.currentCollection.getPrevious();
         this._showExample(previousExample);
     }
 
-    _showNextExample(){
+    _showNextExample() {
         let nextExample = this.currentCollection.getNext();
         this._showExample(nextExample);
     }
@@ -117,7 +125,7 @@ class BadHearingExampleService {
         return currentCollection;
     }
 
-    _onExampleShown(examle){
+    _onExampleShown(examle) {
         this.currentCollection = examle;
     }
 
