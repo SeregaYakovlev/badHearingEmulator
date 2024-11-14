@@ -43,8 +43,6 @@ class MyPlayer {
         // Устанавливаем файл как источник
         this.audioElement.src = URL.createObjectURL(file);
 
-        console.log(this.audioElement.volume);
-
         // заменяем аудио из видеофайла нашим кастомным аудиофайлом
         // отключаем звук из файла, который проигрывает видеоплеер
         this.videoPlayer.volume(0.0);

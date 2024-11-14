@@ -1,6 +1,7 @@
-class MyAudioPlayer {
-    constructor(scene) {
+class ListenYourselfPlayer {
+    constructor(scene, callback) {
         this.scene = scene;
+        this.callback = callback;
         this.audioPlayer = document.createElement("audio");
         this.audioPlayer.volume = 1.0;
         this._addUI();
@@ -36,7 +37,7 @@ class MyAudioPlayer {
         });
 
         this.audioPlayer.addEventListener('pause', () => {
-            this._onStop();
+            this._onPause();
         });
 
         this.audioPlayer.addEventListener('seeked', () => {
@@ -58,7 +59,7 @@ class MyAudioPlayer {
         this.callback = callback;
     }
 
-    setFullVolume(){
+    setFullVolume() {
         this.setVolume(1.0);
     }
 
@@ -82,47 +83,50 @@ class MyAudioPlayer {
         this.filter = filter;
     }
 
-    isFilterConnected(){
+    isFilterConnected() {
         return !!this.filter;
     }
 
     isPlaying() {
         return !this.audioPlayer.paused;
-    }    
+    }
 
     _onPlay() {
         let position = this.audioPlayer.currentTime;
-        if (this.callback) {
+        if (this.callback && typeof this.callback.onSeek === 'function') {
             this.callback.onPlay(position);
         }
 
         this.ui.setAttribute("playing", true);
     }
 
-    _onStop() {
-        if (this.callback) {
-            this.callback.onStop();
+    _onPause() {
+        if (this.callback && typeof this.callback.onSeek === 'function') {
+            this.callback.onPause();
         }
 
         this.ui.removeAttribute("playing");
+
+        // сбрасываем время. Этот плеер используется только в сервисе послушай себя
+        this.audioPlayer.currentTime = 0;
     }
 
     _onSeek() {
         let position = this.audioPlayer.currentTime;
-        if (this.callback) {
+        if (this.callback && typeof this.callback.onSeek === 'function') {
             this.callback.onSeek(position);
         }
     }
 
     _onEnded() {
-        if (this.callback) {
+        if (this.callback && typeof this.callback.onSeek === 'function') {
             this.callback.onEnded();
         }
 
         this.ui.removeAttribute("playing");
     }
 
-    _onCleared(){
+    _onCleared() {
         this.ui.removeAttribute("playing");
         this.ui.removeAttribute("fileIsLoaded");
     }

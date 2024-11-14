@@ -82,6 +82,9 @@ class MyFFT {
     }
 
     _createFileFromSamples(audioContext, sampleRate, numChannels, handledSamples) {
+
+        console.time("file_creating");
+
         // Создание аудиобуфера
         let audioBuffer = MyFFT._createAudioBufferFromSamples(audioContext, sampleRate, numChannels, handledSamples);
     
@@ -94,6 +97,8 @@ class MyFFT {
         // Создание URL-объекта для Blob
         let handledFile = new File([wavBlob], "audio.wav", { type: "audio/wav" });
     
+        console.timeEnd("file_creating");
+        
         return handledFile;
     }
 
@@ -234,7 +239,6 @@ class MyFFT {
         fft.realTransform(fftData, floatInput);
         console.timeEnd("fft");
 
-        console.log("FFT length: " + fftData.length);
         // Применение коэффициентов ослабления
         console.time('Apply Attenuation');
 

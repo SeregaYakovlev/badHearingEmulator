@@ -75,8 +75,7 @@ class ListenYourselfService {
         let box = scene.createBox();
         box.addClassName("listenYourselfBox");
 
-        let audioPlayer = new MyAudioPlayer(scene);
-        audioPlayer.setCallback(this);
+        let audioPlayer = new ListenYourselfPlayer(scene, this);
         audioPlayer.installInBox(box);
         this.audioPlayer = audioPlayer;
 
@@ -135,21 +134,6 @@ class ListenYourselfService {
     _onRecordEnded(audioChunks) {
         this.listenYourselfBox.onRecordEnded(audioChunks);
     }
-
-    onStop() {
-    }
-
-    onPlay(position) {
-    }
-
-    onSeek(position) {
-
-    }
-
-    onEnded() {
-
-    }
-
 
     _addFrequencySlider(scene) {
         let frequencySlider = new FrequencySlider(scene, this.hearingFrequency, 0, 8_000, this.realtimeFilter);

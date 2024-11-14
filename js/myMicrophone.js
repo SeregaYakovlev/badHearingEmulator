@@ -31,8 +31,6 @@ class MyMicrophone {
             this.stream.getTracks().forEach(track => track.stop());
             this.stream = null;
         }
-
-        console.log("Микрофон отключен");
     }
 
     // Возвращает текущий поток
