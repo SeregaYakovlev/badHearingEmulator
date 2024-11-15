@@ -2,32 +2,38 @@
     "bad_hearing_examples": {
         "ru": [
             {
-                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/ru/postman_pat.mkv"
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ],
         "en": [
             {
-                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/en/postman_pat.mkv"
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ],
         "fr": [
             {
-                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/fr/postman_pat.mkv"
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ],
         "es": [
             {
-                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/es/postman_pat.mkv"
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ],
         "zh": [
             {
-                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/zh/postman_pat.mkv"
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ],
         "ar": [
             {
-                "url": "http://filehosting.byethost7.com/badHearingEmulatorProject/ar/postman_pat.mkv"
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ]
     }

@@ -9,6 +9,10 @@ class Scene {
         this.sceneClosingListeners = [];
     }
 
+    getPage(){
+        return this.page;
+    }
+
     setVariable(variableName, variableValue) {
         this.storage.setVariable(variableName, variableValue);
     }

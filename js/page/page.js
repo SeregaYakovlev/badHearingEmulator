@@ -18,7 +18,7 @@ class Page {
         }
     }
 
-    async _downloadTranslations(){
+    async _downloadTranslations() {
         // Загружаем JSON-файл с переводами
         let response = await fetch('languages/translations.json');
 
@@ -34,7 +34,7 @@ class Page {
         window.translations = data.translations;
     }
 
-    async _downloadSupportedLanguages(){
+    async _downloadSupportedLanguages() {
         let response = await fetch('languages/supported_languages.json');
         if (!response.ok) {
             throw new Error('Response was not ok');
@@ -43,7 +43,16 @@ class Page {
         window.languages = data.languages;
     }
 
-    async _downloadBadHearingConfig(){
+    getSupportedLanguages(){
+        let langs = [];
+        for(let lang of window.languages){
+            langs.push(new Language(lang.code));
+        }
+
+        return langs;
+    }
+
+    async _downloadBadHearingConfig() {
         let response = await fetch('bad_hearing_examples/bad_hearing_examples.json');
         if (!response.ok) {
             throw new Error('Response was not ok');
@@ -57,8 +66,6 @@ class Page {
         await this._downloadSupportedLanguages();
         await this._downloadTranslations();
         await this._downloadBadHearingConfig();
-        
-        document.title = textTSTR("siteTitle");
 
         this._setTheme();
         this._add_what_is_it_btn();
@@ -67,6 +74,9 @@ class Page {
         this._addThemeSwitcher();
         this._addGithub();
         this._addContactLink();
+
+        let currentLanguage = this.getCurrentLanguage();
+        this._setLanguage(currentLanguage);
 
         this._runRootService();
     }

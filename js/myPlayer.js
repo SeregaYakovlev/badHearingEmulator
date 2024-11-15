@@ -1,5 +1,6 @@
 class MyPlayer {
     constructor(scene, callback) {
+        this.page = scene.getPage();
         this.scene = scene;
         this.callback = callback;
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -242,7 +243,25 @@ class MyPlayer {
             this._onVideoLoaded();
         });
 
+        // фикс для авторитарных стран
+        this._add_vpn_note();
+
         return videoElem;
+    }
+
+    _add_vpn_note() {
+        let supportedLanguages = this.page.getSupportedLanguages();
+
+        for(let lang of supportedLanguages){
+            a(lang.getCode())
+        }
+
+        function a(languageCode){
+            videojs.addLanguage(languageCode, {
+                'The media could not be loaded, either because the server or network failed or because the format is not supported.':
+                    textTSTR("CannotLoadVideoUseVPN")
+            });
+        }
     }
 
     async _connectPlayerToSRC() {
@@ -258,13 +277,13 @@ class MyPlayer {
 
         // Для файла по ссылке
         if (this.fileLink) {
-            this.videoPlayer.tech().el().crossOrigin = "anonymous";
+            videoPlayer.tech().el().crossOrigin = "anonymous";
 
             // Устанавливаем файл как источник для видео
             videoPlayer.src({
                 type: this.fileType ? this.fileType : "video/mp4",
                 src: this.fileLink
-            });
+            })
         }
     }
 

@@ -9,6 +9,8 @@ class SoundVisualization {
         this.audioContext = audioContext;
         this.soundSource = soundSource;
 
+        scene.subscribeToSceneClosing(this);
+
         // Создаем контейнер для визуализации
         this.soundVisualizationBox = this.scene.createBox();
         this.soundVisualizationBox.hide();
@@ -29,6 +31,11 @@ class SoundVisualization {
         this.overlayCanvas = document.createElement('canvas');
         this.overlayCanvas.classList.add("overlayCanvas");
         this.soundVisualizationBox.addElement(this.overlayCanvas);
+    }
+
+    // interface method
+    onSceneClosed(){
+        this._stopVisualization();
     }
 
     _startVisualization() {

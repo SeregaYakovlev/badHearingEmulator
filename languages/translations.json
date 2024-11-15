@@ -249,20 +249,20 @@
             "ar": "تحميل الملف"
         },
         "lowPassFilterParameter": {
-            "ru": "Параметр фильтра (от нуля)",
-            "en": "Filter parameter (from zero)",
-            "fr": "Paramètre du filtre (de zéro)",
-            "es": "Parámetro del filtro (de cero)",
-            "zh": "滤波器参数（从零）",
-            "ar": "معامل الفلتر (من الصفر)"
+            "ru": "Параметр прямого фильтра",
+            "en": "Forward filter parameter",
+            "fr": "Paramètre du filtre direct",
+            "es": "Parámetro del filtro directo",
+            "zh": "正向滤波器参数",
+            "ar": "معامل الفلتر الأمامي"
         },
         "highPassFilterParameter": {
-            "ru": "Параметр фильтра (к нулю)",
-            "en": "Filter parameter (to zero)",
-            "fr": "Paramètre du filtre (vers zéro)",
-            "es": "Parámetro del filtro (a cero)",
-            "zh": "滤波器参数（到零）",
-            "ar": "معامل الفلتر (إلى الصفر)"
+            "ru": "Параметр обратного фильтра",
+            "en": "Reverse filter parameter",
+            "fr": "Paramètre du filtre inverse",
+            "es": "Parámetro del filtro inverso",
+            "zh": "反向滤波器参数",
+            "ar": "معامل الفلتر العكسي"
         },
         "normalHearing": {
             "ru": "Нормальный слух",
@@ -575,6 +575,14 @@
             "es": "Emulador de pérdida auditiva",
             "zh": "听力损失模拟器",
             "ar": "محاكي فقدان السمع"
+        },
+        "CannotLoadVideoUseVPN": {
+            "ru": "Не удалось загрузить видео. Если у вас нет VPN, включите его. Если он уже есть, попробуйте выключить.",
+            "en": "Unable to load video. If you don't have a VPN, turn it on. If you already have one, try turning it off.",
+            "fr": "Impossible de charger la vidéo. Si vous n'avez pas de VPN, activez-le. Si vous en avez déjà un, essayez de le désactiver.",
+            "es": "No se pudo cargar el video. Si no tienes un VPN, enciéndelo. Si ya tienes uno, intenta apagarlo.",
+            "zh": "无法加载视频。如果你没有VPN，请开启它。如果你已经有VPN，试着关闭它。",
+            "ar": "تعذر تحميل الفيديو. إذا لم يكن لديك VPN، قم بتشغيله. إذا كان لديك بالفعل، حاول إيقافه."
         }
     }
 }
