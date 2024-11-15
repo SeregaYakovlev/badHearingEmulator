@@ -164,25 +164,27 @@ class SoundVisualization {
 
         return `rgb(${red}, ${green}, 0)`; // Синий компонент остается 0
     }
-    
+
+    // Функция для получения цвета в зависимости от высоты (для ночной темы)
+    // Функция для получения цвета в зависимости от высоты (переход от #5e452b до #d3af86)
     _getColorNight(value) {
-        const maxHeight = 255; // Максимальная высота
-        const normalizedValue = Math.min(value, maxHeight); // Ограничиваем значение до maxHeight
-    
-        // Расчёт яркости: от 0 (черный) до 255 (белый)
-        const gray = Math.floor((normalizedValue / maxHeight) * 255);
-    
-        // Базовый цвет для окрашивания (#d3af86)
-        const baseColor = { red: 211, green: 175, blue: 134 };
-    
-        // Окрашиваем оттенок серого в базовый цвет
-        const red = Math.floor((gray / 255) * baseColor.red);
-        const green = Math.floor((gray / 255) * baseColor.green);
-        const blue = Math.floor((gray / 255) * baseColor.blue);
-    
-        // Возвращаем окрашенный результат
+        let maxHeight = 255; // Максимальная высота
+        let normalizedValue = Math.min(value, maxHeight); // Ограничиваем значение до maxHeight
+
+        // Начальный и конечный цвета
+        const startColor = { r: 94, g: 69, b: 43 }; // #5e452b
+        const endColor = { r: 211, g: 175, b: 134 }; // #d3af86
+
+        // Рассчитываем прогресс перехода
+        let progress = normalizedValue / maxHeight;
+
+        // Интерполируем цвета
+        let red = Math.floor(startColor.r + (endColor.r - startColor.r) * progress);
+        let green = Math.floor(startColor.g + (endColor.g - startColor.g) * progress);
+        let blue = Math.floor(startColor.b + (endColor.b - startColor.b) * progress);
+
         return `rgb(${red}, ${green}, ${blue})`;
-    }       
+    }
 
     // Метод для отрисовки частот
     drawFrequencies(cssCanvasWidth) {
