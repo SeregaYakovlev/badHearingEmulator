@@ -164,34 +164,25 @@ class SoundVisualization {
 
         return `rgb(${red}, ${green}, 0)`; // Синий компонент остается 0
     }
-
+    
     _getColorNight(value) {
-        // Получаем дневной цвет
-        let dayColor = this._getColorDay(value);
+        const maxHeight = 255; // Максимальная высота
+        const normalizedValue = Math.min(value, maxHeight); // Ограничиваем значение до maxHeight
     
-        // Извлекаем RGB-каналы из строкового формата 'rgb(r, g, b)'
-        let match = dayColor.match(/\d+/g);
-        if (!match || match.length < 3) {
-            throw new Error("Invalid color format from _getColorDay");
-        }
+        // Расчёт яркости: от 0 (черный) до 255 (белый)
+        const gray = Math.floor((normalizedValue / maxHeight) * 255);
     
-        let [red, green, blue] = match.map(Number);
+        // Базовый цвет для окрашивания (#d3af86)
+        const baseColor = { red: 211, green: 175, blue: 134 };
     
-        // Преобразуем в оттенок серого (взвешенное среднее)
-        let gray = Math.floor(0.299 * red + 0.587 * green + 0.114 * blue);
+        // Окрашиваем оттенок серого в базовый цвет
+        const red = Math.floor((gray / 255) * baseColor.red);
+        const green = Math.floor((gray / 255) * baseColor.green);
+        const blue = Math.floor((gray / 255) * baseColor.blue);
     
-        // Целевой цвет для ночного окраса (#d3af86)
-        let targetColor = { red: 211, green: 175, blue: 134 };
-    
-        // Смешивание серого с целевым цветом
-        let mixFactor = gray / 255; // Масштабируем оттенок серого (от 0 до 1)
-        let redNight = Math.floor(mixFactor * targetColor.red);
-        let greenNight = Math.floor(mixFactor * targetColor.green);
-        let blueNight = Math.floor(mixFactor * targetColor.blue);
-    
-        // Возвращаем окрашенный серый цвет
-        return `rgb(${redNight}, ${greenNight}, ${blueNight})`;
-    }    
+        // Возвращаем окрашенный результат
+        return `rgb(${red}, ${green}, ${blue})`;
+    }       
 
     // Метод для отрисовки частот
     drawFrequencies(cssCanvasWidth) {
