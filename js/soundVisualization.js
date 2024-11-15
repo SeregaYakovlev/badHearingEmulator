@@ -5,6 +5,7 @@ class SoundVisualization {
     static FREQUENCY_RANGE = [16, 20_000];
 
     constructor(scene, audioContext, soundSource) {
+        this.page = scene.getPage();
         this.scene = scene;
         this.audioContext = audioContext;
         this.soundSource = soundSource;
@@ -34,7 +35,7 @@ class SoundVisualization {
     }
 
     // interface method
-    onSceneClosed(){
+    onSceneClosed() {
         this._stopVisualization();
     }
 
@@ -127,7 +128,7 @@ class SoundVisualization {
 
             let normalizedBarHeight = (barHeight / 255) * (cssCanvasHeight - SoundVisualization.FONT_SIZE - 1);
             // Определяем цвет по высоте
-            let color = this.getColor(barHeight);
+            let color = this._getColor(barHeight);
 
             // Отрисовка полосы
             this.mainCanvasCtx.fillStyle = color;
@@ -135,8 +136,17 @@ class SoundVisualization {
         }
     }
 
+    _getColor(value) {
+        if (this.page.isDay()) {
+            return this._getColorDay(value);
+        }
+        else {
+            return this._getColorNight(value);
+        }
+    }
+
     // Функция для получения цвета в зависимости от высоты
-    getColor(value) {
+    _getColorDay(value) {
         let maxHeight = 255; // Максимальная высота
         let normalizedValue = Math.min(value, maxHeight); // Ограничиваем значение до maxHeight
 
@@ -154,6 +164,34 @@ class SoundVisualization {
 
         return `rgb(${red}, ${green}, 0)`; // Синий компонент остается 0
     }
+
+    _getColorNight(value) {
+        // Получаем дневной цвет
+        let dayColor = this._getColorDay(value);
+    
+        // Извлекаем RGB-каналы из строкового формата 'rgb(r, g, b)'
+        let match = dayColor.match(/\d+/g);
+        if (!match || match.length < 3) {
+            throw new Error("Invalid color format from _getColorDay");
+        }
+    
+        let [red, green, blue] = match.map(Number);
+    
+        // Преобразуем в оттенок серого (взвешенное среднее)
+        let gray = Math.floor(0.299 * red + 0.587 * green + 0.114 * blue);
+    
+        // Целевой цвет для ночного окраса (#d3af86)
+        let targetColor = { red: 211, green: 175, blue: 134 };
+    
+        // Смешивание серого с целевым цветом
+        let mixFactor = gray / 255; // Масштабируем оттенок серого (от 0 до 1)
+        let redNight = Math.floor(mixFactor * targetColor.red);
+        let greenNight = Math.floor(mixFactor * targetColor.green);
+        let blueNight = Math.floor(mixFactor * targetColor.blue);
+    
+        // Возвращаем окрашенный серый цвет
+        return `rgb(${redNight}, ${greenNight}, ${blueNight})`;
+    }    
 
     // Метод для отрисовки частот
     drawFrequencies(cssCanvasWidth) {
