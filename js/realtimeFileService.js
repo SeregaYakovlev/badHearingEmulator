@@ -89,7 +89,7 @@ class RealtimeFileService {
         let soundVisualizationBtn = new MyBinaryButton();
         let soundVisualization = new SoundVisualization(scene, realtimeFilter.getAudioContext(), realtimeFilter.getSoundSource());
 
-        soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
+        soundVisualizationBtn.setState1("FrequencySpectrum", () => {
             player.hide();
             soundVisualization.show();
         });

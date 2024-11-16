@@ -172,7 +172,7 @@ class ExactlyHearingService {
 
         let soundVisualization = new SoundVisualization(scene, player.getAudioContext(), player.getSoundSource());
 
-        soundVisualizationBtn.setState1("FrequencySpectrum", async () => {
+        soundVisualizationBtn.setState1("FrequencySpectrum", () => {
             player.hide();
             soundVisualization.show();
         });

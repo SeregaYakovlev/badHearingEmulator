@@ -60,14 +60,10 @@ class SoundVisualization {
 
     async show() {
         this.soundVisualizationBox.reveal();
-
-        return new Promise((resolve) => {
-            // Запрашиваем обновление интерфейса
-            requestAnimationFrame(() => {
-                this._initDisplay(); // Инициализируем отображение в следующем кадре
-                this._startVisualization();
-                resolve(); // Разрешаем промис после обновления
-            });
+        // Запрашиваем обновление интерфейса
+        requestAnimationFrame(() => {
+            this._initDisplay(); // Инициализируем отображение в следующем кадре
+            this._startVisualization();
         });
     }
 
