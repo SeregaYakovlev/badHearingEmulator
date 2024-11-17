@@ -17,7 +17,7 @@ class RealTimeFilter {
     }
 
     onSceneClosed() {
-        for(let filter of this.filters){
+        for (let filter of this.filters) {
             filter.disconnect();
         }
     }
@@ -87,7 +87,7 @@ class RealTimeFilter {
         }
     }
 
-    async connectMicrophone(microphoneStream){
+    async connectMicrophone(microphoneStream) {
         let source = this.audioContext.createMediaStreamSource(microphoneStream);
         await this._connectStream(source);
     }
@@ -103,22 +103,33 @@ class RealTimeFilter {
         await this._connectStream(source);
     }
 
-    async _connectStream(source){
+    async _connectStream(source) {
         // Подключаем источник к фильтрам
         source.connect(this.filters[0]);
-    
+
         // Подключаем фильтры друг к другу
         for (let i = 0; i < this.filters.length - 1; i++) {
             this.filters[i].connect(this.filters[i + 1]);
         }
-    
+
         // Подключаем последний фильтр к выходу
         this.filters[this.filters.length - 1].connect(this.audioContext.destination);
 
         // НА МОБИЛЬНОМ CHROME аудиоконтекст останавливается, если был создан
         // до того, как пользователь повзаимодействовал со страницей
+
+        // может быть такое, что резуминг контекста зависнет.
+        // в таком случае бросаем исключение, чтобы юзер ребутнул страницу,
+        // а не думал, почему видео зависло
         if (this.getAudioContext().state === 'suspended') {
-            await this.getAudioContext().resume();
+            let timeout = 1000; // Таймаут в миллисекундах
+
+            await Promise.race([
+                this.getAudioContext().resume(),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('AudioContext resume timed out')), timeout)
+                ),
+            ]);
         }
     }
 
