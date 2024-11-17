@@ -101,7 +101,8 @@ class ListenYourselfService {
     onPlay() {
         // this.audioContext.createMediaElementSource(this.audioElement) не любит пустые файлы
         // и работает с перебоями в таком случае
-        if (!this.audioPlayer.isFilterConnected()) {
+        let isFilterConnected = this.audioPlayer.isFilterConnected();
+        if (!isFilterConnected) {
             this.audioPlayer.connectFilter(this.realtimeFilter);
         }
     }

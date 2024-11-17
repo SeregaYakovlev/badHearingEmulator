@@ -100,7 +100,8 @@ class BadHearingExampleService {
     onPlay() {
         // this.audioContext.createMediaElementSource(this.audioElement) не любит пустые файлы
         // и работает с перебоями в таком случае
-        if (!this.player.isFilterConnected()) {
+        let isFilterConnected = this.player.isFilterConnected();
+        if (!isFilterConnected) {
             this.player.connectFilter(this.realtimeFilter);
         }
     }

@@ -288,12 +288,24 @@ class MyPlayer {
     }
 
     async connectFilter(filter) {
+        if(this.isFilterConnected()){
+            throw new Error("Filter is already connected");
+        }
+
+        if(this.filterConnectionLock){
+            throw new Error("Filter is still connecting...");
+        }
+        
+        this.filterConnectionLock = true;
+
         if (this.audioElement) {
             await filter.connectPlayer(this.audioElement);
         }
         else {
             await filter.connectPlayer(this.videoPlayer.tech().el());
         }
+
+        this.filterConnectionLock = false;
 
         this.filter = filter;
     }
