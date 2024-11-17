@@ -19,6 +19,6 @@ body[theme="night"] .mainScene p {
     font-size: 15px; /* Размер текста */
 }
 
-.tipBox p {
+.smallBox p {
     margin: 0;
 }

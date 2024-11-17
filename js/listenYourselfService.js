@@ -145,7 +145,6 @@ class ListenYourselfService {
 
     _addFrequencySpectrum(scene) {
         this.soundVisualization = new SoundVisualization(scene, this.realtimeFilter.getAudioContext(), this.realtimeFilter.getSoundSource());
-        scene.update(); // важный вызов, чтобы bounding_client_rect увидел элемент
         this.soundVisualization.show();
     }
 

@@ -185,12 +185,12 @@
             "ar": "ماذا عن هذا الموقع؟"
         },
         "InVideoExampleBadHearing": {
-            "ru": "В этом видео пример высокочастотной потери слуха при остаточной сохранности низких частот",
-            "en": "This video shows an example of high-frequency hearing loss with retained low-frequency hearing",
-            "fr": "Cette vidéo montre un exemple de perte auditive à haute fréquence avec préservation des basses fréquences",
-            "es": "Este video muestra un ejemplo de pérdida auditiva de alta frecuencia con conservación de las bajas frecuencias",
-            "zh": "该视频展示了高频听力损失但低频仍保留的示例",
-            "ar": "يظهر هذا الفيديو مثالاً لفقدان السمع في الترددات العالية مع بقاء السمع في الترددات المنخفضة"
+            "ru": "В этих видео примеры плохого слуха",
+            "en": "These videos show examples of bad hearing",
+            "fr": "Dans ces vidéos, des exemples de mauvaise audition",
+            "es": "En estos videos se muestran ejemplos de mala audición",
+            "zh": "这些视频展示了听力不良的示例",
+            "ar": "تظهر هذه الفيديوهات أمثلة على السمع الضعيف"
         },
         "ListenYourFile": {
             "ru": "Послушать Ваш файл",

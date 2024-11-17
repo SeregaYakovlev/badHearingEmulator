@@ -2,9 +2,11 @@ class SoundVisualization {
 
     static FONT_SIZE = 16;
     static FFT_SIZE = 8192;
-    static FREQUENCY_RANGE = [16, 20_000];
 
     constructor(scene, audioContext, soundSource) {
+        // по умолчанию
+        this.setFrequencyRange(16, 20_000, 10);
+
         this.page = scene.getPage();
         this.scene = scene;
         this.audioContext = audioContext;
@@ -13,8 +15,7 @@ class SoundVisualization {
         scene.subscribeToSceneClosing(this);
 
         // Создаем контейнер для визуализации
-        this.soundVisualizationBox = this.scene.createBox();
-        this.soundVisualizationBox.hide();
+        this.soundVisualizationBox = this.scene.createBox(false);
         this.soundVisualizationBox.setName("soundVisualizationBox");
         this.soundVisualizationBox.addClassName("soundVisualizationBox");
 
@@ -32,6 +33,11 @@ class SoundVisualization {
         this.overlayCanvas = document.createElement('canvas');
         this.overlayCanvas.classList.add("overlayCanvas");
         this.soundVisualizationBox.addElement(this.overlayCanvas);
+    }
+
+    setFrequencyRange(minFrequency, maxFrequency, freq_quantify){
+        this.FREQUENCY_RANGE = [minFrequency, maxFrequency];
+        this.freq_quantify = freq_quantify;
     }
 
     // interface method
@@ -106,8 +112,8 @@ class SoundVisualization {
         // Очищаем canvas
         this.mainCanvasCtx.clearRect(0, SoundVisualization.FONT_SIZE, cssCanvasWidth, cssCanvasHeight);
 
-        let minFrequency = SoundVisualization.FREQUENCY_RANGE[0];
-        let maxFrequency = SoundVisualization.FREQUENCY_RANGE[1];
+        let minFrequency = this.FREQUENCY_RANGE[0];
+        let maxFrequency = this.FREQUENCY_RANGE[1];
 
         for (let pixelIndex = 0; pixelIndex < cssCanvasWidth; pixelIndex++) {
 
@@ -188,8 +194,8 @@ class SoundVisualization {
         this.mainCanvasCtx.fillStyle = 'black'; // Цвет прямоугольника
         this.mainCanvasCtx.fillRect(0, 0, cssCanvasWidth, SoundVisualization.FONT_SIZE);
 
-        let frequencies = 10;
-        let frequencyRange = SoundVisualization.FREQUENCY_RANGE;
+        let frequencies = this.freq_quantify;
+        let frequencyRange = this.FREQUENCY_RANGE;
 
         // Настройка шрифта для подписей
         this.mainCanvasCtx.fillStyle = 'white'; // Цвет текста
@@ -237,8 +243,8 @@ class SoundVisualization {
 
         if (this.mouseX !== null && this.mouseX >= 0 && this.mouseX <= cssCanvasWidth) {
             // Получаем диапазон частот
-            let minFrequency = SoundVisualization.FREQUENCY_RANGE[0];
-            let maxFrequency = SoundVisualization.FREQUENCY_RANGE[1];
+            let minFrequency =  this.FREQUENCY_RANGE[0];
+            let maxFrequency = this.FREQUENCY_RANGE[1];
 
             // Рассчитываем частоту на основе положения мыши и заданного диапазона частот
             let frequency = minFrequency + (this.mouseX / cssCanvasWidth) * (maxFrequency - minFrequency);

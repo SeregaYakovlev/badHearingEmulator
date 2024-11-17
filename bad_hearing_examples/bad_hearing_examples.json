@@ -2,11 +2,25 @@
     "bad_hearing_examples": {
         "ru": [
             {
-                "name": "Почтальон Пэт",
-                "url": "/badHearingExamples/Биолог.mp4"
+                "name": "Фиксики. Песня тыдыщ",
+                "url": "/badHearingExamples/ru/fiksiki_tydyshch.webm",
+                "sourceLink": "https://www.youtube.com/watch?v=TSExMmVTCRk"
             },
             {
-                "url": "/badHearingExamples/Географ.mp4"
+                "name": "Таймер на тысячу лет - Смешарики. Пинкод",
+                "url": "/badHearingExamples/ru/pin_kod.webm",
+                "sourceLink": "https://www.youtube.com/watch?v=10kMAELx2ro"
+            },
+            {
+                "name": "Мультфильм Новаторы",
+                "url": "/badHearingExamples/ru/novatory.webm",
+                "sourceLink": "https://www.youtube.com/watch?v=EFSM12g0Fu0"
+            },
+            {
+                "name": "Почтальон Пэт - заставка",
+                "url": "/badHearingExamples/ru/postman_pat.webm",
+                "sourceLink": "https://www.youtube.com/watch?v=PN3Mwl6jZP0",
+                "filter": 250
             }
         ],
         "en": [

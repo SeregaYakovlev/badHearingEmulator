@@ -15,11 +15,30 @@ class BadHearingExampleService {
 
         let captionDiv = document.createElement("div");
         captionDiv.classList.add("box");
-        captionDiv.classList.add("tipBox");
+        captionDiv.classList.add("smallBox");
 
         let caption = document.createElement("p");
         caption.innerHTML = htmlTSTR("InVideoExampleBadHearing");
         captionDiv.appendChild(caption);
+
+
+        let videoInfoDiv = document.createElement("div");
+        videoInfoDiv.classList.add("videoInfoDiv");
+        videoInfoDiv.classList.add("box");
+        videoInfoDiv.classList.add("smallBox");
+
+        // Создаем ссылку для видео
+        let videoLink = document.createElement("a");
+        videoLink.classList.add("videoLink");
+        videoLink.setAttribute("target", "_blank");  // Открывать в новой вкладке
+
+        videoInfoDiv.appendChild(videoLink);  // Вставляем ссылку на видео
+
+        this.videoInfo = {};
+        this.videoInfo.setVideoInfo = (videoName, videoUrl) => {
+            videoLink.textContent = videoName;  // Название видео
+            videoLink.setAttribute("href", videoUrl);  // URL видео
+        }
 
         let leftArrowWrapper = document.createElement("div");
         leftArrowWrapper.classList.add("arrowWrapper");
@@ -59,16 +78,23 @@ class BadHearingExampleService {
 
         serviceBox.addElement(captionDiv);
         serviceBox.addElement(horizontalContainer);
+        serviceBox.addElement(videoInfoDiv);
 
         this.realtimeFilter = new RealTimeFilter(scene);
-        this.realtimeFilter.setHearingFrequency(250);
+
+        this._addFrequencySpectrum(scene, this.realtimeFilter);
 
         this.player = new MyPlayer(scene, this);
         this.player.installInDiv(videoDiv);
 
-
         this.currentCollection = this._getLocalizedCollection();
         this._showFirstExample();
+    }
+
+    _addFrequencySpectrum(scene, realtimeFilter) {
+        this.soundVisualization = new SoundVisualization(scene, realtimeFilter.getAudioContext(), realtimeFilter.getSoundSource());
+        this.soundVisualization.setFrequencyRange(16, 8_000, 9);
+        this.soundVisualization.show();
     }
 
     onPlay() {
@@ -103,6 +129,9 @@ class BadHearingExampleService {
     }
 
     _showExample(example) {
+        this.videoInfo.setVideoInfo(example.getName(), example.getSourceLink());
+
+        this.realtimeFilter.setHearingFrequency(example.getFilterValue());
         this.player.setFileLink(example.getLink());
         this.player.replaceVideo();
         this._onExampleShown(example);
@@ -119,6 +148,9 @@ class BadHearingExampleService {
 
         let localizedConfig = window.bad_hearing_examples[languageCode];
         let currentCollection = new BadHearingExample(localizedConfig, 0);
+
+        currentCollection.shuffle();
+
         return currentCollection;
     }
 

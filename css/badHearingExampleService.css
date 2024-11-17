@@ -5,6 +5,19 @@
     align-items: center;
 }
 
+body[theme="day"] .badHearingExampleServiceBox .videoInfoDiv .videoLink {
+    color: #4a4a4a;
+}
+
+body[theme="night"] .badHearingExampleServiceBox .videoInfoDiv .videoLink {
+    color: #d3d3d3;
+}
+
+.mainScene .soundVisualizationBox {
+    width: 300px;
+    height: 150px;
+}
+
 .badHearingExampleServiceBox .horizontalContainer {
     position: relative;
     display: flex;

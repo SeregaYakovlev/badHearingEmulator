@@ -3,13 +3,14 @@ class BadHearingExample{
 
     constructor(localizedConfig, exampleIndex){
         this.localizedConfig = localizedConfig;
-        this.exampleIndex = exampleIndex;
-        this.object = this.localizedConfig[this.exampleIndex];
+        this.object = localizedConfig[exampleIndex];
         if(!this.object){
             let error = new Error("Invalid object");
             error.customId = BadHearingExample.NO_SUCH_EXAMPLE;
             throw error;
         }
+
+        this.object.index = exampleIndex;
     }
 
     getFirst(){
@@ -22,7 +23,7 @@ class BadHearingExample{
 
     getPrevious(){
         try{
-            return new BadHearingExample(this.localizedConfig, this.exampleIndex - 1);
+            return new BadHearingExample(this.localizedConfig, this.object.index - 1);
         } catch(e){
             if(e.customId && e.customId === BadHearingExample.NO_SUCH_EXAMPLE){
                 return this.getLast();
@@ -35,7 +36,7 @@ class BadHearingExample{
 
     getNext(){
         try {
-            return new BadHearingExample(this.localizedConfig, this.exampleIndex + 1);
+            return new BadHearingExample(this.localizedConfig, this.object.index + 1);
         } catch(e){
             if(e.customId && e.customId === BadHearingExample.NO_SUCH_EXAMPLE){
                 return this.getFirst();
@@ -46,11 +47,44 @@ class BadHearingExample{
         }
     }
 
-    getExampleIndex(){
-        return this.exampleIndex;
+    getIndex(){
+        return this.object.index;
     }
 
     getLink(){
-        return this.localizedConfig[this.exampleIndex].url;
+        return this.object.url;
     }
+
+    getName(){
+        return this.object.name;
+    }
+
+    getSourceLink(){
+        return this.object.sourceLink
+    }
+
+    getFilterValue(){
+        let filterValue = this.object.filter;
+        // значение ноль допустимо
+        if(filterValue === undefined){
+            return 500;
+        }
+        else {
+            return filterValue;
+        }
+    }
+
+    shuffle() {
+        for (let i = this.localizedConfig.length - 1; i > 0; i--) {
+            // Генерируем случайный индекс от 0 до i
+            let j = Math.floor(Math.random() * (i + 1));
+            
+            // Меняем местами элементы массива
+            [this.localizedConfig[i], this.localizedConfig[j]] = 
+            [this.localizedConfig[j], this.localizedConfig[i]];
+        }
+    
+        // Обновляем текущий объект на первый элемент перемешанного массива
+        this.object = this.localizedConfig[0];
+    }    
 }

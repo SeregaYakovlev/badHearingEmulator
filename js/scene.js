@@ -9,7 +9,7 @@ class Scene {
         this.sceneClosingListeners = [];
     }
 
-    getPage(){
+    getPage() {
         return this.page;
     }
 
@@ -30,21 +30,13 @@ class Scene {
     }
 
     show() {
-        for (let box of this.boxes) {
-            box.displayAt(this.scene);
-        }
-
         this.page.showScene(this);
-    }
-
-    update() {
-        this.show();
     }
 
     close() {
         this.scene.remove();
 
-        for(let sceneClosingListener of this.sceneClosingListeners){
+        for (let sceneClosingListener of this.sceneClosingListeners) {
             sceneClosingListener.onSceneClosed();
         }
     }
@@ -53,8 +45,12 @@ class Scene {
         htmlElement.appendChild(this.scene);
     }
 
-    createBox() {
+    createBox(display = true) {
         let newBox = new Box(this);
+        newBox.displayAt(this.scene);
+        if (!display) {
+            newBox.hide();
+        }
         this.boxes.push(newBox);
         return newBox;
     }
@@ -66,7 +62,7 @@ class Scene {
 
     getBox(boxName) {
         let box = this.boxes.find(box => box.getName() === boxName);
-        if(box){
+        if (box) {
             return box;
         }
         else {
@@ -74,7 +70,7 @@ class Scene {
         }
     }
 
-    replaceBoxWithBox(oldBoxName, newBoxName){
+    replaceBoxWithBox(oldBoxName, newBoxName) {
         let oldBox = this.getBox(oldBoxName);
         let newBox = this.getBox(newBoxName);
 
@@ -82,7 +78,7 @@ class Scene {
         newBox.reveal();
     }
 
-    subscribeToSceneClosing(obj){
+    subscribeToSceneClosing(obj) {
         this.sceneClosingListeners.push(obj);
     }
 }
