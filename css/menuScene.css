@@ -1,0 +1,104 @@
+.menuScene {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.menuScene .menuBox {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);  /* 2 столбца, каждый имеет одинаковую ширину */
+    grid-template-rows: repeat(2, auto);   /* 2 строки, высота строк автоматически подбирается */
+    gap: 10px;  /* промежуток между элементами */
+}
+
+.menuScene .menuBox .serviceDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+body[theme="day"] .menuScene .menuBox .serviceDiv{
+    border: 2px dashed var(--day-color-8);
+}
+
+body[theme="night"] .menuScene .menuBox .serviceDiv{
+    border: 2px dashed var(--night-color-5);
+}
+
+.menuScene .menuBox .serviceDiv:hover {
+    transition: box-shadow 0.2s;
+}
+
+.menuScene .menuBox .serviceDiv:active {
+    transition: box-shadow 0.1s, transform 0.1s; /* Быстрый переход для эффекта вспышки */
+    transform: scale(0.95);
+}
+
+body[theme="day"] .menuScene .menuBox .serviceDiv:hover {
+    box-shadow: inset 0 0 16px var(--day-color-8); /* Внешняя белая тень */
+}
+
+body[theme="night"] .menuScene .menuBox .serviceDiv:hover {
+    box-shadow: inset 0 0 16px var(--night-color-5); /* Внешняя белая тень */
+}
+
+.menuScene .menuBox .serviceDiv .icon {
+    width: 48px;  /* Размер иконки */
+    height: 48px; /* Размер иконки */
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 5px;
+}
+
+.menuScene .menuBox .serviceDiv .service-text {
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+}
+
+body[theme="day"] .menuScene .menuBox .serviceDiv .service-text {
+    color: var(--day-color-3);
+}
+
+body[theme="night"] .menuScene .menuBox .serviceDiv .service-text {
+    color: var(--night-color-5);
+}
+
+/* Пример для использования иконки из библиотеки или изображения */
+body[theme="day"] .icon.listen-your-file {
+    background-image: url('../images/menuItems/day/fileIcon.svg');
+}
+
+body[theme="night"] .icon.listen-your-file {
+    background-image: url('../images/menuItems/night/fileIcon.svg');
+}
+
+body[theme="day"] .icon.listen-yourself {
+    background-image: url('../images/menuItems/day/listenYourselfIcon.svg');
+}
+
+body[theme="night"] .icon.listen-yourself {
+    background-image: url('../images/menuItems/night/listenYourselfIcon.svg');
+}
+
+body[theme="day"] .icon.audiogram-mode {
+    background-image: url('../images/menuItems/day/specialistIcon.svg');
+}
+
+body[theme="night"] .icon.audiogram-mode {
+    background-image: url('../images/menuItems/night/specialistIcon.svg');
+}
+
+body[theme="day"] .icon.live-chat {
+    background-image: url('../images/menuItems/day/manyPeopleIcon.svg');
+}
+
+body[theme="night"] .icon.live-chat {
+    background-image: url('../images/menuItems/night/manyPeopleIcon.svg');
+}
+

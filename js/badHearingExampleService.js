@@ -8,14 +8,12 @@ class BadHearingExampleService {
     install(scene) {
         let serviceBox = scene.createBox();
         serviceBox.addClassName("badHearingExampleServiceBox");
-        serviceBox.setAttribute("specialstate", "transparent");
 
         let horizontalContainer = document.createElement("div");
         horizontalContainer.classList.add("horizontalContainer");
 
         let captionDiv = document.createElement("div");
-        captionDiv.classList.add("box");
-        captionDiv.classList.add("smallBox");
+        captionDiv.classList.add("captionDiv");
 
         let caption = document.createElement("p");
         caption.innerHTML = htmlTSTR("InVideoExampleBadHearing");
@@ -24,8 +22,6 @@ class BadHearingExampleService {
 
         let videoInfoDiv = document.createElement("div");
         videoInfoDiv.classList.add("videoInfoDiv");
-        videoInfoDiv.classList.add("box");
-        videoInfoDiv.classList.add("smallBox");
 
         // Создаем ссылку для видео
         let videoLink = document.createElement("a");
@@ -42,7 +38,6 @@ class BadHearingExampleService {
 
         let leftArrowWrapper = document.createElement("div");
         leftArrowWrapper.classList.add("arrowWrapper");
-        leftArrowWrapper.classList.add("box");
 
         let leftArrow = document.createElement("button");
         leftArrow.classList.add("myBtn");
@@ -53,7 +48,6 @@ class BadHearingExampleService {
 
         let rightArrowWrapper = document.createElement("div");
         rightArrowWrapper.classList.add("arrowWrapper");
-        rightArrowWrapper.classList.add("box");
 
         let rightArrow = document.createElement("button");
         rightArrow.classList.add("myBtn");

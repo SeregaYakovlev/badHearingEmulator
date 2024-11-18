@@ -1,12 +1,25 @@
-.badHearingExampleServiceBox {
+body .box.badHearingExampleServiceBox {
     display: flex;
     flex-direction: column;
     gap: 5px;
     align-items: center;
+    border: none;
+}
+
+body .box.badHearingExampleServiceBox .captionDiv p {
+    margin: 0;
+}
+
+body[theme="day"] .badHearingExampleServiceBox {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+body[theme="night"] .badHearingExampleServiceBox {
+    background-color: rgba(94, 69, 43, 0.5);
 }
 
 body[theme="day"] .badHearingExampleServiceBox .videoInfoDiv .videoLink {
-    color: #4a4a4a;
+    color: indigo;
 }
 
 body[theme="night"] .badHearingExampleServiceBox .videoInfoDiv .videoLink {
@@ -30,11 +43,14 @@ body[theme="night"] .badHearingExampleServiceBox .videoInfoDiv .videoLink {
 
 .badHearingExampleServiceBox .arrowWrapper {
     display: flex;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     aspect-ratio: 1;
+    border: none;
 }
 
-.badHearingExampleServiceBox .mediaPlayerBox {
+body .box.badHearingExampleServiceBox .mediaPlayerBox {
+    border: none;
     width: 300px;
     height: 150px;
 }

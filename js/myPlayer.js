@@ -243,25 +243,18 @@ class MyPlayer {
             this._onVideoLoaded();
         });
 
-        // фикс для авторитарных стран
-        this._add_vpn_note();
+        // Отслеживание перехода в полноэкранный режим
+        videoPlayer.on('fullscreenchange', () => {
+            if (videoPlayer.isFullscreen()) {
+                // Видео в полноэкранном режиме — убираем кастомные стили
+                videoPlayer.tech().el().classList.add('fullscreen');
+            } else {
+                // Видео не в полноэкранном режиме — применяем стили
+                videoPlayer.tech().el().classList.remove('fullscreen');
+            }
+        });
 
         return videoElem;
-    }
-
-    _add_vpn_note() {
-        let supportedLanguages = this.page.getSupportedLanguages();
-
-        for(let lang of supportedLanguages){
-            a(lang.getCode())
-        }
-
-        function a(languageCode){
-            videojs.addLanguage(languageCode, {
-                'The media could not be loaded, either because the server or network failed or because the format is not supported.':
-                    textTSTR("CannotLoadVideoUseVPN")
-            });
-        }
     }
 
     async _connectPlayerToSRC() {
@@ -288,14 +281,14 @@ class MyPlayer {
     }
 
     async connectFilter(filter) {
-        if(this.isFilterConnected()){
+        if (this.isFilterConnected()) {
             throw new Error("Filter is already connected");
         }
 
-        if(this.filterConnectionLock){
+        if (this.filterConnectionLock) {
             throw new Error("Filter is still connecting...");
         }
-        
+
         this.filterConnectionLock = true;
 
         if (this.audioElement) {

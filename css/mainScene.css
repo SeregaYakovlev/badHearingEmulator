@@ -4,6 +4,7 @@
     gap: 10px;
     /* Расстояние между элементами */
     align-items: center;
+    justify-content: start;
     gap: 10px;
 }
 

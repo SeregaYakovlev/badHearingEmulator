@@ -1,4 +1,4 @@
-body[theme="day"] video {
+body[theme="day"] video:not(.fullscreen) {
     --color-1: #6B8E23;
     --color-2: #A9CF54;
     background: repeating-linear-gradient(90deg, 
@@ -15,7 +15,7 @@ body[theme="day"] video {
         var(--color-1) 100%);
 }
 
-body[theme="night"] video {
+body[theme="night"] video:not(.fullscreen) {
     --color-1: #221a0f;
     --color-2: #5e452b;
     background: repeating-linear-gradient(90deg, 
@@ -30,4 +30,15 @@ body[theme="night"] video {
         var(--color-1) 80%, var(--color-2) 85%, 
         var(--color-1) 90%, var(--color-2) 95%, 
         var(--color-1) 100%);
+}
+
+.mediaPlayerBox {
+    width: 100%;
+    height: 100%;
+
+    max-width: 640px;
+    max-height: 480px;
+    padding: 0;
+    border-radius: 10px; /* Пример скругления углов границы */
+    overflow: hidden;
 }

@@ -1,5 +1,13 @@
 {
     "translations": {
+        "MoreOpportunitiesHere": {
+            "ru": "Другие возможности",
+            "en": "More opportunities here",
+            "fr": "Plus d'opportunités ici",
+            "es": "Más oportunidades aquí",
+            "zh": "更多机会在这里",
+            "ar": "المزيد من الفرص هنا"
+        },
         "NoLoadAnotherFile": {
             "ru": "Нет, загрузить другой файл",
             "en": "No, load another file",
