@@ -5,7 +5,7 @@ class BadHearingExampleService {
         this.page.subscribeOnLanguageChangingEvent(this);
     }
 
-    install(scene) {
+    async install(scene) {
         let serviceBox = scene.createBox();
         serviceBox.addClassName("badHearingExampleServiceBox");
 
@@ -19,22 +19,42 @@ class BadHearingExampleService {
         caption.innerHTML = htmlTSTR("InVideoExampleBadHearing");
         captionDiv.appendChild(caption);
 
-
         let videoInfoDiv = document.createElement("div");
         videoInfoDiv.classList.add("videoInfoDiv");
 
-        // Создаем ссылку для видео
-        let videoLink = document.createElement("a");
-        videoLink.classList.add("videoLink");
-        videoLink.setAttribute("target", "_blank");  // Открывать в новой вкладке
+        let videoInfoText = document.createElement("div");
+        videoInfoText.classList.add("videoInfoText");
 
-        videoInfoDiv.appendChild(videoLink);  // Вставляем ссылку на видео
+        let videoInfoLink = document.createElement("a");
+        videoInfoLink.setAttribute("target", "_blank");
+        videoInfoLink.classList.add("videoInfoLink");
+
+        let youtubeBox = document.createElement("div");
+        youtubeBox.classList.add("youtube-box");
+
+        let youtubeText = document.createElement("div");
+        youtubeText.classList.add("youtube-text");
+        youtubeText.textContent = "YouTube";  // Default text for YouTube
+
+        // Добавляем все элементы в контейнер
+        youtubeBox.appendChild(youtubeText);
+        videoInfoLink.appendChild(youtubeBox);
+        videoInfoDiv.appendChild(videoInfoText);
+        videoInfoDiv.appendChild(videoInfoLink);
 
         this.videoInfo = {};
+
+        videoInfoLink.addEventListener("click", () => {
+            this._onExternalLinkClicked();
+        });
+
         this.videoInfo.setVideoInfo = (videoName, videoUrl) => {
-            videoLink.textContent = videoName;  // Название видео
-            videoLink.setAttribute("href", videoUrl);  // URL видео
-        }
+            let text = document.createElement("span");
+            text.textContent = videoName;
+            videoInfoText.innerHTML = "";
+            videoInfoText.appendChild(text);
+            videoInfoLink.setAttribute("href", videoUrl);
+        };
 
         let leftArrowWrapper = document.createElement("div");
         leftArrowWrapper.classList.add("arrowWrapper");
@@ -97,6 +117,12 @@ class BadHearingExampleService {
         let isFilterConnected = this.player.isFilterConnected();
         if (!isFilterConnected) {
             this.player.connectFilter(this.realtimeFilter);
+        }
+    }
+
+    _onExternalLinkClicked() {
+        if (this.player) {
+            this.player.pause();
         }
     }
 

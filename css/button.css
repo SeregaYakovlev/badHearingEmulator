@@ -4,7 +4,7 @@
     padding: 5px 10px; /* Внутренние отступы */
     border-radius: 5px; /* Скругленные углы */
     cursor: pointer; /* Указатель при наведении */
-    font-size: 15px;
+    font-size: 16px;
 }
 
 body[theme="day"] .scene button.myBtn  {

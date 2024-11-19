@@ -6,6 +6,10 @@ class MyPlayer {
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
     }
 
+    pause(){
+        this.videoPlayer.pause();
+    }
+
     getAudioContext() {
         return this.audioContext;
     }

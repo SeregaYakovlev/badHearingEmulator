@@ -3,19 +3,19 @@ class RootService {
         this.page = page;
     }
 
-    show() {
+    async show() {
         let scene = new Scene(this.page);
         scene.addClassName("mainScene");
 
-        this._addBadHearingExampleService(scene);
+        await this._addBadHearingExampleService(scene);
         this._addMoreOpportunitiesBtn(scene);
 
         scene.show();
     }
 
-    _addBadHearingExampleService(scene){
+    async _addBadHearingExampleService(scene){
         let service = new BadHearingExampleService(this.page);
-        service.install(scene);
+        await service.install(scene);
     }
 
     _addMoreOpportunitiesBtn(scene){

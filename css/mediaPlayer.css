@@ -1,37 +1,3 @@
-body[theme="day"] video:not(.fullscreen) {
-    --color-1: #6B8E23;
-    --color-2: #A9CF54;
-    background: repeating-linear-gradient(90deg, 
-        var(--color-1) 0%, var(--color-2) 5%, 
-        var(--color-1) 10%, var(--color-2) 15%, 
-        var(--color-1) 20%, var(--color-2) 25%, 
-        var(--color-1) 30%, var(--color-2) 35%, 
-        var(--color-1) 40%, var(--color-2) 45%, 
-        var(--color-1) 50%, var(--color-2) 55%, 
-        var(--color-1) 60%, var(--color-2) 65%, 
-        var(--color-1) 70%, var(--color-2) 75%, 
-        var(--color-1) 80%, var(--color-2) 85%, 
-        var(--color-1) 90%, var(--color-2) 95%, 
-        var(--color-1) 100%);
-}
-
-body[theme="night"] video:not(.fullscreen) {
-    --color-1: #221a0f;
-    --color-2: #5e452b;
-    background: repeating-linear-gradient(90deg, 
-        var(--color-1) 0%, var(--color-2) 5%, 
-        var(--color-1) 10%, var(--color-2) 15%, 
-        var(--color-1) 20%, var(--color-2) 25%, 
-        var(--color-1) 30%, var(--color-2) 35%, 
-        var(--color-1) 40%, var(--color-2) 45%, 
-        var(--color-1) 50%, var(--color-2) 55%, 
-        var(--color-1) 60%, var(--color-2) 65%, 
-        var(--color-1) 70%, var(--color-2) 75%, 
-        var(--color-1) 80%, var(--color-2) 85%, 
-        var(--color-1) 90%, var(--color-2) 95%, 
-        var(--color-1) 100%);
-}
-
 .mediaPlayerBox {
     width: 100%;
     height: 100%;
