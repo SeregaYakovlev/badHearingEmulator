@@ -55,57 +55,60 @@ body[theme="day"] .badHearingExampleServiceBox {
 }
 
 body[theme="day"] .badHearingExampleServiceBox .videoInfoText {
-    background-color: #5c5c5c;
+    background-color: var(--day-color-1);
 }
 
 body[theme="night"] .badHearingExampleServiceBox .videoInfoText {
-    background-color: #393939;
+    background-color: var(--day-color-1);
 }
 
 .badHearingExampleServiceBox .videoInfoLink {
+    position: relative;
+    max-width: 100%;
     height: 100%;
     text-decoration: none;
-}
 
-.badHearingExampleServiceBox .youtube-box {
     box-sizing: border-box;
     padding-left: 5px;
     padding-right: 5px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: box-shadow 0.3s ease; /* Плавный переход */
+    max-width: 100%;
+    overflow: hidden;
     background: linear-gradient(to bottom, rgba(187, 187, 187, 0.1) 0%, rgba(0, 0, 0, 0.3) 100%);
 }
 
-body[theme="day"] .badHearingExampleServiceBox .youtube-box {
+.badHearingExampleServiceBox .videoInfoLink > translated-string {
+    display: block; /* Чтобы текст не лез на padding своего родителя */
+    max-width: 100%;
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    color: #fff;
+    text-shadow: 0px 2px 0 rgba(0, 0, 0, 0.6); /* Чёткая тень */
+}
+
+body[theme="day"] .badHearingExampleServiceBox .videoInfoLink {
     background-color: #bf0026;
 }
 
-body[theme="night"] .badHearingExampleServiceBox .youtube-box {
+body[theme="night"] .badHearingExampleServiceBox .videoInfoLink {
     background-color: #80001a;
 }
 
-body[theme="day"] .badHearingExampleServiceBox .youtube-box:hover {
+body[theme="day"] .badHearingExampleServiceBox .videoInfoLink:hover {
     box-shadow: 0 0 16px red; /* Свечение */
 }
 
-body[theme="night"] .badHearingExampleServiceBox .youtube-box:hover {
+body[theme="night"] .badHearingExampleServiceBox .videoInfoLink:hover {
     box-shadow: 0 0 16px white; /* Свечение */
 }
 
-body[theme] .badHearingExampleServiceBox .youtube-box:active {
+body[theme] .badHearingExampleServiceBox .videoInfoLink:active {
     box-shadow: inset 0 0 16px white; /* Свечение */
-}
-
-.badHearingExampleServiceBox .youtube-text {
-    color: white;
-    font-size: 16px;
-    text-shadow: 0px 2px 0 rgba(0, 0, 0, 0.6); /* Чёткая тень */
 }
 
 .mainScene .soundVisualizationBox {

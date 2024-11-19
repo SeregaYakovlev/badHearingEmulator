@@ -28,17 +28,9 @@ class BadHearingExampleService {
         let videoInfoLink = document.createElement("a");
         videoInfoLink.setAttribute("target", "_blank");
         videoInfoLink.classList.add("videoInfoLink");
-
-        let youtubeBox = document.createElement("div");
-        youtubeBox.classList.add("youtube-box");
-
-        let youtubeText = document.createElement("div");
-        youtubeText.classList.add("youtube-text");
-        youtubeText.textContent = "YouTube";  // Default text for YouTube
+        videoInfoLink.innerHTML = htmlTSTR("OpenYouTube");
 
         // Добавляем все элементы в контейнер
-        youtubeBox.appendChild(youtubeText);
-        videoInfoLink.appendChild(youtubeBox);
         videoInfoDiv.appendChild(videoInfoText);
         videoInfoDiv.appendChild(videoInfoLink);
 

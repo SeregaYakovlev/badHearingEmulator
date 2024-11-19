@@ -1,5 +1,13 @@
 {
     "translations": {
+        "OpenYouTube": {
+            "ru": "Открыть YouTube",
+            "en": "Open YouTube",
+            "fr": "Ouvrir YouTube",
+            "es": "Abrir YouTube",
+            "zh": "打开YouTube",
+            "ar": "افتح يوتيوب"
+        },
         "MoreOpportunitiesHere": {
             "ru": "Другие возможности",
             "en": "More opportunities here",
