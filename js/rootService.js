@@ -14,6 +14,12 @@ class RootService {
     }
 
     async _addBadHearingExampleService(scene){
+        let serviceDescriptionBox = scene.createBox();
+        serviceDescriptionBox.addClassName("smallBox");
+        let serviceDescription = document.createElement("p");
+        serviceDescription.innerHTML = htmlTSTR("InVideoExampleBadHearing");
+        serviceDescriptionBox.addElement(serviceDescription);
+
         let service = new BadHearingExampleService(this.page);
         await service.install(scene);
     }

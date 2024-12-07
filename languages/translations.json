@@ -1,5 +1,13 @@
 {
     "translations": {
+        "WithoutDescription": {
+            "ru": "<Без описания>",
+            "en": "<No description>",
+            "fr": "<Pas de description>",
+            "es": "<Sin descripción>",
+            "zh": "<没有描述>",
+            "ar": "<بدون وصف>"
+        },
         "OpenYouTube": {
             "ru": "Открыть YouTube",
             "en": "Open YouTube",

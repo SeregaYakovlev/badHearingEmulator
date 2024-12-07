@@ -7,19 +7,59 @@ class RealTimeFilter {
     constructor(scene) {
         this.filterType = RealTimeFilter.FILTER_TYPE.LOWPASS;
         this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+        this.sharpness = 3; // по умолчанию фильтр шестого порядка (три - так как один фильтр является биквадратным)
+        this.gain = 1; // по умолчанию нет усиления или ослабления
+
         this.filters = [];
         for (let i = 0; i < 3; i++) {
             let filter = this._createFilter();
             this.filters.push(filter);
         }
 
+        // Создаем узел усиления
+        this.gainNode = this.audioContext.createGain();
+        this.setGain(this.gain); // Усиление по умолчанию (1 = без изменений)
+
         scene.subscribeToSceneClosing(this);
+    }
+
+    setSharpness(sharpness) {
+        if (sharpness < 1 || sharpness > 3) {
+            throw new Error("Impossible to set filter sharpness more than 3 or less than 1");
+        }
+
+        this.sharpness = sharpness;
+    }
+
+    setType(type) {
+        if (type === RealTimeFilter.FILTER_TYPE.LOWPASS || type === RealTimeFilter.FILTER_TYPE.HIGHPASS) {
+            this.filterType = type;
+
+            for (let filter of this.filters) {
+                filter.type = this.filterType;
+            }
+        }
+        else {
+            throw new Error("Invalid filter type");
+        }
+    }
+
+    setGain(value) {
+        if (value < 0 || value > 1) {
+            throw new Error("Gain value must be between 0 and 1");
+        }
+        this.gainNode.gain.value = value;
+
+        this.gain = value;
     }
 
     onSceneClosed() {
         for (let filter of this.filters) {
             filter.disconnect();
         }
+
+        this.gainNode.disconnect();
     }
 
     invertFilter() {
@@ -33,6 +73,11 @@ class RealTimeFilter {
         for (let filter of this.filters) {
             filter.type = this.filterType;
         }
+
+        // вызываем эту функцию, так как различается filterDisablingFrequency
+        // у разных типов фильтра. Если какие-то фильтры не активны, то нужно изменить
+        // всё-пропускающую частоту
+        this.setHearingFrequency(this.hearingFrequency);
     }
 
     getAudioContext() {
@@ -40,10 +85,6 @@ class RealTimeFilter {
     }
 
     getSoundSource() {
-        return this._getLastFilter();
-    }
-
-    _getLastFilter() {
         return this.filters[this.filters.length - 1];
     }
 
@@ -59,33 +100,39 @@ class RealTimeFilter {
         return this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS;
     }
 
-    setHearingFrequency(frequency) {
-        this.hearingFrequency = frequency;
-        if (frequency === -138) {
-            // специальное сигнальное значение
-            // отключения фильтра
-            let filterDisablingFrequency;
-            if (this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS) {
-                filterDisablingFrequency = 999_999_999;
-            }
-            else if (this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS) {
-                filterDisablingFrequency = 0;
-            }
-            else {
-                throw new Error("Algorithm error");
-            }
-
-            for (let filter of this.filters) {
-                filter.frequency.value = filterDisablingFrequency;
-            }
+    _getFilterDisablingFrequency() {
+        if (this.filterType === RealTimeFilter.FILTER_TYPE.LOWPASS) {
+            return 999_999_999; // Очень высокая частота для lowpass (фильтр не ограничивает частоты)
+        }
+        else if (this.filterType === RealTimeFilter.FILTER_TYPE.HIGHPASS) {
+            return 0; // Очень низкая частота для highpass (фильтр пропускает все частоты)
         }
         else {
-            this.hearingFrequency = frequency;
-            for (let filter of this.filters) {
-                filter.frequency.value = frequency;
-            }
+            throw new Error("Algorithm error");
         }
     }
+
+    setHearingFrequency(frequency) {
+        if (frequency === -138) {
+            // специальное сигнальное значение отключения фильтра
+            frequency = this._getFilterDisablingFrequency();
+        }
+
+        // Устанавливаем частоту для активных фильтров
+        for (let i = 0; i < this.sharpness; i++) {
+            this.filters[i].frequency.value = frequency;
+        }
+
+        // Устанавливаем частоту для неактивных фильтров
+        if (this.sharpness < this.filters.length) {
+            for (let i = this.sharpness; i < this.filters.length; i++) {
+                this.filters[i].frequency.value = this._getFilterDisablingFrequency(); // Отключаем фильтр
+            }
+        }
+
+        this.hearingFrequency = frequency; // Обновляем текущую частоту
+    }
+
 
     async connectMicrophone(microphoneStream) {
         let source = this.audioContext.createMediaStreamSource(microphoneStream);
@@ -104,15 +151,18 @@ class RealTimeFilter {
     }
 
     async _connectStream(source) {
+        // Подключаем вход к узлу усиления
+        source.connect(this.gainNode);
+
         // Подключаем источник к фильтрам
-        source.connect(this.filters[0]);
+        this.gainNode.connect(this.filters[0]);
 
         // Подключаем фильтры друг к другу
         for (let i = 0; i < this.filters.length - 1; i++) {
             this.filters[i].connect(this.filters[i + 1]);
         }
 
-        // Подключаем последний фильтр к выходу
+        // Подключаем последний фильтр к узлу выхода
         this.filters[this.filters.length - 1].connect(this.audioContext.destination);
 
         // НА МОБИЛЬНОМ CHROME аудиоконтекст останавливается, если был создан

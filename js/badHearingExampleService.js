@@ -12,27 +12,38 @@ class BadHearingExampleService {
         let horizontalContainer = document.createElement("div");
         horizontalContainer.classList.add("horizontalContainer");
 
-        let captionDiv = document.createElement("div");
-        captionDiv.classList.add("captionDiv");
+        let mainDiv0 = document.createElement("div");
+        mainDiv0.classList.add("videoInfoContainer");
 
-        let caption = document.createElement("p");
-        caption.innerHTML = htmlTSTR("InVideoExampleBadHearing");
-        captionDiv.appendChild(caption);
+        let videoInfoObject0 = document.createElement("div");
+        videoInfoObject0.classList.add("videoInfoObject");
+        videoInfoObject0.classList.add("videoDescription");
 
-        let videoInfoDiv = document.createElement("div");
-        videoInfoDiv.classList.add("videoInfoDiv");
+        let caption = document.createElement("span");
+        videoInfoObject0.appendChild(caption);
 
-        let videoInfoText = document.createElement("div");
-        videoInfoText.classList.add("videoInfoText");
+        mainDiv0.appendChild(videoInfoObject0);
+
+        let mainDiv1 = document.createElement("div");
+        mainDiv1.classList.add("videoInfoContainer");
+
+        let videoInfoObject1 = document.createElement("div");
+        videoInfoObject1.classList.add("videoInfoObject");
+        videoInfoObject1.classList.add("videoName");
+
+        let videoInfoObject11 = document.createElement("div");
+        videoInfoObject11.classList.add("videoInfoObject");
+        videoInfoObject11.classList.add("youtubeLink");
 
         let videoInfoLink = document.createElement("a");
         videoInfoLink.setAttribute("target", "_blank");
-        videoInfoLink.classList.add("videoInfoLink");
         videoInfoLink.innerHTML = htmlTSTR("OpenYouTube");
 
+        videoInfoObject11.appendChild(videoInfoLink);
+
         // Добавляем все элементы в контейнер
-        videoInfoDiv.appendChild(videoInfoText);
-        videoInfoDiv.appendChild(videoInfoLink);
+        mainDiv1.appendChild(videoInfoObject1);
+        mainDiv1.appendChild(videoInfoObject11);
 
         this.videoInfo = {};
 
@@ -43,10 +54,14 @@ class BadHearingExampleService {
         this.videoInfo.setVideoInfo = (videoName, videoUrl) => {
             let text = document.createElement("span");
             text.textContent = videoName;
-            videoInfoText.innerHTML = "";
-            videoInfoText.appendChild(text);
+            videoInfoObject1.innerHTML = "";
+            videoInfoObject1.appendChild(text);
             videoInfoLink.setAttribute("href", videoUrl);
         };
+
+        this.videoInfo.setDescription = (description) => {
+            caption.innerHTML = description;
+        }
 
         let leftArrowWrapper = document.createElement("div");
         leftArrowWrapper.classList.add("arrowWrapper");
@@ -82,9 +97,9 @@ class BadHearingExampleService {
         horizontalContainer.appendChild(videoDiv);
         horizontalContainer.appendChild(rightArrowWrapper);
 
-        serviceBox.addElement(captionDiv);
+        serviceBox.addElement(mainDiv0);
         serviceBox.addElement(horizontalContainer);
-        serviceBox.addElement(videoInfoDiv);
+        serviceBox.addElement(mainDiv1);
 
         this.realtimeFilter = new RealTimeFilter(scene);
 
@@ -142,9 +157,16 @@ class BadHearingExampleService {
     }
 
     _showExample(example) {
+        this.videoInfo.setDescription(example.getDescription());
         this.videoInfo.setVideoInfo(example.getName(), example.getSourceLink());
 
-        this.realtimeFilter.setHearingFrequency(example.getFilterValue());
+        let filterData = example.getFilterDataOrDefault();
+
+        this.realtimeFilter.setType(filterData.type);
+        this.realtimeFilter.setSharpness(filterData.sharpness);
+        this.realtimeFilter.setHearingFrequency(filterData.frequency);
+        this.realtimeFilter.setGain(filterData.gain);
+
         this.player.setFileLink(example.getLink());
         this.player.replaceVideo();
         this._onExampleShown(example);

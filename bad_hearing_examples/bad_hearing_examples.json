@@ -20,7 +20,13 @@
                 "name": "Почтальон Пэт - заставка",
                 "url": "/badHearingExamples/ru/postman_pat.webm",
                 "sourceLink": "https://youtu.be/PN3Mwl6jZP0?feature=shared",
-                "filter": 250
+                "description": "Высокочастотная тугоухость 4-й степени",
+                "filter": {
+                    "type": "lowpass",
+                    "sharpness": 3,
+                    "frequency": 250,
+                    "gain": 1
+                }
             }
         ],
         "en": [
