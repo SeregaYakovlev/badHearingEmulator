@@ -55,8 +55,8 @@ class BadHearingExample {
         return this.object.url;
     }
 
-    getName() {
-        return this.object.name;
+    isPinned() {
+        return this.object.isPinned;
     }
 
     getSourceLink() {
@@ -70,10 +70,10 @@ class BadHearingExample {
             frequency: 500, // Значение по умолчанию для свойства frequency
             gain: 1 // Значение по умолчанию для свойства gain
         };
-    
+
         // Берём текущий объект filter или создаём пустой
         let filter = this.object.filter || {};
-    
+
         // Создаём новый объект с заданными свойствами, дополняя их значениями по умолчанию
         return {
             ...defaultProperties,
@@ -82,25 +82,51 @@ class BadHearingExample {
     }
 
     shuffle() {
-        for (let i = this.localizedConfig.length - 1; i > 0; i--) {
-            // Генерируем случайный индекс от 0 до i
-            let j = Math.floor(Math.random() * (i + 1));
+        // Создаем массив непиннед элементов
+        let nonPinnedElements = this.localizedConfig.filter(item => !item.pinned);
 
-            // Меняем местами элементы массива
-            [this.localizedConfig[i], this.localizedConfig[j]] =
-                [this.localizedConfig[j], this.localizedConfig[i]];
+        // Если все элементы pinned, нет смысла делать перемешивание
+        if (nonPinnedElements.length === 0) {
+            return;
         }
 
-        // Обновляем текущий объект на первый элемент перемешанного массива
+        // Перемешиваем только непиннед элементы
+        for (let i = 0; i < this.localizedConfig.length; i++) {
+            if (this.localizedConfig[i].pinned) {
+                continue;  // Пропускаем элементы, которые pinned
+            }
+
+            // Выбираем случайный элемент из массива непиннед элементов
+            let randomIndex = Math.floor(Math.random() * nonPinnedElements.length);
+            let randomElement = nonPinnedElements[randomIndex];
+
+            // Меняем местами элементы массива
+            [this.localizedConfig[i], randomElement] =
+                [randomElement, this.localizedConfig[i]];
+
+            // Удаляем использованный элемент из массива
+            nonPinnedElements.splice(randomIndex, 1);
+        }
+
+        // Обновляем текущий объект на первый элемент массива
         this.object = this.localizedConfig[0];
     }
 
-    getDescription(){
+    getDescription() {
         let description = this.object.description;
-        if(!description){
+        if (!description) {
             description = textTSTR("WithoutDescription");
         }
 
         return description;
+    }
+
+    getName() {
+        let name = this.object.name;
+        if (!name) {
+            name = textTSTR("WithoutTitle");
+        }
+
+        return name;
     }
 }

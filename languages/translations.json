@@ -8,6 +8,14 @@
             "zh": "<没有描述>",
             "ar": "<بدون وصف>"
         },
+        "WithoutTitle": {
+            "ru": "<Без названия>",
+            "en": "<No title>",
+            "fr": "<Sans titre>",
+            "es": "<Sin título>",
+            "zh": "<没有标题>",
+            "ar": "<بدون عنوان>"
+        },
         "OpenYouTube": {
             "ru": "Открыть YouTube",
             "en": "Open YouTube",
