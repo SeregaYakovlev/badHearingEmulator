@@ -1,4 +1,27 @@
 class BadHearingExample {
+
+    static HEARING_GROUPS = {
+        lowpass: {
+            type: 'lowpass',
+            sharpness: 3,
+            frequency: 500,
+            gain: 1
+        },
+        highpass: {
+            type: 'highpass',
+            sharpness: 3,
+            frequency: 500,
+            gain: 1
+        },
+        weakHearingAllFrequencies: {
+            type: 'highpass',
+            sharpness: 3,
+            frequency: 0,
+            gain: 0.05
+        }
+    }
+
+
     static NO_SUCH_EXAMPLE = 345;
 
     constructor(localizedConfig, exampleIndex) {
@@ -63,8 +86,20 @@ class BadHearingExample {
         return this.object.sourceLink;
     }
 
-    getFilterDataOrDefault() {
-        let defaultProperties = {
+    getFilterData(group) {
+        if (group === 'lowpass') {
+            return BadHearingExample.HEARING_GROUPS.lowpass; // Значения по умолчанию для lowFrequencyDeafness группы
+
+        } else if (group === 'highpass') {
+            return BadHearingExample.HEARING_GROUPS.highpass; // Значения по умолчанию для highFrequencyDeafness группы
+        }
+        else if (group === 'weakHearingAllFrequencies') {
+            return BadHearingExample.HEARING_GROUPS.weakHearingAllFrequencies; // Значения по умолчанию для weakHearingAllFrequencies группы
+        }
+        else {
+            throw new Error("No such group");
+        }
+        /*let defaultProperties = {
             type: 'lowpass', // Значение по умолчанию для свойства type
             sharpness: 3, // Значение по умолчанию для свойства sharpness
             frequency: 500, // Значение по умолчанию для свойства frequency
@@ -78,7 +113,7 @@ class BadHearingExample {
         return {
             ...defaultProperties,
             ...filter
-        };
+        };*/
     }
 
     shuffle() {

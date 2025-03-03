@@ -1,13 +1,30 @@
 {
     "translations": {
-        "WithoutDescription": {
-            "ru": "<Без описания>",
-            "en": "<No description>",
-            "fr": "<Pas de description>",
-            "es": "<Sin descripción>",
-            "zh": "<没有描述>",
-            "ar": "<بدون وصف>"
+        "HighFrequencyDeafness": {
+            "ru": "Потеря слуха на высоких частотах",
+            "en": "High frequency deafness",
+            "fr": "Surdité aux hautes fréquences",
+            "es": "Sordera de alta frecuencia",
+            "zh": "高频失聪",
+            "ar": "الصمم في الترددات العالية"
         },
+        "LowFrequencyDeafness": {
+            "ru": "Потеря слуха на низких частотах",
+            "en": "Low frequency deafness",
+            "fr": "Surdité aux basses fréquences",
+            "es": "Sordera de baja frecuencia",
+            "zh": "低频失聪",
+            "ar": "الصمم في الترددات المنخفضة"
+        },
+        "weakHearingAllFrequencies": {
+            "ru": "Слабая слышимость на всех частотах",
+            "en": "Hearing loss across all frequencies",
+            "fr": "Perte auditive sur toutes les fréquences",
+            "es": "Pérdida auditiva en todas las frecuencias",
+            "zh": "全频率听力损失",
+            "ar": "ضعف السمع في جميع الترددات"
+        },
+
         "WithoutTitle": {
             "ru": "<Без названия>",
             "en": "<No title>",

@@ -3,90 +3,15 @@
         "ru": [
             {
                 "pinned": true,
-                "name": "РБК. Новости",
-                "url": "/badHearingExamples/ru/rbk_novosti.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=4mkIbIRKEjk",
-                "description": "Высокочастотная глухота",
-                "filter": {
-                    "type": "lowpass",
-                    "sharpness": 3,
-                    "frequency": 500,
-                    "gain": 1
-                }
-            },
-            {
-                "name": "А ты изобрети",
-                "url": "/badHearingExamples/ru/a_ty_izobreti.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=qir4CwoOUNE",
-                "description": "Высокочастотная глухота",
-                "filter": {
-                    "type": "lowpass",
-                    "sharpness": 3,
-                    "frequency": 250,
-                    "gain": 1
-                }
-            },
-            {
-                "name": "А ты изобрети",
-                "url": "/badHearingExamples/ru/a_ty_izobreti.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=qir4CwoOUNE",
-                "description": "Низкочастотная глухота",
-                "filter": {
-                    "type": "highpass",
-                    "sharpness": 3,
-                    "frequency": 1000,
-                    "gain": 1
-                }
-            },
-            {
-                "name": "А ты изобрети",
-                "url": "/badHearingExamples/ru/a_ty_izobreti.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=qir4CwoOUNE",
-                "description": "Равномерное снижение слуха",
-                "filter": {
-                    "type": "highpass",
-                    "sharpness": 3,
-                    "frequency": 0,
-                    "gain": 0.01
-                }
+                "name": "Почтальон Пэт",
+                "url": "/badHearingExamples/ru/postman_pat.mp4",
+                "sourceLink": "https://www.youtube.com/watch?v=d647CAdaGTw"
             }
         ],
         "en": [
             {
-                "name": "Postman Pat",
-                "url": "/badHearingExamples/en/postman_pat.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=Yj1r0sGV38s",
-                "description": "High-frequency deafness",
-                "filter": {
-                    "type": "lowpass",
-                    "sharpness": 3,
-                    "frequency": 250,
-                    "gain": 1
-                }
-            },
-            {
-                "name": "Postman Pat",
-                "url": "/badHearingExamples/en/postman_pat.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=Yj1r0sGV38s",
-                "description": "Low-frequency deafness",
-                "filter": {
-                    "type": "highpass",
-                    "sharpness": 3,
-                    "frequency": 1000,
-                    "gain": 1
-                }
-            },
-            {
-                "name": "Postman Pat",
-                "url": "/badHearingExamples/en/postman_pat.webm",
-                "sourceLink": "https://www.youtube.com/watch?v=Yj1r0sGV38s",
-                "description": "Flat hearing loss",
-                "filter": {
-                    "type": "highpass",
-                    "sharpness": 3,
-                    "frequency": 0,
-                    "gain": 0.05
-                }
+                "name": "Почтальон Пэт",
+                "url": "https://github.com/SeregaYakovlev/badHearingExamples/raw/refs/heads/main/%D0%91%D0%B8%D0%BE%D0%BB%D0%BE%D0%B3.mp4"
             }
         ],
         "fr": [

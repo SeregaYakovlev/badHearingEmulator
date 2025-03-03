@@ -1,9 +1,54 @@
 class BadHearingExampleService {
     constructor(page) {
         this.page = page;
-
         this.page.subscribeOnLanguageChangingEvent(this);
+        this.hearingGroup = "lowpass";
     }
+
+    _createHearingGroupSelect() {
+        let select = document.createElement("select");
+        select.classList.add("hearingGroupSelect");
+
+        let highFrequencyOption = document.createElement("option");
+        highFrequencyOption.value = "lowpass";
+        highFrequencyOption.innerHTML = htmlTSTR("HighFrequencyDeafness");
+
+        let lowFrequencyOption = document.createElement("option");
+        lowFrequencyOption.value = "highpass";
+        lowFrequencyOption.innerHTML = htmlTSTR("LowFrequencyDeafness");
+
+        let weakHearingAllFrequencies = document.createElement("option");
+        weakHearingAllFrequencies.value = "weakHearingAllFrequencies";
+        weakHearingAllFrequencies.innerHTML = htmlTSTR("weakHearingAllFrequencies");
+
+        select.appendChild(highFrequencyOption);
+        select.appendChild(lowFrequencyOption);
+        select.appendChild(weakHearingAllFrequencies);
+
+        // Устанавливаем выбранный элемент на основе значения this.hearingGroup
+        select.value = this.hearingGroup;
+
+        select.addEventListener("change", (event) => {
+            this._setHearingGroup(event.target.value);
+        });
+
+        return select;
+    }
+
+
+    _setHearingGroup(hearingGroup) {
+        this.hearingGroup = hearingGroup;
+
+        if (this.currentExample && this.realtimeFilter) {
+            let filterData = this.currentExample.getFilterData(hearingGroup);
+
+            this.realtimeFilter.setType(filterData.type);
+            this.realtimeFilter.setSharpness(filterData.sharpness);
+            this.realtimeFilter.setHearingFrequency(filterData.frequency);
+            this.realtimeFilter.setGain(filterData.gain);
+        }
+    }
+
 
     async install(scene) {
         let serviceBox = scene.createBox();
@@ -15,14 +60,9 @@ class BadHearingExampleService {
         let mainDiv0 = document.createElement("div");
         mainDiv0.classList.add("videoInfoContainer");
 
-        let videoInfoObject0 = document.createElement("div");
-        videoInfoObject0.classList.add("videoInfoObject");
-        videoInfoObject0.classList.add("videoDescription");
-
-        let caption = document.createElement("span");
-        videoInfoObject0.appendChild(caption);
-
-        mainDiv0.appendChild(videoInfoObject0);
+        let hearingGroupSelect = this._createHearingGroupSelect();
+        hearingGroupSelect.classList.add("videoInfoObject");
+        mainDiv0.appendChild(hearingGroupSelect);
 
         let mainDiv1 = document.createElement("div");
         mainDiv1.classList.add("videoInfoContainer");
@@ -58,10 +98,6 @@ class BadHearingExampleService {
             videoInfoObject1.appendChild(text);
             videoInfoLink.setAttribute("href", videoUrl);
         };
-
-        this.videoInfo.setDescription = (description) => {
-            caption.innerHTML = description;
-        }
 
         let leftArrowWrapper = document.createElement("div");
         leftArrowWrapper.classList.add("arrowWrapper");
@@ -108,7 +144,7 @@ class BadHearingExampleService {
         this.player = new MyPlayer(scene, this);
         this.player.installInDiv(videoDiv);
 
-        this.currentCollection = this._getLocalizedCollection();
+        this.currentExample = this._getLocalizedCollection();
         this._showFirstExample();
     }
 
@@ -142,25 +178,29 @@ class BadHearingExampleService {
     }
 
     _showFirstExample() {
-        let firstExample = this.currentCollection.getFirst();
+        let firstExample = this.currentExample.getFirst();
         this._showExample(firstExample);
     }
 
     _showPreviousExample() {
-        let previousExample = this.currentCollection.getPrevious();
+        let previousExample = this.currentExample.getPrevious();
         this._showExample(previousExample);
     }
 
     _showNextExample() {
-        let nextExample = this.currentCollection.getNext();
+        let nextExample = this.currentExample.getNext();
         this._showExample(nextExample);
     }
 
+    _getHearingGroup() {
+        return this.hearingGroup;
+    }
+
     _showExample(example) {
-        this.videoInfo.setDescription(example.getDescription());
         this.videoInfo.setVideoInfo(example.getName(), example.getSourceLink());
 
-        let filterData = example.getFilterDataOrDefault();
+        let hearingGroup = this._getHearingGroup();
+        let filterData = example.getFilterData(hearingGroup);
 
         this.realtimeFilter.setType(filterData.type);
         this.realtimeFilter.setSharpness(filterData.sharpness);
@@ -173,7 +213,7 @@ class BadHearingExampleService {
     }
 
     _reloadService() {
-        this.currentCollection = this._getLocalizedCollection();
+        this.currentExample = this._getLocalizedCollection();
         this._showFirstExample();
     }
 
@@ -190,7 +230,7 @@ class BadHearingExampleService {
     }
 
     _onExampleShown(examle) {
-        this.currentCollection = examle;
+        this.currentExample = examle;
     }
 
     onLanguageChanged() {
